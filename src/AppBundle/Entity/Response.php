@@ -24,9 +24,9 @@ class Response
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="proposition", type="string", length=255)
      */
-    private $name;
+    private $proposition;
 
     /**
      * @var string
@@ -57,29 +57,6 @@ class Response
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Response
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -137,7 +114,7 @@ class Response
     public function setQuestion(\AppBundle\Entity\Question $question = null)
     {
         $this->question = $question;
-
+        
         return $this;
     }
 
@@ -149,5 +126,28 @@ class Response
     public function getQuestion()
     {
         return $this->question;
+    }
+
+    /**
+     * Set proposition
+     *
+     * @param string $proposition
+     * @return Response
+     */
+    public function setProposition($proposition)
+    {
+        $this->proposition = $proposition;
+
+        return $this;
+    }
+
+    /**
+     * Get proposition
+     *
+     * @return string 
+     */
+    public function getProposition()
+    {
+        return $this->proposition;
     }
 }

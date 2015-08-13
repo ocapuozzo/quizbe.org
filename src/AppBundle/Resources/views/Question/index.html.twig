@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Question list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sentence</th>
+                <th>Datecrea</th>
+                <th>Designers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('question_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.sentence }}</td>
+                <td>{% if entity.datecrea %}{{ entity.datecrea|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.designers }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('question_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('question_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('question_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

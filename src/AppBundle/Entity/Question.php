@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Question
@@ -24,9 +25,9 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="sentence", type="string", length=255)
      */
-    private $name;
+    private $sentence;
 
     /**
      * @var \DateTime
@@ -51,7 +52,7 @@ class Question
     
 
     /**
-     * @ORM\OneToMany(targetEntity="Response", mappedBy="question")
+     * @ORM\OneToMany(targetEntity="Response", cascade={"persist"}, mappedBy="question")
      */
     protected $responses;
     
@@ -73,26 +74,26 @@ class Question
     }
 
     /**
-     * Set name
+     * Set sentence
      *
-     * @param string $name
+     * @param string $sentence
      * @return Question
      */
-    public function setName($name)
+    public function setName($sentence)
     {
-        $this->name = $name;
+        $this->sentence = $sentence;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get sentence
      *
      * @return string 
      */
-    public function getName()
+    public function getSentence()
     {
-        return $this->name;
+        return $this->sentence;
     }
 
     /**
@@ -142,26 +143,26 @@ class Question
     }
 
     /**
-     * Add reponses
+     * Add response
      *
-     * @param \AppBundle\Entity\Response $responses
+     * @param \AppBundle\Entity\Response $response
      * @return Question
      */
-    public function addResponse(\AppBundle\Entity\Response $responses)
+    public function addResponse(\AppBundle\Entity\Response $response)
     {
-        $this->responses[] = $responses;
-
+        $this->responses[] = $response;
+        $response->setQuestion($this);
         return $this;
     }
 
     /**
-     * Remove reponses
+     * Remove response
      *
-     * @param \AppBundle\Entity\Response $responses
+     * @param \AppBundle\Entity\Response $response
      */
-    public function removeResponse(\AppBundle\Entity\Response $responses)
+    public function removeResponse(\AppBundle\Entity\Response $response)
     {
-        $this->responses->removeElement($responses);
+        $this->responses->removeElement($response);        
     }
 
     /**
@@ -174,6 +175,18 @@ class Question
         return $this->responses;
     }
 
+    /**
+     * Set responses
+     *
+     * @param \AppBundle\Entity\Response $responses
+     */
+    public function setResponses(\Doctrine\Common\Collections\Collection $responses)
+    {
+      foreach (responses as $resp) {
+        $resp->addQuestion(this);
+      }
+      $this->responses = $responses;
+    }
 
 
     /**
@@ -197,5 +210,18 @@ class Question
     public function getScope()
     {
         return $this->scope;
+    }
+
+    /**
+     * Set sentence
+     *
+     * @param string $sentence
+     * @return Question
+     */
+    public function setSentence($sentence)
+    {
+        $this->sentence = $sentence;
+
+        return $this;
     }
 }

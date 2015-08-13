@@ -1,0 +1,149 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+   <div id="container" class="container">
+    
+   {# {{ form(form) }}  #}
+   
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title" style="text-align: center">
+        Création d'une question
+      </h3>
+    </div>
+    <div class="panel-body">
+      <form action="{{ path('question_create') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+      {{ form_errors(form) }}
+
+      <div class="form-group">
+        {{ form_label(form.designers, 'Designers', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+        {{ form_errors(form.designers) }}
+        <div class="col-sm-4">
+          {{ form_widget(form.designers, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        {{ form_label(form.scope, 'Scope', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+        {{ form_errors(form.scope) }}
+        <div class="col-sm-4">
+          {{ form_widget(form.scope, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form_label(form.sentence, 'Question', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+        {{ form_errors(form.sentence) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.sentence, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+{#                  
+     <div class="form-group responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
+      <label class="col-sm-2 control-label required">Responses1</label>
+        {% for resp in form.responses %}
+            {{ form_label(resp, 'Response', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+            {{ form_errors(resp) }}
+          <div class="col-sm-10">
+            {{ form_widget(resp, {'attr': {'class': 'form-control'}}) }}
+          </div>
+        {% endfor %}
+   </div>
+#}
+ <div class="form-group">
+  {#<label class="col-sm-2 control-label required">Responses</label>#}
+  {{ form_label(form.responses, 'Responses', {'label_attr': {'class': 'control-label'}})}}
+  <div class="col-sm-10">
+   <ul class="responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
+        {% for resp in form.responses %}
+         <li> 
+            {{ form_row(resp) }}
+         </li>
+        {% endfor %}
+   </ul>
+</div>   
+</div>
+   {# TODO : itérer sur les responses #}
+   {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #}
+      
+   {{ form_row(form.submit) }}
+   {{ form_row(form._token) }}
+   
+   {#{ form_rest(form) } see 2 fois le label "Responses"#}      
+   </form>
+      
+      <ul class="_record_actions">
+       <li>
+        <a href="{{ path('question') }}">
+            Back to the list
+        </a>
+       </li>
+      </ul>
+     </div> <!-- panel body-->
+   </div> <!-- panel info-->
+ </div> <!-- container--> 
+
+ 
+{% endblock %}
+
+{% block javascripts %}
+ {{ parent() }}
+ 
+ {# après avoir inclus jquery... #} 
+ 
+ <script>
+ // Récupère le div qui contient la collection de tags
+ var collectionHolder = $('ul.responses');
+ 
+// ajoute un lien « add a response »
+var $addTagLink = $('<a href="#" class="add_reponse_link">Ajouter une réponse</a>');
+var $newLink = $('<li></li>').append($addTagLink);
+
+jQuery(document).ready(function() {
+  
+   // ajoute un lien de suppression à tous les éléments li de
+    // formulaires de tag existants
+    collectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+  
+    // ajoute l'ancre « ajouter un tag » et li à la balise ul
+    collectionHolder.append($newLink);
+
+    $addTagLink.on('click', function(e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
+        addResponseForm(collectionHolder, $newLink);
+    });
+    $('#cachetoi').hide();
+});
+
+function addResponseForm(collectionHolder, $newLink) {
+    // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+    var prototype = collectionHolder.attr('data-prototype');
+
+    // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+    // la longueur de la collection courante
+    var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+    // Affiche le formulaire dans la page dans un div, avant le lien "ajouter un tag"
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLink.before($newFormLi);
+    // ajoute un lien de suppression au nouveau formulaire
+    addTagFormDeleteLink($newFormLi);
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormA = $('<a href="#">Supprimer cette proposition</a>');
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // supprime l'élément li pour le formulaire de tag
+        $tagFormLi.remove();
+    });
+}
+
+ </script>
+
+{% endblock %}

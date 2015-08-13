@@ -1,0 +1,41 @@
+{% if menuItemActive is not defined %}
+  {%  set menuItemActive = "" %}
+{% endif %}  
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">QuizBe</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li {% if menuItemActive|default('question') == "question" %} class="active" {% endif %} >
+          <a href="{{ path('question') }}">
+            Mes questions
+          </a></li>
+        <li {% if menuItemActive == "profil" %} class="active" {% endif %} >
+          <a href="#">
+            Mon profil
+          </a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+                   
+      {% if app.user and is_granted('IS_AUTHENTICATED_REMEMBERED') %}          
+        <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> <b>({{ app.user.firstname }}  <span class="glyphicon glyphicon-admin"></span>) Deconnexion</b></a></li>
+      {% endif %}
+         </ul>
+    </div><!--/navbar -->
+  </div><!--/.container-fluid -->
+</nav>
+
+{# https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_templates.md #}
+
+<div>
+  {% block fos_user_content %}
+  {% endblock fos_user_content %}
+</div>
