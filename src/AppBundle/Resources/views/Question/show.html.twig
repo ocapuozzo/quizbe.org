@@ -1,40 +1,138 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Question</h1>
+{% block body %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Sentence</th>
-                <td>{{ entity.sentence }}</td>
-            </tr>
-            <tr>
-                <th>Datecrea</th>
-                <td>{{ entity.datecrea|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Designers</th>
-                <td>{{ entity.designers }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('question') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('question_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+  <div id="container" class="container">
+
+    {# {{ form(form) }}  #}
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title" style="text-align: center">
+          {{ 'question' | trans }} : {{entity.name }} ({{entity.designers}})
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="idsentence">{{'question'|trans}}</label>            
+          <div class="col-sm-10">
+            <div id="idsentence" readonly class="form-control">
+              {{entity.sentence | raw}} 
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Your choice 
+                {# show : how many choices are expected #} 
+                {% set expectedChoices = entity.expectedChoices %}
+                {%  if (expectedChoices > 0) %} 
+                  ({{'how.expected' | transchoice(expectedChoices)}})
+                {% endif %}
+                {# 'watchFeedBack' = temoin de visibilité de la colonne (c'est une astuce, voir hideShowValues() ) #}                
+                <span id='watchFeedBack' class="feedBack" style='display: none'></span></th>
+              </th>
+              <th>Proposition</th>
+              <th> <a href="#" onclick="hideShowValues()"> {{'value'|trans}} </a>
+                {# 'watchValue' = temoin de visibilité de la colonne (c'est une astuce, voir hideShowValues() ) #}                
+                <span id='watchValue' class="itemValue"></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for resp in entity.responses %}
+              <tr>
+                <td> <input id='{{'c' ~ resp.id | e("css")}}' class="userChoice" type="checkbox" /> 
+                     <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
+                            style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
+                </td>
+                <td>{{ resp.proposition }}</td>
+                <td>
+                  <span id='{{'v' ~ resp.id | e("css")}}' class="itemValue">{{ resp.value }}</span>&nbsp;
+                 
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+         
+      </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <a href="#" class="btn btn-success" onclick="checkUserChoice()"> === {{ 'user.check' | trans }} === </a>
+          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} + </a>
+          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} = </a>
+          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} - </a>
+        </div> 
+        <div class="pull-left">
+          <a id='idGoodChoice' href="#" style="display:none"
+             class="btn btn-success glyphicon glyphicon-thumbs-up" onclick="showFeedBack()"> {{'good.user.submit.choice' | trans }} </a>
+          <a id='idBadChoice' href="#" style="display:none"
+             class="btn btn-danger glyphicon glyphicon-thumbs-down" onclick="showFeedBack()"> {{'bad.user.submit.choice' | trans }} </a>
+          {#
+             <a id='idFeedBack' href="#" style="display:none"
+             class="btn btn-danger glyphicon glyphicon-question-sign" onclick="showFeedBack()"> {{'show.feedback' | trans }} </a>
+          #}
+        </div>
+      </div>
+    </div>  
+  </div>
 {% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  {# après avoir inclus jquery... #} 
+
+  <script>
+    function checkUserChoice() {
+        var res = 0.0;
+        var elts = document.getElementsByClassName("userChoice");
+        var i;
+        for (i = 0; i < elts.length; i++) {
+          if (elts[i].checked == true) {
+            idValue = "v" + elts[i].id.substring(1);
+            res = res + parseFloat(document.getElementById(idValue).innerHTML);
+          }
+        }
+        $('#idFeedBack').hide();
+        if (res ==  {{entity.expectedChoices}}) {
+           $('#idBadChoice').hide();
+           $('#idGoodChoice').show();
+         } else {
+           $('#idBadChoice').show();
+           $('#idGoodChoice').hide();
+         }
+         $('#idFeedBack').show();
+        //alert(res);      
+    }
+
+    function hideShowValues() {
+      if ($('#watchValue').is(":visible") == true) {
+        $('.itemValue').hide();
+      } else {
+        $('.itemValue').show();
+      }
+    }
+
+    function showFeedBack() {  
+      if ($('#watchFeedBack').is(":visible") == true) {
+        $('.feedBack').hide();
+      }else {
+        $('.feedBack').show();
+      }
+    }
+
+    function hideResultCheckChoice(){
+      $('#idBadChoice').hide();
+      $('#idGoodChoice').hide();
+    }
+
+    jQuery(document).ready(function () {
+      hideShowValues();
+      hideResultCheckChoice();
+    });
+    
+  </script>
+{% endblock javascripts %}

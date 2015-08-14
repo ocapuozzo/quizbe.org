@@ -204,7 +204,7 @@ class QuestionController extends Controller
         if ($editForm->isValid()) {
             // supprime la relation entre la response et la question
             foreach ($originalResponses as $resp) {
-                if ($question->getReponses()->contains($tag) == false) {
+                if ($question->getResponses()->contains($resp) == false) {
                     // suppression du lien
                     $resp->setQuestion(null);
                     $em->remove($resp);

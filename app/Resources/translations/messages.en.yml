@@ -1,0 +1,13 @@
+# 
+question: Question
+response: Answer
+submit: Submit
+vote: Vote
+show.value: Voir les valeurs
+value: Value
+how.expected: '{0} nothing|{1} 1 expected|]1,Inf] %count% expected'
+bad.user.submit.choice: Oups !
+good.user.submit.choice: OK !
+user.check: Check
+show.feedback: Feedback
+

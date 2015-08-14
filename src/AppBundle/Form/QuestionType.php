@@ -16,6 +16,7 @@ class QuestionType extends AbstractType
     {
         $builder
             // ->add('datecrea') // valorisation automatique
+           ->add('name')
            ->add('designers')
            ->add('scope', 'entity', 
               array('class'=> 'AppBundle:Scope', 'property' => 'name' ))
