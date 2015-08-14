@@ -43,7 +43,8 @@
           <tbody>
             {% for resp in entity.responses %}
               <tr>
-                <td> <input id='{{'c' ~ resp.id | e("css")}}' class="userChoice" type="checkbox" /> 
+                <td> <input id='{{'c' ~ resp.id | e("css")}}' class="userChoice" 
+                            type="checkbox" onClick='onUserChoice()' /> 
                      <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
                             style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
                 </td>
@@ -127,6 +128,10 @@
     function hideResultCheckChoice(){
       $('#idBadChoice').hide();
       $('#idGoodChoice').hide();
+    }
+
+    function onUserChoice(){
+      hideResultCheckChoice();
     }
 
     jQuery(document).ready(function () {
