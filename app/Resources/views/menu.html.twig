@@ -10,11 +10,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">QuizBe</a>
+      <a class="navbar-brand" href="{{ path('homepage') }}">QuizBe</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li {% if menuItemActive|default('question') == "question" %} class="active" {% endif %} >
+        <li {% if menuItemActive|default('') == "question" %} class="active" {% endif %} >
           <a href="{{ path('question') }}">
             Mes questions
           </a></li>
