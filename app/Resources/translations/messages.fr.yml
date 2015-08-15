@@ -11,3 +11,7 @@ good.user.submit.choice: OK !
 user.check: Tester
 show.feedback: Feedback
 degree: Nom de la classe
+isteacher: Professeur ?
+menu:
+ question: Question
+ export: Exporter

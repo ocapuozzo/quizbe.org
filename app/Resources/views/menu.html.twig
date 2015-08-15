@@ -16,11 +16,11 @@
       <ul class="nav navbar-nav">
         <li {% if menuItemActive|default('') == "question" %} class="active" {% endif %} >
           <a href="{{ path('question') }}">
-            Mes questions
+             {{ 'menu.question'|trans }}
           </a></li>
         <li {% if menuItemActive == "export" %} class="active" {% endif %} >
           <a href="#">
-            Export
+           {{ 'menu.export'|trans }}
           </a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">  
@@ -39,14 +39,6 @@
                   {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
                 </a>
         </li>
-{#        
-      {% if app.user and is_granted('IS_AUTHENTICATED_REMEMBERED') %}          
-        <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> <b>({{ app.user.username }}  <span class="glyphicon glyphicon-admin"></span>) Deconnexion</b></a></li>
-      {% else %}
-        <li><a href="{{ path('fos_user_security_login') }}">
-            <span class="glyphicon glyphicon-log-in"></span> <b> Login</b></a>
-        </li>
-#}
       {% endif %}
          </ul>
     </div><!--/navbar -->

@@ -10,4 +10,8 @@ bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Check
 show.feedback: Feedback
-degree: Class name
+degree: Class Name
+isteacher: Teacher ?
+menu:
+ question: Question
+ export: Export
