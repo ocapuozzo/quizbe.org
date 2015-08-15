@@ -23,10 +23,30 @@
             Export
           </a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-                   
+      <ul class="nav navbar-nav navbar-right">  
+        <li>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          {# { 'layout.login'|trans({},'FOSUserBundle') }#}           
+                <a href="{{ path('fos_user_security_logout') }}">
+                  {{app.user.username}}&nbsp; 
+                  <span class="glyphicon glyphicon-log-out"></span>
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+                        
+        {% else %}
+                <a href="{{ path('fos_user_security_login') }}">
+                  <span class="glyphicon glyphicon-log-in"></span>
+                  {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                </a>
+        </li>
+{#        
       {% if app.user and is_granted('IS_AUTHENTICATED_REMEMBERED') %}          
-        <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> <b>({{ app.user.firstname }}  <span class="glyphicon glyphicon-admin"></span>) Deconnexion</b></a></li>
+        <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> <b>({{ app.user.username }}  <span class="glyphicon glyphicon-admin"></span>) Deconnexion</b></a></li>
+      {% else %}
+        <li><a href="{{ path('fos_user_security_login') }}">
+            <span class="glyphicon glyphicon-log-in"></span> <b> Login</b></a>
+        </li>
+#}
       {% endif %}
          </ul>
     </div><!--/navbar -->
@@ -35,7 +55,9 @@
 
 {# https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_templates.md #}
 
+{#
 <div>
   {% block fos_user_content %}
   {% endblock fos_user_content %}
 </div>
+#}

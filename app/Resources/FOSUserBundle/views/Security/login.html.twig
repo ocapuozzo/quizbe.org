@@ -1,0 +1,73 @@
+{# extends '::base.html.twig' #}
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+  <div id="container" class="container">
+
+    <div  style="margin-top:20px;" 
+          class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">    
+
+      {% if error %}
+        <div id="errors" class="alert alert-danger">
+          <strong>Connexion impossible !</strong> 
+          {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+      {% else %}
+        <div id="errors" class="alert alert-danger" style="display:none"></div>
+      {% endif %}
+
+
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div id="login-panel-title" class="panel-title">Se connecter</div>
+          <div id="forgot-pw" 
+               style="float:right; font-size: 80%; position: relative; top:-10px;">
+            <a href="#">
+              <span class="glyphicon glyphicon-question-sign"> </span> 
+              Forgot password ?</a>
+          </div>
+        </div>     
+        <div style="padding-top:20px" class="panel-body">
+          <div style="display:none" id="login-alert" 
+               class="alert alert-danger col-sm-12">               
+          </div>
+
+          <form action="{{ path("fos_user_security_check") }}" 
+                method="post" class="form-horizontal" role="form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+            <div style="margin-bottom: 20px" class="input-group">
+              {#<label for="username">{{ 'security.login.username'|trans }}</label>#}
+              <span class="input-group-addon">{{ 'security.login.username'|trans }}</span>
+
+              <input type="text" class="form-control"
+                     id="username" 
+                     name="_username" 
+                     value="{{ last_username }}"  placeholder="username"
+                     required="required" />
+            </div>
+
+            <div id="div-password" style="margin-bottom: 20px;" 
+                 class="input-group">
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-lock"></span>
+              </span>
+              <input id="password" type="password" required="required"
+                     class="form-control" name="_password" placeholder="password">
+            </div>
+            {#           
+              <label for="password">{{ 'security.login.password'|trans }}</label>
+              <input type="password" id="password" name="_password" required="required" />
+            #}
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" checked />
+            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+
+            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock fos_user_content %}

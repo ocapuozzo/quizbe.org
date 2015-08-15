@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="QuizBe">
-        <meta name="author" content="kpu and Co ?">
-        
-        <title>{% block title %}QuizBe.org{% endblock %}</title>
-        <link rel="stylesheet"
-            href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-        
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>           
-        
-    {% include '::menu.html.twig' %}
-             
-    {% block body %}{% endblock %}
-            
-    <script type="text/javascript" src="{{ asset('assets/vendor/jquery/dist/jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    {% block javascripts %}{% endblock %}
-  </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="QuizBe">
+    <meta name="author" content="kpu and Co ?">
+
+    <title>{% block title %}QuizBe.org{% endblock %}</title>
+    <link rel="stylesheet"
+          href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+
+  {% block stylesheets %}{% endblock %}
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>           
+
+  {% include '::menu.html.twig' %}
+
+  {% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+      <div class="alert alert-{{ type }} {{ type }}" role="alert">
+        {{ flashMessage }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+{% block body %}{% endblock %}
+
+<script type="text/javascript" src="{{ asset('assets/vendor/jquery/dist/jquery.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
 </html>
