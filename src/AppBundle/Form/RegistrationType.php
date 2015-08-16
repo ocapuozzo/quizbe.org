@@ -14,7 +14,7 @@ class RegistrationType extends AbstractType
    }
      public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('degree');
+        $builder->add('classRoom');
         $builder->add('isteacher'
             ,'checkbox'
             , array(

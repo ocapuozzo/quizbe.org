@@ -23,12 +23,11 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="degree", type="string", length=25, nullable=true)
+     * @ORM\Column(name="class_room", type="string", length=30, nullable=true)
      * 
      */
-    private $degree;
+    private $classRoom;
 
-    
     
     /**
      * @var boolean
@@ -57,26 +56,26 @@ class User extends BaseUser
     }
 
     /**
-     * Set degree
+     * Set classRoom
      *
-     * @param string $degree
+     * @param string $classRoom
      * @return User
      */
-    public function setDegree($degree)
+    public function setClassRoom($classRoom)
     {
-        $this->degree = $degree;
+        $this->classRoom = $classRoom;
 
         return $this;
     }
 
     /**
-     * Get degree
+     * Get classRoom
      *
      * @return string 
      */
-    public function getDegree()
+    public function getClassRoom()
     {
-        return $this->degree;
+        return $this->classRoom;
     }
 
     /**

@@ -1,5 +1,12 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet"
+        href="{{ asset('assets/vendor/kartik-v/bootstrap-star-rating/css/star-rating.min.css') }}">
+
+{% endblock %}
+
 {% block body %}
 
 
@@ -10,7 +17,9 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title" style="text-align: center">
-          {{ 'question' | trans }} : {{entity.name }} ({{entity.designers}})
+          <span class="pull-left">({{entity.designers}})</span>
+          <span>{{ 'question' | trans }} : {{entity.name }} </span>
+          <span class="pull-right">{{entity.scope.name}}</span>
         </h3>
       </div>
       <div class="panel-body">
@@ -25,7 +34,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>Your choice 
+              <th>{{ 'yourChoice' | trans}}
                 {# show : how many choices are expected #} 
                 {% set expectedChoices = entity.expectedChoices %}
                 {%  if (expectedChoices > 0) %} 
@@ -45,39 +54,41 @@
               <tr>
                 <td> <input id='{{'c' ~ resp.id | e("css")}}' class="userChoice" 
                             type="checkbox" onClick='onUserChoice()' /> 
-                     <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
-                            style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
+                  <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
+                         style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
                 </td>
                 <td>{{ resp.proposition }}</td>
                 <td>
                   <span id='{{'v' ~ resp.id | e("css")}}' class="itemValue">{{ resp.value }}</span>&nbsp;
-                 
+
                 </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-         
+
       </div>
       <div class="panel-footer clearfix">
         <div class="pull-right">
           <a href="#" class="btn btn-success" onclick="checkUserChoice()"> === {{ 'user.check' | trans }} === </a>
-          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} + </a>
-          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} = </a>
-          <a href="#" class="btn btn-primary">{{ 'vote' | trans }} - </a>
-        </div> 
+        </div>
         <div class="pull-left">
           <a id='idGoodChoice' href="#" style="display:none"
              class="btn btn-success glyphicon glyphicon-thumbs-up" onclick="showFeedBack()"> {{'good.user.submit.choice' | trans }} </a>
           <a id='idBadChoice' href="#" style="display:none"
              class="btn btn-danger glyphicon glyphicon-thumbs-down" onclick="showFeedBack()"> {{'bad.user.submit.choice' | trans }} </a>
+
           {#
-             <a id='idFeedBack' href="#" style="display:none"
-             class="btn btn-danger glyphicon glyphicon-question-sign" onclick="showFeedBack()"> {{'show.feedback' | trans }} </a>
-          #}
-        </div>
+          <a id='idFeedBack' href="#" style="display:none"
+          class="btn btn-danger glyphicon glyphicon-question-sign" onclick="showFeedBack()"> {{'show.feedback' | trans }} </a>
+       #}
+        </div>        
+      </div>
+      <div>      
+        <input id='idRating' value="{{rating}}"/>  
       </div>
     </div>  
+
   </div>
 {% endblock %}
 
@@ -85,28 +96,33 @@
   {{ parent() }}
 
   {# après avoir inclus jquery... #} 
+  {% javascripts '%kernel.root_dir%/../vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+
+  <script type="text/javascript" src="{{ asset('assets/vendor/notify/notify.min.js')}}"></script>
 
   <script>
     function checkUserChoice() {
-        var res = 0.0;
-        var elts = document.getElementsByClassName("userChoice");
-        var i;
-        for (i = 0; i < elts.length; i++) {
-          if (elts[i].checked == true) {
-            idValue = "v" + elts[i].id.substring(1);
-            res = res + parseFloat(document.getElementById(idValue).innerHTML);
-          }
+      var res = 0.0;
+      var elts = document.getElementsByClassName("userChoice");
+      var i;
+      for (i = 0; i < elts.length; i++) {
+        if (elts[i].checked == true) {
+          idValue = "v" + elts[i].id.substring(1);
+          res = res + parseFloat(document.getElementById(idValue).innerHTML);
         }
-        $('#idFeedBack').hide();
-        if (res ==  {{entity.expectedChoices}}) {
-           $('#idBadChoice').hide();
-           $('#idGoodChoice').show();
-         } else {
-           $('#idBadChoice').show();
-           $('#idGoodChoice').hide();
-         }
-         $('#idFeedBack').show();
-        //alert(res);      
+      }
+      $('#idFeedBack').hide();
+      if (res == {{entity.expectedChoices}}) {
+        $('#idBadChoice').hide();
+        $('#idGoodChoice').show();
+      } else {
+        $('#idBadChoice').show();
+        $('#idGoodChoice').hide();
+      }
+      $('#idFeedBack').show();
+      //alert(res);      
     }
 
     function hideShowValues() {
@@ -117,27 +133,63 @@
       }
     }
 
-    function showFeedBack() {  
+    function showFeedBack() {
       if ($('#watchFeedBack').is(":visible") == true) {
         $('.feedBack').hide();
-      }else {
+      } else {
         $('.feedBack').show();
       }
     }
 
-    function hideResultCheckChoice(){
+    function hideResultCheckChoice() {
       $('#idBadChoice').hide();
       $('#idGoodChoice').hide();
     }
 
-    function onUserChoice(){
+    function onUserChoice() {
       hideResultCheckChoice();
+    }
+
+    function onChangeRating(value) {
+      $.ajax({
+        type: "POST",
+        url: "{{ path('question_rating', {'id': entity.id})}}",
+        data: "value=" + value,
+        dataType: 'Json',
+        error: function (msg) {
+          alert("Error : " + msg);
+        },
+        success: function (data) {
+          console.log(data);
+          if (data.ok == 1)
+            $(".panel-footer").notify("Appréciation enregistrée", {position: "top center"});
+          else if (data.ok == 2)
+            $(".panel-footer").notify("Appréciation mis à jour", {position: "buttom center"});
+          else if (data.ok == 3)
+            $(".panel-footer").notify("Suppression de l'appréciation", {position: "buttom center"});
+          else
+            ; // nothing to do
+          // $(".panel-footer").notify("Opération impossible", { position:"top center"});
+        }
+      });
     }
 
     jQuery(document).ready(function () {
       hideShowValues();
       hideResultCheckChoice();
-    });
-    
+    {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
+        $("#idRating").rating({'size': 'sm', 'showCaption': false});
+        $('#idRating').on('rating.change', function (event, value, caption) {
+          console.log(value);
+          onChangeRating(value);
+          //console.log(caption);
+        });
+        $('#idRating').on('rating.clear', function (event) {
+          console.log("rating.clear");
+          //onDeleteRating();
+          onChangeRating(0);
+        });
+      });
+
   </script>
 {% endblock javascripts %}

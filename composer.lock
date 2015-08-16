@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c26552323bcf802980dca9f76c0d89b",
+    "hash": "9399ac1a2be20481c55062f45fe1d37c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -770,6 +770,16 @@
             "time": "2015-08-14 09:45:59"
         },
         {
+            "name": "fyneworks/star-rating",
+            "version": "4.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fyneworks/star-rating",
+                "reference": "4.11.0"
+            },
+            "type": "library"
+        },
+        {
             "name": "incenteev/composer-parameter-handler",
             "version": "v2.1.1",
             "source": {
@@ -869,6 +879,47 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
+        },
+        {
+            "name": "kartik-v/bootstrap-star-rating",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
+                "reference": "8d14b538ba6d3e5eaa160fbb203420e91cc779a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/8d14b538ba6d3e5eaa160fbb203420e91cc779a8",
+                "reference": "8d14b538ba6d3e5eaa160fbb203420e91cc779a8",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\rating\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A simple yet powerful JQuery star rating plugin for Bootstrap.",
+            "homepage": "https://github.com/kartik-v/bootstrap-star-rating",
+            "keywords": [
+                "Rating",
+                "bootstrap",
+                "jquery",
+                "star"
+            ],
+            "time": "2015-08-12 13:49:36"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -1684,7 +1735,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20
+        "friendsofsymfony/user-bundle": 20,
+        "kartik-v/bootstrap-star-rating": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

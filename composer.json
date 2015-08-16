@@ -21,7 +21,9 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "symfony/Asset": "^2.7",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+         "fyneworks/star-rating": "4.11.0",
+        "kartik-v/bootstrap-star-rating": "@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -59,5 +61,21 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
-    }
+    },
+    
+    
+      "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "fyneworks/star-rating",
+                "version": "4.11.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/fyneworks/star-rating",
+                    "reference": "4.11.0"
+                }
+            }
+        }
+    ]
 }

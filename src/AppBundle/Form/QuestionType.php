@@ -20,6 +20,7 @@ class QuestionType extends AbstractType
            ->add('designers')
            ->add('scope', 'entity', 
               array('class'=> 'AppBundle:Scope', 'property' => 'name' ))
+   
             ->add('sentence', 'textarea')
             ->add('responses', 'collection', array(
                 'type' => new ResponseType(),

@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Question;
 use AppBundle\Form\QuestionType;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Question controller.
  *
@@ -36,6 +36,33 @@ class QuestionController extends Controller
             'entities' => $entities,
         );
     }
+    
+    
+    /**
+     * Rating a question by current user
+     * @return Json 
+     * @Route("/rating/{id}", name="question_rating")
+     * @Method("POST")
+     * 
+     */
+    public function ratingAction(Request $request, Question $question){
+        // the ParamConverter automatically queries for an object 
+        // whose $id property matches the {id} value. 
+        // It will also show a 404 page if no Post can be found.
+       $res = 0;
+       $value = floatval($request->request->get('value'));
+       try {
+         if ($value > 0) {
+           $res = $this->doRating($this->getUser(), $question, $value);
+         } else {
+           $res = $this->doDeleteRating($this->getUser(), $question);
+         }
+       } catch (Exception $ex) {
+          $res = 0;
+       }
+       return new JsonResponse(array('ok'=>$res));
+    }
+    
     /**
      * Creates a new Question entity.
      *
@@ -117,10 +144,13 @@ class QuestionController extends Controller
             throw $this->createNotFoundException('Unable to find Question entity.');
         }
 
+        $rating = $this->getRating($entity, $this->getUser());
+        
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
+            'rating'      => $rating,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -264,4 +294,69 @@ class QuestionController extends Controller
             ->getForm()
         ;
     }
+    
+    /**
+     *  Create or update a rating by one user for one question
+     * 
+     * @param type $user
+     * @param type $question
+     * @param type $value
+     * @return int 0=no opération, 1=create vote, 2=update vote
+     */
+    private function doRating($user, $question, $value){
+       $res = 0;
+       $em = $this->getDoctrine()->getManager();
+       $vote = $em->getRepository('AppBundle:Vote')
+           ->findOneBy(array('user'=>$user, 'question'=>$question));
+       if ($vote) {
+         if ($vote->getValue() != $value) {
+           $vote->setValue($value);
+           $em->persist($vote);
+           $em->flush();
+           $res = 2;
+         }           
+       }else {
+         $vote = new \AppBundle\Entity\Vote();
+         $vote->setQuestion($question);
+         $vote->setUser($user);
+         $vote->setValue($value);
+         $em->persist($vote);
+         $em->flush();
+         $res = 1;
+       }
+       return $res;
+    }
+    
+    /**
+     *  Delete a rating by one user for one question
+     * 
+     * @param type $user
+     * @param type $question
+     * @return int 1=delete vote, 0= nothing to delete
+     */
+    private function doDeleteRating($user, $question){
+       $res = 0;
+       $em = $this->getDoctrine()->getManager();
+       $vote = $em->getRepository('AppBundle:Vote')
+           ->findOneBy(array('user'=>$user, 'question'=>$question));
+       if ($vote) {
+           $em->remove($vote);
+           $em->flush();
+           $res = 3;
+       }
+       return $res;
+    }
+
+ private function getRating($question, $user) {
+    $em = $this->getDoctrine()->getManager();
+    $vote = $em->getRepository('AppBundle:Vote')
+        ->findOneBy(array('user' => $user, 'question' => $question));
+    if ($vote) {
+      return $vote->getValue();
+    } else {
+      return 0;
+    }
+  }
+    
+    
 }

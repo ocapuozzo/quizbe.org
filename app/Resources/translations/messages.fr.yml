@@ -10,8 +10,16 @@ bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Tester
 show.feedback: Feedback
-degree: Nom de la classe
+classRoom: Nom de la classe
 isteacher: Professeur ?
+yourChoice: Votre sélection
+
 menu:
  question: Question
  export: Exporter
+ 
+vote:
+ plus: Bien !
+ minus: À revoir ! 
+ egual: Peu d'intérêt...
+ userquestion: Un seul vote par question !

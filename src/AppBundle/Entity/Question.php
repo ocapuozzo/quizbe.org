@@ -51,7 +51,7 @@ class Question {
   private $designers;
 
   /**
-   * @var string (portée de la question : dev objet, dev web, dev initiation...)
+   * portée de la question : dev objet, dev web, dev initiation...
    * @ORM\ManyToOne(targetEntity="Scope")
    * @ORM\JoinColumn(name="idScope", referencedColumnName="id")
    */
@@ -233,5 +233,5 @@ class Question {
     }
     return $res;
   }
-
+ 
 }
