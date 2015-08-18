@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
@@ -21,13 +22,9 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="class_room", type="string", length=30, nullable=true)
-     * 
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Classroom", cascade={"persist"})
      */
-    private $classRoom;
-
+    protected $classrooms;    
     
     /**
      * @var boolean
@@ -41,7 +38,7 @@ class User extends BaseUser
     public function __construct()
     {
       parent::__construct();
-
+      $this->classrooms = new ArrayCollection();
     }
 
 
@@ -53,31 +50,8 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set classRoom
-     *
-     * @param string $classRoom
-     * @return User
-     */
-    public function setClassRoom($classRoom)
-    {
-        $this->classRoom = $classRoom;
-
-        return $this;
-    }
-
-    /**
-     * Get classRoom
-     *
-     * @return string 
-     */
-    public function getClassRoom()
-    {
-        return $this->classRoom;
-    }
-
+    }    
+    
     /**
      * Set isteacher
      *
@@ -99,5 +73,38 @@ class User extends BaseUser
     public function getIsteacher()
     {
         return $this->isteacher;
+    }
+
+    /**
+     * Add classroom
+     *
+     * @param \AppBundle\Entity\Classroom $classroom
+     * @return User
+     */
+    public function addClassroom(\AppBundle\Entity\Classroom $classroom)
+    {
+        $this->classrooms[] = $classroom;
+
+        return $this;
+    }
+
+    /**
+     * Remove classroom
+     *
+     * @param \AppBundle\Entity\Classroom $classroom
+     */
+    public function removeClassroom(\AppBundle\Entity\Classroom $classroom)
+    {
+        $this->classrooms->removeElement($classroom);
+    }
+
+    /**
+     * Get classrooms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClassrooms()
+    {
+        return $this->classrooms;
     }
 }

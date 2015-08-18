@@ -43,12 +43,23 @@ class Question {
    */
   private $datecrea;
 
+
+  /**
+   * 
+   * @var string username of designer author (or ManyToOne User ?)
+   *
+   * @ORM\Column(name="designer", type="string", length=50)
+   */
+  private $designer;
+
+  
+  
   /**
    * @var string
    *
-   * @ORM\Column(name="designers", type="string", length=255)
+   * @ORM\Column(name="codesigners", type="string", length=255)
    */
-  private $designers;
+  private $codesigners;
 
   /**
    * portée de la question : dev objet, dev web, dev initiation...
@@ -62,9 +73,19 @@ class Question {
    */
   protected $responses;
 
+ 
+  /**
+   * @var float
+   *
+   * @ORM\Column(name="avg_rating", type="decimal", scale=2)
+   */
+  private $avgRating;
+ 
+  
   public function __construct() {
     $this->datecrea = new \DateTime();
     $this->responses = new ArrayCollection();
+    $this->avgRating = 0.0;
   }
 
   /**
@@ -140,24 +161,24 @@ class Question {
   }
 
   /**
-   * Set designers
+   * Set designer
    *
-   * @param string $designers
+   * @param string $designer
    * @return Question
    */
-  public function setDesigners($designers) {
-    $this->designers = $designers;
+  public function setDesigner($designer) {
+    $this->designer = $designer;
 
     return $this;
   }
 
   /**
-   * Get designers
+   * Get codesigners
    *
    * @return string 
    */
   public function getDesigners() {
-    return $this->designers;
+    return $this->codesigners;
   }
 
   /**
@@ -223,6 +244,10 @@ class Question {
     return $this->scope;
   }
 
+  /**
+   * Get sum values of expected choices
+   * @return float
+   */
   public function getExpectedChoices() {
     $res = 0.0;
     
@@ -234,4 +259,61 @@ class Question {
     return $res;
   }
  
+
+    /**
+     * Set codesigners
+     *
+     * @param string $codesigners
+     * @return Question
+     */
+    public function setCoDesigners($codesigners)
+    {
+        $this->codesigners = $codesigners;
+
+        return $this;
+    }
+
+    /**
+     * Get designer
+     *
+     * @return string 
+     */
+    public function getDesigner()
+    {
+        return $this->designer;
+    }
+
+  
+    /**
+     * Get codesigners
+     *
+     * @return string 
+     */
+    public function getCodesigners()
+    {
+        return $this->codesigners;
+    }
+
+    /**
+     * Set avgRating
+     *
+     * @param float $avgRating
+     * @return Question
+     */
+    public function setAvgRating($avgRating)
+    {
+        $this->avgRating = $avgRating;
+
+        return $this;
+    }
+
+    /**
+     * Get avgRating
+     *
+     * @return string 
+     */
+    public function getAvgRating()
+    {
+        return $this->avgRating;
+    }
 }

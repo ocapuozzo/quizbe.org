@@ -21,10 +21,10 @@
             <div class="col-sm-3">
               {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
             </div>
-            {{ form_label(form.designers, 'Designers', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
-            {{ form_errors(form.designers) }}
+            {{ form_label(form.codesigners, 'CoDesigners', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+            {{ form_errors(form.codesigners) }}
             <div class="col-sm-3">
-              {{ form_widget(form.designers, {'attr': {'class': 'form-control', 'placeholder':'who is at the origin of this idea ?'}}) }}
+              {{ form_widget(form.codesigners, {'attr': {'class': 'form-control', 'placeholder':'who is at the origin of this idea ?'}}) }}
             </div>
             {{ form_label(form.scope, 'Scope', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
             {{ form_errors(form.scope) }}
@@ -65,7 +65,7 @@
               </ul>
             </div>   
           </div>
-
+          {{ form_row(form.designer) }}
           {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
           {{ form_row(form.submit) }}
           {{ form_row(form._token) }}
@@ -107,14 +107,14 @@
         addTagFormDeleteLink($(this));
       });
 
-      // ajoute l'ancre « ajouter un tag » et li à la balise ul
+      // ajoute l'ancre « ajouter une reponse» et li à la balise ul
       collectionHolder.append($newLink);
 
       $addTagLink.on('click', function (e) {
         // empêche le lien de créer un « # » dans l'URL
         e.preventDefault();
 
-        // ajoute un nouveau formulaire tag (voir le prochain bloc de code)
+        // ajoute un nouveau formulaire Response 
         addResponseForm(collectionHolder, $newLink);
       });
       

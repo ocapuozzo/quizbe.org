@@ -46,9 +46,9 @@ class QuestionController extends Controller
      * 
      */
     public function ratingAction(Request $request, Question $question){
-        // the ParamConverter automatically queries for an object 
-        // whose $id property matches the {id} value. 
-        // It will also show a 404 page if no Post can be found.
+       // the ParamConverter automatically queries for an object 
+       // whose $id property matches the {id} value. 
+       // It will also show a 404 page if no Question can be found.
        $res = 0;
        $value = floatval($request->request->get('value'));
        try {
@@ -57,6 +57,15 @@ class QuestionController extends Controller
          } else {
            $res = $this->doDeleteRating($this->getUser(), $question);
          }
+         // Risque de prendre du temps... 
+         $em = $this->getDoctrine()->getManager();
+         
+         $avgRating = floatval($this->getAvgRating($question));
+         
+         $question->setAvgRating($avgRating);
+         $em->persist($question);
+         $em->flush();
+         
        } catch (Exception $ex) {
           $res = 0;
        }
@@ -119,6 +128,7 @@ class QuestionController extends Controller
     public function newAction()
     {
         $entity = new Question();
+        $entity->setDesigner($this->getUser()->getUsername());
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -143,14 +153,28 @@ class QuestionController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Question entity.');
         }
-
-        $rating = $this->getRating($entity, $this->getUser());
+        $user = $this->getUser();
+        
+        $isDesigner = $entity->getDesigner() == $user->getUsername();        
+        if ($isDesigner) {
+          $avgRating = $this->getAvgRating($entity);
+        } else {
+          $avgRating = $this->getAvgRating($entity, $user);
+        }
+        $isCoDesigner = false;
+        // search if current user is a codesigner
+        if (!$isDesigner) {
+          $codesigners = preg_split("/[\s,]+/", $entity->getCodesigners());
+          !$isCoDesigner = in_array($user->getUsername(),$codesigners);
+        }
         
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'isDesigner'  => $isDesigner,
+            'isCoDesigner'=> $isCoDesigner, 
             'entity'      => $entity,
-            'rating'      => $rating,
+            'avgRating'      => $avgRating,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -213,7 +237,10 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $question = $em->getRepository('AppBundle:Question')->find($id);
-
+        
+        $savAvgRating = $question->getAvgRating();
+        $savAuthor = $question->getDesigner();
+        
         if (!$question) {
             throw $this->createNotFoundException('Unable to find Question entity.');
         }
@@ -230,7 +257,11 @@ class QuestionController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($question);
         $editForm->handleRequest($request);
-       
+      
+        // prevent hack...
+        $question->setAvgRating($savAvgRating);
+        $question->setDesigner($savAuthor);
+        
         if ($editForm->isValid()) {
             // supprime la relation entre la response et la question
             foreach ($originalResponses as $resp) {
@@ -301,26 +332,26 @@ class QuestionController extends Controller
      * @param type $user
      * @param type $question
      * @param type $value
-     * @return int 0=no opération, 1=create vote, 2=update vote
+     * @return int 0=no opération, 1=create rating, 2=update rating
      */
     private function doRating($user, $question, $value){
        $res = 0;
        $em = $this->getDoctrine()->getManager();
-       $vote = $em->getRepository('AppBundle:Vote')
+       $rating = $em->getRepository('AppBundle:Rating')
            ->findOneBy(array('user'=>$user, 'question'=>$question));
-       if ($vote) {
-         if ($vote->getValue() != $value) {
-           $vote->setValue($value);
-           $em->persist($vote);
+       if ($rating) {
+         if ($rating->getValue() != $value) {
+           $rating->setValue($value);
+           $em->persist($rating);
            $em->flush();
            $res = 2;
          }           
        }else {
-         $vote = new \AppBundle\Entity\Vote();
-         $vote->setQuestion($question);
-         $vote->setUser($user);
-         $vote->setValue($value);
-         $em->persist($vote);
+         $rating = new \AppBundle\Entity\Rating();
+         $rating->setQuestion($question);
+         $rating->setUser($user);
+         $rating->setValue($value);
+         $em->persist($rating);
          $em->flush();
          $res = 1;
        }
@@ -332,31 +363,53 @@ class QuestionController extends Controller
      * 
      * @param type $user
      * @param type $question
-     * @return int 1=delete vote, 0= nothing to delete
+     * @return int 1=delete rating, 0= nothing to delete
      */
     private function doDeleteRating($user, $question){
        $res = 0;
        $em = $this->getDoctrine()->getManager();
-       $vote = $em->getRepository('AppBundle:Vote')
+       $rating = $em->getRepository('AppBundle:Rating')
            ->findOneBy(array('user'=>$user, 'question'=>$question));
-       if ($vote) {
-           $em->remove($vote);
+       if ($rating) {
+           $em->remove($rating);
            $em->flush();
            $res = 3;
        }
        return $res;
     }
 
+ /**
+  * Get rating by current user of this question
+  * 
+  * @param type $question
+  * @param type $user
+  * @return int
+  */   
  private function getRating($question, $user) {
     $em = $this->getDoctrine()->getManager();
-    $vote = $em->getRepository('AppBundle:Vote')
+    $rating = $em->getRepository('AppBundle:Rating')
         ->findOneBy(array('user' => $user, 'question' => $question));
-    if ($vote) {
-      return $vote->getValue();
+    if ($rating) {
+      return $rating->getValue();
     } else {
       return 0;
     }
   }
     
-    
+ /**
+  * Get value global rating for this question
+  * @param Question $question
+  * @return float global rating
+  */ 
+ private function getAvgRating($question) {
+    $em = $this->getDoctrine()->getManager();
+    $avgRating = $em->getRepository('AppBundle:Rating')
+        ->getGlobalRating($question);
+    if ($avgRating) {
+      return $avgRating;
+    } else {
+      return 0.0;
+    }
+  }
+  
 }

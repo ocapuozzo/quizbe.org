@@ -1,5 +1,12 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet"
+        href="{{ asset('assets/vendor/kartik-v/bootstrap-star-rating/css/star-rating.min.css') }}">
+
+{% endblock %}
+
 {% block body -%}
     <h1>Question list</h1>
 <div class="table-responsive">
@@ -10,6 +17,7 @@
                 <th>Designers</th>
                 <th>Datecrea</th>
                 <th>Actions</th>
+                <th>Rating</th>
             </tr>
         </thead>
         <tbody>
@@ -19,9 +27,9 @@
                 <td>{{ entity.designers }}</td>
                 <td>{% if entity.datecrea %}{{ entity.datecrea|date('d/m/Y H:i') }}{% endif %}</td>
                 <td>
-                 <a href="{{ path('question_show', { 'id': entity.id }) }}">show</a> / 
-                 <a href="{{ path('question_edit', { 'id': entity.id }) }}">edit</a>
+                 <a href="{{ path('question_show', { 'id': entity.id }) }}">show</a>
                 </td>
+                <td> <input class="rating" value="{{entity.avgRating}}" data-size="xxs" data-show-clear="false" data-show-caption="false" readonly="true" /> </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -35,3 +43,11 @@
         </li>
     </ul>
     {% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {% javascripts '%kernel.root_dir%/../vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+        
+{% endblock %}

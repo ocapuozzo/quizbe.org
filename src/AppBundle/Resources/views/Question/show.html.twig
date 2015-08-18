@@ -17,7 +17,14 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title" style="text-align: center">
-          <span class="pull-left">({{entity.designers}})</span>
+          <span class="pull-left">
+            (
+            {% if isDesigner %} * {% endif %}            
+            {{entity.designer}} ~
+            {% if isCoDesigner %} * {% endif %}
+            {{entity.codesigners}}
+            )
+          </span>
           <span>{{ 'question' | trans }} : {{entity.name }} </span>
           <span class="pull-right">{{entity.scope.name}}</span>
         </h3>
@@ -26,8 +33,9 @@
         <div class="form-group">
           <label class="col-sm-2 control-label" for="idsentence">{{'question'|trans}}</label>            
           <div class="col-sm-10">
-            <div id="idsentence" readonly class="form-control">
-              {{entity.sentence | raw}} 
+            {% spaceless %}
+            <textarea readonly id="idsentence" name="appbundle_question[sentence]" required="required" class="form-control">{{entity.sentence|raw}}</textarea>                       
+            {% endspaceless %}
             </div>
           </div>
         </div>
@@ -36,8 +44,10 @@
             <tr>
               <th>{{ 'yourChoice' | trans}}
                 {# show : how many choices are expected #} 
-                {% set expectedChoices = entity.expectedChoices %}
-                {%  if (expectedChoices > 0) %} 
+                {% set expectedChoices = entity.expectedChoices %}                
+                {# a little help for user who knows how many responses are expected #}
+                {# but not in all cases (it would be too easy) #}
+                {%  if (expectedChoices > 0 and expectedChoices < entity.responses | length) %} 
                   ({{'how.expected' | transchoice(expectedChoices)}})
                 {% endif %}
                 {# 'watchFeedBack' = temoin de visibilité de la colonne (c'est une astuce, voir hideShowValues() ) #}                
@@ -71,6 +81,9 @@
       <div class="panel-footer clearfix">
         <div class="pull-right">
           <a href="#" class="btn btn-success" onclick="checkUserChoice()"> === {{ 'user.check' | trans }} === </a>
+          {% if isDesigner or isCoDesigner %}
+           <a href="{{ path('question_edit', { 'id': entity.id }) }}" class="btn btn-link" >edit</a>
+          {% endif %} 
         </div>
         <div class="pull-left">
           <a id='idGoodChoice' href="#" style="display:none"
@@ -78,14 +91,14 @@
           <a id='idBadChoice' href="#" style="display:none"
              class="btn btn-danger glyphicon glyphicon-thumbs-down" onclick="showFeedBack()"> {{'bad.user.submit.choice' | trans }} </a>
 
-          {#
+        
           <a id='idFeedBack' href="#" style="display:none"
           class="btn btn-danger glyphicon glyphicon-question-sign" onclick="showFeedBack()"> {{'show.feedback' | trans }} </a>
-       #}
+       
         </div>        
       </div>
       <div>      
-        <input id='idRating' value="{{rating}}"/>  
+        <input id='idRating' value="{{avgRating}}"/> {% if isDesigner or isCoDesigner %}(avg rating){%endif%}
       </div>
     </div>  
 
@@ -150,7 +163,7 @@
       hideResultCheckChoice();
     }
 
-    function onChangeRating(value) {
+    function doChangeRating(value) {
       $.ajax({
         type: "POST",
         url: "{{ path('question_rating', {'id': entity.id})}}",
@@ -162,7 +175,7 @@
         success: function (data) {
           console.log(data);
           if (data.ok == 1)
-            $(".panel-footer").notify("Appréciation enregistrée", {position: "top center"});
+            $(".panel-footer").notify("Appréciation enregistrée", {position: "buttom center"});
           else if (data.ok == 2)
             $(".panel-footer").notify("Appréciation mis à jour", {position: "buttom center"});
           else if (data.ok == 3)
@@ -173,21 +186,19 @@
         }
       });
     }
-
+ 
     jQuery(document).ready(function () {
       hideShowValues();
       hideResultCheckChoice();
     {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
-        $("#idRating").rating({'size': 'sm', 'showCaption': false});
+        $("#idRating").rating({'size': 'sm', 'showCaption': false {% if isDesigner or isCoDesigner %} ,'readonly': true {% endif%}});
         $('#idRating').on('rating.change', function (event, value, caption) {
-          console.log(value);
-          onChangeRating(value);
+          doChangeRating(value);
           //console.log(caption);
         });
         $('#idRating').on('rating.clear', function (event) {
           console.log("rating.clear");
-          //onDeleteRating();
-          onChangeRating(0);
+          doChangeRating(0);
         });
       });
 

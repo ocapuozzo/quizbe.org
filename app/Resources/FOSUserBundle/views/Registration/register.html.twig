@@ -1,0 +1,24 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+{% endblock fos_user_content %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+  function teacherOnOff() {
+    if ($("#fos_user_registration_form_isteacher").is(':checked')) {
+      $("#fos_user_registration_form_classrooms").attr("multiple","multiple")    
+    } else {
+      if ($("#fos_user_registration_form_classrooms").attr("multiple"))
+         $("#fos_user_registration_form_classrooms").removeAttr("multiple")      
+    }
+  }
+  
+  jQuery(document).ready(function () {
+    teacherOnOff()});   
+  </script>
+  
+{% endblock %}

@@ -1,8 +1,7 @@
-# 
 question: Question
 response: Answer
 submit: Submit
-vote: Vote
+rating: Rating
 show.value: Voir les valeurs
 value: Value
 how.expected: '{0} nothing|{1} 1 expected|]1,Inf] %count% expected'
@@ -10,15 +9,15 @@ bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Check
 show.feedback: Feedback
-classRoom: Class Name
+classroom: "Your classroom :"
+classrooms: "Your classrooms :"
+
 isteacher: Teacher ?
 yourChoice: Your choice
 
-vote:
- plus: Good !
- minus: To review ! 
- egual: Not very interesting...
- userquestion: One vote by question !
 menu:
  question: Question
  export: Export
+ 
+rating:
+ userquestion: One rating by question !

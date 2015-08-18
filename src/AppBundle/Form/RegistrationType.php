@@ -14,7 +14,15 @@ class RegistrationType extends AbstractType
    }
      public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('classRoom');
+       
+       $builder->add('classrooms', 'entity', 
+              array('class'=> 'AppBundle:Classroom',
+                    'property' => 'name', 
+                    'multiple'=> true,                    
+                    'empty_value' => 'Choisissez votre classe',
+                     ));
+  
+       // $builder->add('classRoom');
         $builder->add('isteacher'
             ,'checkbox'
             , array(
