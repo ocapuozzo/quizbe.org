@@ -1,8 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-  <div id="container" class="container">
-
+  
     {# {{ form(form) }}  #}
 
     <div class="panel panel-info">
@@ -12,28 +11,30 @@
         </h3>
       </div>
       <div class="panel-body">
-        <form action="{{ path('question_create') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
-          {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {#<form action="{{ path('question_create') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
+        #}  
+        {{ form_errors(form) }}
 
           <div class="form-group">
-            {{ form_label(form.name, 'Name', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+            {{ form_label(form.name, 'form.question.name'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
             {{ form_errors(form.name) }}
             <div class="col-sm-3">
               {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
             </div>
-            {{ form_label(form.codesigners, 'CoDesigners', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+            {{ form_label(form.codesigners, 'form.question.codesigners'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
             {{ form_errors(form.codesigners) }}
             <div class="col-sm-3">
-              {{ form_widget(form.codesigners, {'attr': {'class': 'form-control', 'placeholder':'who is at the origin of this idea ?'}}) }}
+              {{ form_widget(form.codesigners, {'attr': {'class': 'form-control', 'placeholder':'co-author(s) and Co'}}) }}
             </div>
-            {{ form_label(form.scope, 'Scope', {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+            {{ form_label(form.scope, 'form.question.scope' | trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
             {{ form_errors(form.scope) }}
             <div class="col-sm-3">
               {{ form_widget(form.scope, {'attr': {'class': 'form-control'}}) }}
             </div>
           </div>
           <div class="form-group">
-            {{ form_label(form.sentence, 'Question', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+            {{ form_label(form.sentence, 'question'|trans ~ ':', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
             {{ form_errors(form.sentence) }}
             <div class="col-sm-10">
               {{ form_widget(form.sentence, {'attr': {'class': 'form-control'}}) }}
@@ -54,7 +55,7 @@
           <div class="form-group">
             {#  itérer sur les responses #}
             {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
-            {{ form_label(form.responses, 'Responses', {'label_attr': {'class': 'control-label'}})}}
+            {{ form_label(form.responses, 'response'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
             <div class="col-sm-10">
               <ul class="responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
                 {% for resp in form.responses %}
@@ -65,7 +66,7 @@
               </ul>
             </div>   
           </div>
-          {{ form_row(form.designer) }}
+          
           {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
           {{ form_row(form.submit) }}
           {{ form_row(form._token) }}
@@ -81,7 +82,7 @@
         </ul>
       </div> <!-- panel body-->
     </div> <!-- panel info-->
-  </div> <!-- container--> 
+   
 
 
 {% endblock body %}

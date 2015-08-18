@@ -10,8 +10,6 @@
 {% block body %}
 
 
-  <div id="container" class="container">
-
     {# {{ form(form) }}  #}
 
     <div class="panel panel-info">
@@ -98,22 +96,23 @@
         </div>        
       </div>
       <div>      
-        <input id='idRating' value="{{avgRating}}"/> {% if isDesigner or isCoDesigner %}(avg rating){%endif%}
+        {% if isDesigner or isCoDesigner %}          
+           <input id='idRating' data-size="xs" data-clear-button='' value="{{rating}}"/> 
+        {% else %}  
+           <input id='idRating' data-size="sm" value="{{rating}}"/>
+        {%endif%}
+        
       </div>
     </div>  
-
-  </div>
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
   {# après avoir inclus jquery... #} 
-  {% javascripts '%kernel.root_dir%/../vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js' %}
-  <script type="text/javascript" src="{{ asset_url }}"></script>
-  {% endjavascripts %}
 
-  <script type="text/javascript" src="{{ asset('assets/vendor/notify/notify.min.js')}}"></script>
+  <script type="text/javascript" src="{{asset('assets/vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js')}}"></script>
+  <script type="text/javascript" src="{{asset('assets/vendor/notify/notify.min.js')}}"></script>
 
   <script>
     function checkUserChoice() {
@@ -191,7 +190,15 @@
       hideShowValues();
       hideResultCheckChoice();
     {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
-        $("#idRating").rating({'size': 'sm', 'showCaption': false {% if isDesigner or isCoDesigner %} ,'readonly': true {% endif%}});
+    {% if isDesigner or isCoDesigner %} 
+        $("#idRating").rating({'size': 'xs', 'showCaption': true,
+           'readonly': true, 
+           'disable':true,
+           'defaultCaption':"{rating} {{'avgrating'| trans}}",
+            'step':.5              
+         });
+    {% else %}
+        $("#idRating").rating({'size': 'sm', 'showCaption': false });
         $('#idRating').on('rating.change', function (event, value, caption) {
           doChangeRating(value);
           //console.log(caption);
@@ -200,6 +207,7 @@
           console.log("rating.clear");
           doChangeRating(0);
         });
+    {% endif %}        
       });
 
   </script>

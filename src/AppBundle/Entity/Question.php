@@ -316,4 +316,43 @@ class Question {
     {
         return $this->avgRating;
     }
+    
+    /**
+     * Is user designer of this question ?
+     * 
+     * @param User $user
+     * @return boolean
+     */
+    public function isDesigner($user) {
+      if ($user) {
+        return $this->getDesigner() == $user->getUsername();
+      }
+      return false;
+    }
+    
+    
+    /**
+     * Is user co-designer of this question ?
+     * 
+     * @param User $user
+     * @return boolean
+     */
+    public function isCoDesigner($user) {
+      if ($user) {
+        $codesigners = preg_split("/[\s,]+/", $this->getCodesigners());
+        return  in_array($user->getUsername(),$codesigners);
+      }          
+      return false;
+    }
+    
+    /**
+     * Only designer and co-designer can update 
+     * 
+     * @param User $user
+     * @return boolean
+     */
+    public function isCanUpdate($user) {     
+      return $this->isDesigner($user) || $this->isCoDesigner($user);
+    }
+        
 }

@@ -17,8 +17,8 @@ class RatingRepository extends EntityRepository {
     * @param type $question
     * @return type float
     */
-  function getGlobalRating($question) {
-    $em = $this->getEntityManager(); //->getRepository('AppBundle:Rating');
+  function getAvgRating($question) {
+    $em = $this->getEntityManager(); 
     $query = $em->createQuery('SELECT AVG(r.value) FROM AppBundle:Rating r WHERE r.question=:question');
     $query->setParameter('question', $question);
     return $query->getSingleScalarResult();

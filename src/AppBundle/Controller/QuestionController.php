@@ -31,9 +31,19 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('AppBundle:Question')->findAll();
-
+        
+        /**  debug: update derived attribut 
+        foreach ($entities as $q) {
+          $q->setAvgRating(floatval($this->getAvgRating($q)));
+          $em->persist($q);
+          $em->flush();
+        }
+        */
+        
+        
         return array(
             'entities' => $entities,
+            'user' => $this->getUser()
         );
     }
     
@@ -147,7 +157,6 @@ class QuestionController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Question')->find($id);
 
         if (!$entity) {
@@ -155,26 +164,26 @@ class QuestionController extends Controller
         }
         $user = $this->getUser();
         
-        $isDesigner = $entity->getDesigner() == $user->getUsername();        
-        if ($isDesigner) {
-          $avgRating = $this->getAvgRating($entity);
-        } else {
-          $avgRating = $this->getAvgRating($entity, $user);
-        }
+        $isDesigner = $entity->isDesigner($user); 
         $isCoDesigner = false;
-        // search if current user is a codesigner
+        // search if current user is a codesigner        
         if (!$isDesigner) {
-          $codesigners = preg_split("/[\s,]+/", $entity->getCodesigners());
-          !$isCoDesigner = in_array($user->getUsername(),$codesigners);
+          $isCoDesigner = $entity->isCoDesigner($user);          
         }
         
+        if ($isDesigner || $isCoDesigner) {
+          $rating = $this->getAvgRating($entity);
+        } else {
+          $rating = $this->getRating($entity, $user);
+        }
+                
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'isDesigner'  => $isDesigner,
             'isCoDesigner'=> $isCoDesigner, 
             'entity'      => $entity,
-            'avgRating'      => $avgRating,
+            'rating'      => $rating,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -184,7 +193,7 @@ class QuestionController extends Controller
      *
      * @Route("/{id}/edit", name="question_edit")
      * @Method("GET")
-     * @Template()
+     * @Template("AppBundle:Question:new.html.twig")
      */
     public function editAction($id)
     {
@@ -200,8 +209,8 @@ class QuestionController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -230,7 +239,7 @@ class QuestionController extends Controller
      *
      * @Route("/{id}", name="question_update")
      * @Method("PUT")
-     * @Template("AppBundle:Question:edit.html.twig")
+     * @Template("AppBundle:Question:new.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -274,12 +283,12 @@ class QuestionController extends Controller
             $em->persist($question);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('question_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('question', array()));
         }
 
         return array(
             'entity'      => $question,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -397,14 +406,14 @@ class QuestionController extends Controller
   }
     
  /**
-  * Get value global rating for this question
+  * Get avg value rating for this question
   * @param Question $question
-  * @return float global rating
+  * @return float avg rating
   */ 
  private function getAvgRating($question) {
     $em = $this->getDoctrine()->getManager();
     $avgRating = $em->getRepository('AppBundle:Rating')
-        ->getGlobalRating($question);
+        ->getAvgRating($question);
     if ($avgRating) {
       return $avgRating;
     } else {
