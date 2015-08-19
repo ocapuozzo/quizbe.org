@@ -12,8 +12,6 @@
       </div>
       <div class="panel-body">
         {{ form_start(form) }}
-        {#<form action="{{ path('question_create') }}" {{ form_enctype(form) }} method="POST" class="form-horizontal">
-        #}  
         {{ form_errors(form) }}
 
           <div class="form-group">
@@ -57,10 +55,16 @@
             {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
             {{ form_label(form.responses, 'response'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
             <div class="col-sm-10">
-              <ul class="responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
+              <ul class="responses" 
+                  data-prototype="{#{ form_widget(form.responses.vars.prototype)|e }#}
+                  {% filter escape %}
+             {{ include('AppBundle:Response:prototype.html.twig', { 'form': form.responses.vars.prototype }) }}
+                  {% endfilter %}">
+              
                 {% for resp in form.responses %}
-                  <li> 
-                    {{ form_row(resp) }}
+                  <li>                          
+             {{ include('AppBundle:Response:prototype.html.twig', { 'form': resp }) }}             
+                    {# { form_row(resp) } #}
                   </li>
                 {% endfor %}
               </ul>

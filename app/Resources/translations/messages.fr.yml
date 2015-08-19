@@ -23,11 +23,11 @@ form:
      name: "Titre:"
 
 menu:
- question: Question
- export: Exporter
+  question: Question
+  export: Exporter
  
 rating:
- userquestion: Une seule apréciation par question !
+  userquestion: Une seule apréciation par question !
  
 iquestion:
   listheader:
