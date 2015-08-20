@@ -87,7 +87,7 @@ class QuestionController extends Controller
      *
      * @Route("/", name="question_create")
      * @Method("POST")
-     * @Template("AppBundle:Question:new.html.twig")
+     * @Template("AppBundle:Question:edit.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -193,7 +193,7 @@ class QuestionController extends Controller
      *
      * @Route("/{id}/edit", name="question_edit")
      * @Method("GET")
-     * @Template("AppBundle:Question:new.html.twig")
+     * @Template("AppBundle:Question:edit.html.twig")
      */
     public function editAction($id)
     {
@@ -239,7 +239,7 @@ class QuestionController extends Controller
      *
      * @Route("/{id}", name="question_update")
      * @Method("PUT")
-     * @Template("AppBundle:Question:new.html.twig")
+     * @Template("AppBundle:Question:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
