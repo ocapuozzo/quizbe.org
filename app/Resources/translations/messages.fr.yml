@@ -10,7 +10,7 @@ how.expected: '{0} aucun|{1} 1 attendu|]1,Inf] %count% attendus'
 bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Tester
-show.feedback: Feedback
+show.feedback: Voir feedbacks
 classroom: "Votre classe :"
 classrooms: "Vos classes :"
 isteacher: Professeur ?
@@ -18,7 +18,7 @@ yourChoice: Votre sélection
 
 form:
   question:
-     scope: "Theme:"
+     scope: "Thème:"
      codesigners : "Co-Designer(s):"
      name: "Titre:"
 
@@ -29,14 +29,15 @@ menu:
 rating:
   userquestion: Une seule apréciation par question !
  
-iquestion:
-  listheader:
-    name: Nom
-    designer_s: Designer(s) 
-    createdate: Crée le
-    actions: Opérations
-    rating: Évaluation
-  link:
-    add: Ajouter une nouvelle question
+iquestion:  
+    hname: Nom
+    hdesigner_s: Designer(s) 
+    hcreatedate: Crée le
+    hactions: Opérations
+    hrating: Évaluation
+    hcountrating: Participants
+    hscope: Thème
+    link:
+      add: Ajouter une nouvelle question
   
     

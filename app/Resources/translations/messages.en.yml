@@ -9,7 +9,7 @@ how.expected: '{0} nothing|{1} 1 expected|]1,Inf] %count% expected'
 bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Check
-show.feedback: Feedback
+show.feedback: See feedbacks
 classroom: "Your classroom :"
 classrooms: "Your classrooms :"
 
@@ -18,7 +18,7 @@ yourChoice: Your choice
 
 form:
   question:
-     scope: "Thème:"
+     scope: "Theme:"
      codesigners : "Co-Designer(s):"
      name: "Title:"
 menu:
@@ -29,12 +29,13 @@ rating:
   userquestion: One rating by question !
 
 iquestion:
-  index:
-    name: Name
-    designer_s: Designer(s) 
-    createdate: Creation date
-    actions: Operations
-    rating: Rating    
-  link:
-    add: Add a new question
+    hname: Name
+    hdesigner_s: Designer(s) 
+    hcreatedate: Creation date
+    hactions: Operations
+    hrating: Rating    
+    hcountrating: Users rating
+    hscope: Scope
+    link:
+      add: Add a new question
   

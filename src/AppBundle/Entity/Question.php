@@ -424,5 +424,11 @@ class Question {
        }
        return $res / $this->ratings->count();
     }
-    
+
+    public function getAuthors() {
+      if ($this->codesigners)
+        return $this->designer . ', ' . $this->codesigners;
+      
+      return $this->designer;
+    }
 }
