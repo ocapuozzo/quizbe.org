@@ -29,7 +29,7 @@ class Rating {
 
   /**
    * question
-   * @ORM\ManyToOne(targetEntity="Question")
+   * @ORM\ManyToOne(targetEntity="Question", inversedBy="ratings")
    * @ORM\JoinColumn(name="id_question", referencedColumnName="id")
    */
   private $question;

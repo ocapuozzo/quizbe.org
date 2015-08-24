@@ -94,13 +94,13 @@ class QuestionController extends Controller
         $entity = new Question();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+        $entity->setDesigner($this->getUser()); 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('question_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('question', array()));
         }
 
         return array(
@@ -133,7 +133,7 @@ class QuestionController extends Controller
      *
      * @Route("/new", name="question_new")
      * @Method("GET")
-     * @Template()
+     * @Template("AppBundle:Question:edit.html.twig")
      */
     public function newAction()
     {

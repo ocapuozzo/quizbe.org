@@ -18,6 +18,7 @@
                 <th>{{'iquestion.listheader.createdate' | trans}}</th>
                 <th>{{'iquestion.listheader.actions' | trans}}</th>
                 <th>{{'iquestion.listheader.rating' | trans}}</th>
+                <th>{{'iquestion.listheader.countrating' | trans}}</th>
             </tr>
         </thead>
         <tbody>
@@ -31,8 +32,17 @@
                  {% if entity.canUpdate(user) %}
                   / <a href="{{ path('question_edit', { 'id': entity.id }) }}">edit</a>
                  {% endif %}  
+                </td>                
+                <td> {# <label for="_{{entity.id}}">({{entity.ratings | length}})</label> #}
+                     <input id="_{{entity.id}}" class="rating" value="{{entity.AvgRatings}}" 
+                        data-size="xxs" 
+                        data-show-clear="false" 
+                        data-show-caption="false" 
+                        {# data-default-caption="({{entity.ratings | length}})"  #}
+                        readonly="true" />
+                     
                 </td>
-                <td> <input class="rating" value="{{entity.avgRating}}" data-size="xxs" data-show-clear="false" data-show-caption="false" readonly="true" /> </td>
+                <td> ({{entity.countRatings}})
             </tr>
         {% endfor %}
         </tbody>

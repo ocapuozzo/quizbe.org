@@ -193,9 +193,9 @@
     {% if isDesigner or isCoDesigner %} 
         $("#idRating").rating({'size': 'xs', 'showCaption': true,
            'readonly': true, 
-           'disable':true,
+           'disable': true,
            'defaultCaption':"{rating} {{'avgrating'| trans}}",
-            'step':.5              
+           'step': .5              
          });
     {% else %}
         $("#idRating").rating({'size': 'sm', 'showCaption': false });

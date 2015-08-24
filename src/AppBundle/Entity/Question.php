@@ -68,12 +68,19 @@ class Question {
    */
   private $scope;
 
+  
   /**
    * @ORM\OneToMany(targetEntity="Response", cascade={"persist"}, mappedBy="question")
    */
   protected $responses;
 
- 
+
+  /**
+   * @ORM\OneToMany(targetEntity="Rating", mappedBy="question")
+   */
+  protected $ratings;
+
+  
   /**
    * @var float
    *
@@ -266,7 +273,7 @@ class Question {
      * @param string $codesigners
      * @return Question
      */
-    public function setCoDesigners($codesigners)
+    public function setCodesigners($codesigners)
     {
         $this->codesigners = $codesigners;
 
@@ -355,4 +362,67 @@ class Question {
       return $this->isDesigner($user) || $this->isCoDesigner($user);
     }
         
+
+    /**
+     * Add ratings
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     * @return Question
+     */
+    public function addRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($ratings);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
+    }
+    
+    /**
+     * Get nb ratings
+     *
+     * @return integer
+     */
+    public function getCountRatings()
+    {
+        return $this->ratings->count();
+    }
+    
+    
+    /**
+     * Get AVG ratings
+     *
+     * @return float
+     */
+    public function getAvgRatings()
+    {
+       if (!$this->ratings || !$this->ratings->count())
+         return 0;
+     
+       $res = 0.0;
+      
+       foreach ($this->ratings as $r) {
+         $res += $r->getValue(); 
+       }
+       return $res / $this->ratings->count();
+    }
+    
 }
