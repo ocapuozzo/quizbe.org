@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+  <div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title" style="text-align: center">
+          Classroom edit
+        </h3>
+      </div>
+      <div class="panel-body">
+        {{ form_start(edit_form) }}
+        {{ form_errors(edit_form) }}
+        <div>
+          
+            {{ form_label(edit_form.name, 'form.classroom.name'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+            {{ form_errors(edit_form.name) }}
+            <div class="col-sm-4">
+              {% if remove is not defined %}
+                {{ form_widget(edit_form.name, 
+                 {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
+              {% else %}
+                {{ form_widget(edit_form.name, 
+                  {'attr': {'class': 'form-control', 'placeholder':'short name', 'readonly':true}}) }}
+              {% endif %} 
+            </div>
+          </div>
+        </div>  
+        
+          {{ form_end(edit_form) }}
+        
+      <hr />
+      <div> 
+        {% if remove is defined %}
+
+          {{ form_start(delete_form) }}
+
+          <div class="form-group col-sm-2 control-label">
+            {{ form_widget(delete_form.submit) }}
+          </div>
+          <div class="form-group col-sm-2 control-label">
+            <button>
+              <a href="{{ path('classroom_index') }}">
+                Back to the list
+              </a>
+            </button>
+          </div>  
+          {{ form_end(delete_form) }}
+        {%  else %}        
+          <div class="form-group col-sm-2 control-label">
+            <button>
+              <a href="{{ path('classroom_index') }}">
+                Back to the list
+              </a>
+            </button>
+          </div>   
+        {% endif %}
+      </div>
+    </div>
+  </div> 
+{% endblock %}

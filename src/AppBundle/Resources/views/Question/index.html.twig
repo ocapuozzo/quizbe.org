@@ -10,7 +10,20 @@
 {% block body -%}
   <div class="row">
     <div class="col-md-6">{{'question' | trans}} </div>
-    <div class="col-md-6 text-right">{{'classroom' | trans}} {{classroom.name}}</div>
+    <div class="col-md-6 text-right">
+      <label for="changeClassroom">{{'classroom'|trans}}</label>
+      <select id="changeClassroom">
+        {# <option value="" selected>Select a classroom</option> #}
+    {% for classr in classrooms %}
+      {% if classr.id == classroom.id %}
+      <option selected value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
+      {% else %}  
+      <option value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
+      {% endif %}
+    {% endfor %}
+      {{'classroom' | trans}} {{classroom.name}}
+      </select>
+    </div>
   </div>
   
 <div class="table-responsive">
@@ -66,5 +79,16 @@
 {% block javascripts %}
   {{ parent() }}
   <script type="text/javascript" src="{{asset('assets/vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js')}}"></script>
-        
+  <script>
+    $(function(){
+      // bind change event to select
+      $('#changeClassroom').on('change', function () {
+          var url = $(this).val(); // get selected value
+          if (url) { // require a URL
+              window.location = url; // redirect
+          }
+          return false;
+      });
+    });
+</script>      
 {% endblock %}

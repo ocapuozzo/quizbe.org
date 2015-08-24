@@ -23,7 +23,7 @@ class QuestionController extends Controller
      * Lists all Question entities.
      *
      * @Route("/", name="question")
-     * @Route("/class/{id}", name="question_class")
+     * @Route("/class/{id}", name="question_classroom")
      * @Method("GET")
      * @Template()
      */
@@ -32,23 +32,28 @@ class QuestionController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $classroom = null;
+        $classrooms  = $this->getUser()->getClassrooms();
         
         if ($id) {
-          $entities = $em->getRepository('AppBundle:Question')->findByClassroom($id);
           $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
         } else {
           $entities = $em->getRepository('AppBundle:Question')->findAll();
         }
-        if (!$classroom) {
-          $classroom = $this->getUser()->getClassrooms() 
-              ? $this->getUser()->getClassrooms()->get(0) 
-              : null;          
+        if (!$classroom || ! $classrooms->contains($classroom) ) {
+          $classroom = $classrooms->isEnmpty() 
+              ? null
+              : $classrooms->get(0);          
         }
-                        
-        return array(
+        $entities = null;
+        if ($classroom)
+          $entities = 
+            $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
+       
+       return array(
             'entities' => $entities,
             'user' => $this->getUser(),
-            'classroom' => $classroom    
+            'classroom' => $classroom,
+            'classrooms' => $classrooms
         );
     }
     
@@ -411,12 +416,13 @@ class QuestionController extends Controller
       return 0;
     }
   }
-    
- /**
+
+  
+ /*
   * Get avg value rating for this question
   * @param Question $question
   * @return float avg rating
-  */ 
+   
  private function getAvgRating($question) {
     $em = $this->getDoctrine()->getManager();
     $avgRating = $em->getRepository('AppBundle:Rating')
@@ -427,5 +433,7 @@ class QuestionController extends Controller
       return 0.0;
     }
   }
+  * 
+  */
   
 }

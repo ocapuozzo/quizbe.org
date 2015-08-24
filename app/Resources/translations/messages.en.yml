@@ -23,8 +23,9 @@ form:
      name: "Title:"
      classroom: "Classeroom:"
 menu:
-  question: Question
+  items: Items
   export: Export
+  classroom: My classrooms
  
 rating:
   userquestion: One rating by question !

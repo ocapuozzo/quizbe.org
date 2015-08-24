@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+  <h2>Mys classrooms</h2>
+ 
+  {{ form(form) }}
+  
+ 
+    <ul>
+      <li>
+        <a href="{{ path('classroom_index') }}">
+          Manage Classrooms
+        </a>
+      </li>
+    </ul>
+  {% endblock %}

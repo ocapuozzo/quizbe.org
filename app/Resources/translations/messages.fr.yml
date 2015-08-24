@@ -24,8 +24,9 @@ form:
      classroom: "Classe:"
 
 menu:
-  question: Question
+  items: Items
   export: Exporter
+  classroom: Mes classes
  
 rating:
   userquestion: Une seule apréciation par question !
