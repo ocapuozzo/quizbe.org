@@ -70,13 +70,21 @@ class Question {
 
   
   /**
-   * @ORM\OneToMany(targetEntity="Response", cascade={"persist"}, mappedBy="question")
+   * 
+   * @ORM\ManyToOne(targetEntity="Classroom")
+   * @ORM\JoinColumn(name="idClassroom", referencedColumnName="id")
+   */
+  private $classroom;
+  
+  
+  /**
+   * @ORM\OneToMany(targetEntity="Response", cascade={"persist", "remove"}, mappedBy="question")
    */
   protected $responses;
 
 
   /**
-   * @ORM\OneToMany(targetEntity="Rating", mappedBy="question")
+   * @ORM\OneToMany(targetEntity="Rating", cascade={"remove"}, mappedBy="question")
    */
   protected $ratings;
 
@@ -430,5 +438,28 @@ class Question {
         return $this->designer . ', ' . $this->codesigners;
       
       return $this->designer;
+    }
+
+    /**
+     * Set classroom
+     *
+     * @param \AppBundle\Entity\Classroom $classroom
+     * @return Question
+     */
+    public function setClassroom(\AppBundle\Entity\Classroom $classroom = null)
+    {
+        $this->classroom = $classroom;
+
+        return $this;
+    }
+
+    /**
+     * Get classroom
+     *
+     * @return \AppBundle\Entity\Classroom 
+     */
+    public function getClassroom()
+    {
+        return $this->classroom;
     }
 }

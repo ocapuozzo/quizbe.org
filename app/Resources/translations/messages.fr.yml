@@ -21,6 +21,7 @@ form:
      scope: "Thème:"
      codesigners : "Co-Designer(s):"
      name: "Titre:"
+     classroom: "Classe:"
 
 menu:
   question: Question

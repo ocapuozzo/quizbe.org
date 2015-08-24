@@ -12,9 +12,8 @@ class RegistrationType extends AbstractType
    public function __construct($translator) {  
      $this->translator = $translator;
    }
-     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-       
+   public function buildForm(FormBuilderInterface $builder, array $options)
+   {       
        $builder->add('classrooms', 'entity', 
               array('class'=> 'AppBundle:Classroom',
                     'property' => 'name', 

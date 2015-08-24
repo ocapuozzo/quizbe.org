@@ -23,27 +23,32 @@ class QuestionController extends Controller
      * Lists all Question entities.
      *
      * @Route("/", name="question")
+     * @Route("/class/{id}", name="question_class")
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($id = null)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:Question')->findAll();
+        $classroom = null;
         
-        /**  debug: update derived attribut 
-        foreach ($entities as $q) {
-          $q->setAvgRating(floatval($this->getAvgRating($q)));
-          $em->persist($q);
-          $em->flush();
+        if ($id) {
+          $entities = $em->getRepository('AppBundle:Question')->findByClassroom($id);
+          $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
+        } else {
+          $entities = $em->getRepository('AppBundle:Question')->findAll();
         }
-        */
-        
-        
+        if (!$classroom) {
+          $classroom = $this->getUser()->getClassrooms() 
+              ? $this->getUser()->getClassrooms()->get(0) 
+              : null;          
+        }
+                        
         return array(
             'entities' => $entities,
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'classroom' => $classroom    
         );
     }
     
@@ -69,10 +74,12 @@ class QuestionController extends Controller
          }
          // Risque de prendre du temps... 
          $em = $this->getDoctrine()->getManager();
-         
+         /*
          $avgRating = floatval($this->getAvgRating($question));
          
-         $question->setAvgRating($avgRating);
+         $question->setAvgRating($avgRating); 
+          
+          */
          $em->persist($question);
          $em->flush();
          
@@ -118,7 +125,7 @@ class QuestionController extends Controller
      */
     private function createCreateForm(Question $entity)
     {
-        $form = $this->createForm(new QuestionType(), $entity, array(
+        $form = $this->createForm(new QuestionType($this->getUser()), $entity, array(
             'action' => $this->generateUrl('question_create'),
             'method' => 'POST',
         ));
@@ -172,7 +179,7 @@ class QuestionController extends Controller
         }
         
         if ($isDesigner || $isCoDesigner) {
-          $rating = $this->getAvgRating($entity);
+          $rating = $entity->getAvgRating();// $this->getAvgRating($entity);
         } else {
           $rating = $this->getRating($entity, $user);
         }
@@ -224,7 +231,7 @@ class QuestionController extends Controller
     */
     private function createEditForm(Question $entity)
     {
-        $form = $this->createForm(new QuestionType(), $entity, array(
+        $form = $this->createForm(new QuestionType($this->getUser()), $entity, array(
             'action' => $this->generateUrl('question_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));

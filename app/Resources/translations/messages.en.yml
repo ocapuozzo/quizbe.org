@@ -21,6 +21,7 @@ form:
      scope: "Theme:"
      codesigners : "Co-Designer(s):"
      name: "Title:"
+     classroom: "Classeroom:"
 menu:
   question: Question
   export: Export
