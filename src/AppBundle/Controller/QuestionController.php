@@ -40,7 +40,7 @@ class QuestionController extends Controller
           $entities = $em->getRepository('AppBundle:Question')->findAll();
         }
         if (!$classroom || ! $classrooms->contains($classroom) ) {
-          $classroom = $classrooms->isEnmpty() 
+          $classroom = $classrooms->isEmpty() 
               ? null
               : $classrooms->get(0);          
         }

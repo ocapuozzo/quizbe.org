@@ -1,0 +1,13 @@
+<hr />
+<footer style="padding-bottom: 2em">
+  {% set year = 'now'|date('Y') %}
+  
+  <div style="text-align: center">QuizBe.org &copy; 2015{% if year != '2015' %}-{{year}}{% endif %}</div>
+  <p style="text-align: center">   
+    <span style="font-style: italic"> Version (bêta) : {{ constant('\\AppBundle\\AppConstants::VERSION') }} </span>
+    <br />
+   <small><small>
+    Vous pouvez retrouver le développement du projet ici <a href="https://github.com/ocapuozzo/quizbe.org" target="_blank">on github</a>.
+   </small></small>
+   </p>
+ </footer>

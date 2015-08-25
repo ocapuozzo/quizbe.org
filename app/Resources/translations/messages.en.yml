@@ -40,4 +40,13 @@ iquestion:
     hscope: Scope
     link:
       add: Add a new question
-  
+ipres:
+  mainconcepts: Main concepts  
+  arg1: Students themselves design (and co-design) quizzes (at home or in classroom) 
+  arg2: Teacher gets interesting feedbacks of understanding.
+  arg3: The teacher guides students in design quiz.
+  arg4: Students evaluate and comment other quizzes (students and teachers!).
+  arg5: Teacher uses user rating for evaluation. 
+  arg6: Teacher reuses questions of students (and hers) for global evaluation (via export and through third-party solutions).
+  enjoy: Hopefully you will find your interest !
+    

@@ -1,76 +1,110 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div id="wrapper">
-        <div id="container">
-            <div id="welcome">
-                <h1><span>Welcome to</span> Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</h1>
-            </div>
+  <div id="wrapper">
+    <div id="container">
 
-            <div id="status">
-                <p>
-                    <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z" fill="#759E1A"/></svg>
-
-                    Your application is ready to start working on it at:
-                    <code>{{ base_dir }}/</code>
-                </p>
-            </div>
-
-            <div id="next">
-                <h2>What's next?</h2>
-                <p>
-                    <svg id="icon-book" version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="-12.5 9 64 64" enable-background="new -12.5 9 64 64" xml:space="preserve">
-                        <path fill="#AAA" d="M6.8,40.8c2.4,0.8,4.5-0.7,4.9-2.5c0.2-1.2-0.3-2.1-1.3-3.2l-0.8-0.8c-0.4-0.5-0.6-1.3-0.2-1.9
-                            c0.4-0.5,0.9-0.8,1.8-0.5c1.3,0.4,1.9,1.3,2.9,2.2c-0.4,1.4-0.7,2.9-0.9,4.2l-0.2,1c-0.7,4-1.3,6.2-2.7,7.5
-                            c-0.3,0.3-0.7,0.5-1.3,0.6c-0.3,0-0.4-0.3-0.4-0.3c0-0.3,0.2-0.3,0.3-0.4c0.2-0.1,0.5-0.3,0.4-0.8c0-0.7-0.6-1.3-1.3-1.3
-                            c-0.6,0-1.4,0.6-1.4,1.7s1,1.9,2.4,1.8c0.8,0,2.5-0.3,4.2-2.5c2-2.5,2.5-5.4,2.9-7.4l0.5-2.8c0.3,0,0.5,0.1,0.8,0.1
-                            c2.4,0.1,3.7-1.3,3.7-2.3c0-0.6-0.3-1.2-0.9-1.2c-0.4,0-0.8,0.3-1,0.8c-0.1,0.6,0.8,1.1,0.1,1.5c-0.5,0.3-1.4,0.6-2.7,0.4l0.3-1.3
-                            c0.5-2.6,1-5.7,3.2-5.8c0.2,0,0.8,0,0.8,0.4c0,0.2,0,0.2-0.2,0.5c-0.2,0.3-0.3,0.4-0.2,0.7c0,0.7,0.5,1.1,1.2,1.1
-                            c0.9,0,1.2-1,1.2-1.4c0-1.2-1.2-1.8-2.6-1.8c-1.5,0.1-2.8,0.9-3.7,2.1c-1.1,1.3-1.8,2.9-2.3,4.5c-0.9-0.8-1.6-1.8-3.1-2.3
-                            c-1.1-0.7-2.3-0.5-3.4,0.3c-0.5,0.4-0.8,1-1,1.6c-0.4,1.5,0.4,2.9,0.8,3.4l0.9,1c0.2,0.2,0.6,0.8,0.4,1.5c-0.3,0.8-1.2,1.3-2.1,1
-                            c-0.4-0.2-1-0.5-0.9-0.9c0.1-0.2,0.2-0.3,0.3-0.5s0.1-0.3,0.1-0.3c0.2-0.6-0.1-1.4-0.7-1.6c-0.6-0.2-1.2,0-1.3,0.8
-                            C4.3,38.4,4.7,40,6.8,40.8z M46.1,20.9c0-4.2-3.2-7.5-7.1-7.5h-3.8C34.8,10.8,32.7,9,30.2,9L-2.3,9.1c-2.8,0.1-4.9,2.4-4.9,5.4
-                            L-7,58.6c0,4.8,8.1,13.9,11.6,14.1l34.7-0.1c3.9,0,7-3.4,7-7.6L46.1,20.9z M-0.3,36.4c0-8.6,6.5-15.6,14.5-15.6
-                            c8,0,14.5,7,14.5,15.6S22.1,52,14.2,52C6.1,52-0.3,45-0.3,36.4z M42.1,65.1c0,1.8-1.5,3.1-3.1,3.1H4.6c-0.7,0-3-1.8-4.5-4.4h30.4
-                            c2.8,0,5-2.4,5-5.4V17.9h3.7c1.6,0,2.9,1.4,2.9,3.1V65.1L42.1,65.1z"/>
-                    </svg>
-
-                    Read Symfony documentation to learn
-                    <a href="http://symfony.com/doc/{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION')[:3] }}/book/page_creation.html">
-                        How to create your first page in Symfony
-                    </a>
-                </p>
-            </div>
-
+      <div id="status" class="row">
+        <div class="text-center">
+          {#<span class="pull-left">#}
+          {#              <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z" fill="#759E1A"/></svg> #}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<svg width="140" height="100" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+            <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+            <g>
+              <title>Quizbe</title>
+              <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x1="168" y1="255" x2="168" y2="255" id="svg_3"/>
+              <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x1="249" y1="142" x2="249" y2="142" id="svg_9"/>
+              <g id="svg_22">
+                <rect stroke="#000000" fill="white" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="3.66667" y="3.66667" width="83" height="83" id="svg_2"/>
+                <rect stroke="white" fill="white" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="79.66667" y="17.66667" width="15" height="38" id="svg_6"/>
+                <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x1="135.66667" y1="99.66667" x2="135.66667" y2="99.66667" id="svg_7"/>
+                <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x1="98.66667" y1="92.66667" x2="98.66667" y2="92.66667" id="svg_8"/>
+                <line fill="none" stroke="#000000" stroke-width="5" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" x1="40.66667" y1="91.66667" x2="40.66667" y2="91.66667" id="svg_10"/>
+                <path stroke="#000000" id="svg_15" d="m47.66667,66.66666l-2.68293,-8l-3.7561,-5.5l-4.29269,-4l-3.7561,-3.5l-7.5122,-4" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" fill="white"/>
+                <path stroke="#000000" id="svg_17" d="m45.16667,67.41666l-2.37805,-8.16l-3.32927,-5.60999l-3.80488,-4.08l-3.32926,-3.57l-6.65854,-4.08" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="white"/>
+                <path stroke="#000000" id="svg_18" d="m44.66667,68.91666l-2.07317,-8.16l-2.90244,-5.61l-3.31707,-4.08l-2.90244,-3.57l-5.80488,-4.08" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="white"/>
+                <ellipse ry="2" rx="1.5" id="svg_12" cy="66.66667" cx="46.16667" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="4" fill="black" stroke="#000000"/>
+                <g id="svg_21">
+                  <g transform="rotate(5 87.08333587646483,38.50000000000001) " id="svg_19">
+                    <path d="m49.83332,70.5l5.78571,-11.69998l13.89289,-17.15387l16,-13.15383l18.49998,-10.74618l19.82141,-10.74614" stroke="#000000" id="svg_4" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="4" fill="white"/>
+                    <path stroke="#000000" id="svg_5" d="m60.33332,54.5l15.7377,-4l9.44264,-2.66666l11.54099,-8l10.49181,-9.33334l8.39345,-10.66666l8.39342,-13.33334" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="4" fill="white"/>
+                  </g>
+                  <g id="svg_20">
+                    <line transform="rotate(-5 86.1669845581055,39.000000000000036) " stroke="#000000" id="svg_13" y2="41" x2="89.66667" y1="37" x1="82.66667" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="none"/>
+                    <line transform="rotate(-10 99.16712188720703,29.499998092651325) " id="svg_14" stroke="#000000" y2="31.5" x2="101.66667" y1="27.5" x1="96.66667" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="none"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+          {# </span> #}         
         </div>
-    </div>
-{% endblock %}
+      </div>
 
+      <div class="row text-center">
+        <div> Quiz Be<span style="font-style: italic">(hind Teaching)</span> </div>
+        {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+          <div> <a href="{{ path('fos_user_security_login') }}">
+                  <span class="glyphicon glyphicon-log-in"></span>
+                  {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                </a> 
+            or 
+             <a href="{{ path('fos_user_registration_register') }}">
+                  <span class="glyphicon glyphicon-ok"></span>
+                  {{ 'layout.register'|trans({}, 'FOSUserBundle') }}
+             </a> 
+          </div>
+        {% endif %}
+      </div>
+      <div class="row ">
+        
+    <div class="col-md-4 col-md-offset-4" style="margin-top: 1em">
+     <p style="text-align: center; font-style: italic">{{'ipres.mainconcepts' | trans}}</p>
+          <ul>
+            <li>{{'ipres.arg1' | trans}}</li>
+            <li>{{'ipres.arg2' | trans}}</li>
+            <li>{{'ipres.arg3' | trans}}</li>
+          </ul>
+          <ul>
+            <li>{{'ipres.arg4' | trans}}</li>
+            <li>{{'ipres.arg5' | trans}}</li>
+            <li>{{'ipres.arg6' | trans}}</li>            
+          </ul>  
+      </div>
+    </div>
+   <div class="row ">
+        <div style="text-align: center"> {{'ipres.enjoy' | trans}}</div>
+   </div>
+
+  </div>
+{% endblock %}
+{#
 {% block stylesheets %}
-<style>
-    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+  <style>
+
     h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
     h1 { font-size: 36px; }
-    h2 { font-size: 21px; margin-bottom: 1em; }
+    h2 { font-size: 21px; margin-bottom: .5em; }
     p { margin: 0 0 1em 0; }
     a { color: #0000F0; }
     a:hover { text-decoration: none; }
     code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
     #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
     #container { padding: 2em; }
-    #welcome, #status { margin-bottom: 2em; }
+    #welcome, #status { margin-bottom: 1em; }
     #welcome h1 span { display: block; font-size: 75%; }
     #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
     #icon-book { display: none; }
 
     @media (min-width: 768px) {
-        #wrapper { width: 80%; margin: 2em auto; }
-        #icon-book { display: inline-block; }
-        #status a, #next a { display: block; }
+      #wrapper { width: 80%; margin: 2em auto; }
+      #icon-book { display: inline-block; }
+      #status a, #next a { display: block; }
 
-        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
-        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
+      @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+      @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+      .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
     }
-</style>
+  </style>
 {% endblock %}
+#}

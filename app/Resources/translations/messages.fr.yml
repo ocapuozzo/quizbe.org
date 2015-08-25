@@ -41,5 +41,15 @@ iquestion:
     hscope: Thème
     link:
       add: Ajouter une nouvelle question
-  
+
+ipres:
+  mainconcepts: Concepts principaux
+  arg1: Les étudiants conçoivent eux-memes (et en collaboration) les quizs (à la maison ou en classe) 
+  arg2: L'enseignant obtient d'intéressants feedbacks sur la compréhension de ses étudiants.
+  arg3: L'enseignant accompagne les étudiants dans la conception de leurs quizs.
+  arg4: Les étudiants évaluent et commentent les productions des autres (étudiants et enseignants compris !).
+  arg5: L'enseignant s'appuie sur les évaluations pour valoriser les actions. 
+  arg6: L'enseignant réutilise les questions des étudiants (et les siennes) pour une évaluation globale (via export et utilisation de solutions tierces).
+  enjoy: Espérons que vous y trouverez votre intérêt  !   
+      
     
