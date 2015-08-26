@@ -33,7 +33,8 @@ menu:
   items: Items
   export: Export
   classroom: My classrooms
-  manageclassroom: Manage classrooms 
+  manageclassrooms: Manage classrooms 
+  managescopes: Manage scopes
   
 theader:
   hactions: Operations  

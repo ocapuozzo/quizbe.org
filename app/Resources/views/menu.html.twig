@@ -21,11 +21,15 @@
           <li {% if menuItemActive == "classroom" %} class="active" {% endif %} >
             <a href="{{ path('my_classrooms') }}">
               {{ 'menu.classroom'|trans }}
-           </a></li>          
+           </a></li>
+          <li {% if menuItemActive == "managescopes" %} class="active" {% endif %} >
+            <a href="{{ path('scope_index') }}">
+              {{ 'menu.managescopes'|trans }}
+           </a></li>           
           {% if is_granted('ROLE_MANAGER') %}
           <li {% if menuItemActive == "manageclassrooms" %} class="active" {% endif %} >
             <a href="{{ path('classroom_index') }}">
-              {{ 'menu.manageclassroom'|trans }}
+              {{ 'menu.manageclassrooms'|trans }}
            </a></li>
           {% endif %}
       </ul>
