@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div id="wrapper">
+    <div id="container">      
+    <h1>Oups! La requête n'a pas pu être honorée</h1>
+    <p>Le serveur a retourné une erreur "{{ status_code }} {{ status_text }}".</p>
+    </div>
+  </div>
+{% endblock %}

@@ -1,8 +1,8 @@
-# 
 question: Question
 response: Réponse
 submit: Soumettre
 rating: Appréciation
+scope: Thème
 avgrating: Moyenne des appréciations
 show.value: Voir les valeurs
 value: Valeur
@@ -22,11 +22,21 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Titre:"
      classroom: "Classe:"
+  classroom: "Classe:"
 
+  scope:
+    name: Thème 
+  
 menu:
   items: Items
   export: Exporter
   classroom: Mes classes
+  manageclassroom: Gestion des classes
+ 
+theader:
+  hactions: Operations  
+  hname: Classe
+  hscope: Thème
  
 rating:
   userquestion: Une seule apréciation par question !
@@ -50,6 +60,6 @@ ipres:
   arg4: Les étudiants évaluent et commentent les productions des autres (étudiants et enseignants compris !).
   arg5: L'enseignant s'appuie sur les évaluations pour valoriser les actions. 
   arg6: L'enseignant réutilise les questions des étudiants (et les siennes) pour une évaluation globale (via export et utilisation de solutions tierces).
-  enjoy: Espérons que vous y trouverez votre intérêt  !   
+  enjoy: Espérons que vous y trouverez votre intérêt !
       
     

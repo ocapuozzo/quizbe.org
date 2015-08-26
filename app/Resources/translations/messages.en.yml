@@ -2,6 +2,7 @@ question: Question
 response: Answer
 submit: Submit
 rating: Rating
+scope: Scope
 avgrating: Average rating
 show.value: Voir les valeurs
 value: Value
@@ -21,12 +22,24 @@ form:
      scope: "Theme:"
      codesigners : "Co-Designer(s):"
      name: "Title:"
-     classroom: "Classeroom:"
+     classroom: "Classroom:"
+  classroom: "Classroom:"
+
+  scope:
+    name: Name
+  
+  
 menu:
   items: Items
   export: Export
   classroom: My classrooms
- 
+  manageclassroom: Manage classrooms 
+  
+theader:
+  hactions: Operations  
+  hname: Classroom 
+  hscope: Scope 
+
 rating:
   userquestion: One rating by question !
 
@@ -50,3 +63,5 @@ ipres:
   arg6: Teacher reuses questions of students (and hers) for global evaluation (via export and through third-party solutions).
   enjoy: Hopefully you will find your interest !
     
+   
+   

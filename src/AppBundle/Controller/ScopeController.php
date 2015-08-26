@@ -7,23 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\Classroom;
-use AppBundle\Form\ClassroomType;
-use AppBundle\Form\UserClassroomsType;
+use AppBundle\Entity\Scope;
+use AppBundle\Form\ScopeType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Classroom controller.
+ * Scope controller.
  *
- * @Route("/classroom")
+ * @Route("/scope")
  */
-class ClassroomController extends Controller
+class ScopeController extends Controller
 {
     
     /**
-     * Lists all Classroom entities.
+     * Lists all Scope entities.
      *
-     * @Route("/", name="classroom_index")
+     * @Route("/", name="scope_index")
      * @Method("GET")
      * @Template()
      */
@@ -31,7 +30,7 @@ class ClassroomController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $entities = $em->getRepository('AppBundle:Classroom')->findAll();
+        $entities = $em->getRepository('AppBundle:Scope')->findAll();
         
         return array(
             'entities' => $entities
@@ -40,16 +39,15 @@ class ClassroomController extends Controller
     }
         
     /**
-     * Creates a new Classroom entity.
+     * Creates a new Scope entity.
      *
-     * @Route("/", name="classroom_create")
+     * @Route("/", name="scope_create")
      * @Method("POST")
-     * @Template("AppBundle:Classroom:new.html.twig")
+     * @Template("AppBundle:Scope:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Classroom();
-        $entity->setUser($this->getUser());
+        $entity = new Scope();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -58,7 +56,7 @@ class ClassroomController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('classroom_index', array()));
+            return $this->redirect($this->generateUrl('scope_index', array()));
         }
 
         return array(
@@ -68,16 +66,16 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Creates a form to create a Classroom entity.
+     * Creates a form to create a Scope entity.
      *
-     * @param Classroom $entity The entity
+     * @param Scope $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Classroom $entity)
+    private function createCreateForm(Scope $entity)
     {
-        $form = $this->createForm(new ClassroomType(), $entity, array(
-            'action' => $this->generateUrl('classroom_create'),
+        $form = $this->createForm(new ScopeType(), $entity, array(
+            'action' => $this->generateUrl('scope_create'),
             'method' => 'POST',
         ));
 
@@ -87,15 +85,15 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Displays a form to create a new Classroom entity.
+     * Displays a form to create a new Scope entity.
      *
-     * @Route("/new", name="classroom_new")
+     * @Route("/new", name="scope_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Classroom();
+        $entity = new Scope();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -105,9 +103,9 @@ class ClassroomController extends Controller
     }
   
     /**
-     * Displays a form to edit an existing Classroom entity.
+     * Displays a form to edit an existing Scope entity.
      *
-     * @Route("/{id}/edit", name="classroom_edit")
+     * @Route("/{id}/edit", name="scope_edit")
      * @Method("GET")
      * @Template()
      */
@@ -115,31 +113,33 @@ class ClassroomController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Classroom')->find($id);
+        $entity = $em->getRepository('AppBundle:Scope')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Classroom entity.');
+            throw $this->createNotFoundException('Unable to find Scope entity.');
         }
 
         $editForm = $this->createEditForm($entity);
+       // $deleteForm = $this->createDeleteForm($entity);
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),            
+            'edit_form'   => $editForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Classroom entity.
+    * Creates a form to edit a Scope entity.
     *
-    * @param Classroom $entity The entity
+    * @param Scope $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Classroom $entity)
+    private function createEditForm(Scope $entity)
     {
-        $form = $this->createForm(new ClassroomType(), $entity, array(
-            'action' => $this->generateUrl('classroom_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ScopeType(), $entity, array(
+            'action' => $this->generateUrl('scope_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -148,20 +148,20 @@ class ClassroomController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Classroom entity.
+     * Edits an existing Scope entity.
      *
-     * @Route("/u/{id}", name="classroom_update")
+     * @Route("/u/{id}", name="scope_update")
      * @Method("PUT")
-     * @Template("AppBundle:Classroom:edit.html.twig")
+     * @Template("AppBundle:Scope:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Classroom')->find($id);
+        $entity = $em->getRepository('AppBundle:Scope')->find($id);
         
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Classroom entity.');
+            throw $this->createNotFoundException('Unable to find Scope entity.');
         }
 
         $deleteForm = $this->createDeleteForm($entity);
@@ -172,7 +172,7 @@ class ClassroomController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('classroom_index', array()));
+            return $this->redirect($this->generateUrl('scope_index', array()));
         }
 
         return array(
@@ -186,20 +186,20 @@ class ClassroomController extends Controller
     
     
     /**
-     * Displays a form to remove an existing Classroom entity.
+     * Displays a form to remove an existing Scope entity.
      *
-     * @Route("/{id}", name="classroom_delete")
+     * @Route("/{id}", name="scope_delete")
      * @Method("GET")
-     * @Template("AppBundle:Classroom:delete.html.twig")
+     * @Template("AppBundle:Scope:delete.html.twig")
      */
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Classroom')->find($id);
+        $entity = $em->getRepository('AppBundle:Scope')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Classroom entity.');
+            throw $this->createNotFoundException('Unable to find Scope entity.');
         }
 
         $remove = true;    
@@ -215,19 +215,19 @@ class ClassroomController extends Controller
     
     
     /**
-     * Deletes a Classroom entity.
+     * Deletes a Scope entity.
      *
-     * @Route("/{id}", name="classroom_dodelete")
+     * @Route("/{id}", name="scope_dodelete")
      * @Method("DELETE")
      */
     public function doDeleteAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Classroom')->find($id);
+        $entity = $em->getRepository('AppBundle:Scope')->find($id);
         
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Classroom entity.');
+            throw $this->createNotFoundException('Unable to find Scope entity.');
         }
 
         $form = $this->createDeleteForm($entity);
@@ -235,36 +235,30 @@ class ClassroomController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AppBundle:Classroom')->find($id);
+            $entity = $em->getRepository('AppBundle:Scope')->find($id);
 
             if (!$entity) {
-              throw $this->createNotFoundException('Unable to find Classroom entity.');                
-            }
-            $user = $this->getUser();
-            
-            // only owner can delete
-            if ($user->getId() != $entity->getUser()->getId()) {
-                throw new AccessDeniedException();
+              throw $this->createNotFoundException('Unable to find Scope entity.');                
             }
             
             $em->remove($entity);
             $em->flush();
             
         }        
-        return $this->redirect($this->generateUrl('classroom_index'));
+        return $this->redirect($this->generateUrl('scope_index'));
     }
 
     /**
-     * Creates a form to delete a Classroom entity by id.
+     * Creates a form to delete a Scope entity by id.
      *
      * @param mixed $id The entity id
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Classroom $entity)
+    private function createDeleteForm(Scope $entity)
     {
-        $form = $this->createForm(new ClassroomType(), $entity, array(
-            'action' => $this->generateUrl('classroom_dodelete', array('id' => $entity->getId())),
+        $form = $this->createForm(new ScopeType(), $entity, array(
+            'action' => $this->generateUrl('scope_dodelete', array('id' => $entity->getId())),
             'method' => 'DELETE',
         ));
 
@@ -273,7 +267,7 @@ class ClassroomController extends Controller
         return $form;
       /*
       return $this->createFormBuilder()
-            ->setAction($this->generateUrl('classroom_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('scope_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()

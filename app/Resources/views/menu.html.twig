@@ -16,31 +16,37 @@
       <ul class="nav navbar-nav">
         <li {% if menuItemActive|default('') == "question" %} class="active" {% endif %} >
           <a href="{{ path('question') }}">
-             {{ 'menu.items'|trans }}
+            {{ 'menu.items'|trans }}
           </a></li>
-        <li {% if menuItemActive == "classroom" %} class="active" {% endif %} >
-          <a href="{{ path('classroom') }}">
-           {{ 'menu.classroom'|trans }}
-          </a></li>
+          <li {% if menuItemActive == "classroom" %} class="active" {% endif %} >
+            <a href="{{ path('my_classrooms') }}">
+              {{ 'menu.classroom'|trans }}
+           </a></li>          
+          {% if is_granted('ROLE_MANAGER') %}
+          <li {% if menuItemActive == "manageclassrooms" %} class="active" {% endif %} >
+            <a href="{{ path('classroom_index') }}">
+              {{ 'menu.manageclassroom'|trans }}
+           </a></li>
+          {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">  
         <li>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-          {# { 'layout.login'|trans({},'FOSUserBundle') }#}           
-                <a href="{{ path('fos_user_security_logout') }}">
-                  {{app.user.username}}&nbsp; 
-                  <span class="glyphicon glyphicon-log-out"></span>
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-                        
-        {% else %}
-                <a href="{{ path('fos_user_security_login') }}">
-                  <span class="glyphicon glyphicon-log-in"></span>
-                  {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
-                </a>
-        </li>
-      {% endif %}
-         </ul>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {# { 'layout.login'|trans({},'FOSUserBundle') }#}           
+            <a href="{{ path('fos_user_security_logout') }}">
+              {{app.user.username}}&nbsp; 
+              <span class="glyphicon glyphicon-log-out"></span>
+              {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+
+          {% else %}
+            <a href="{{ path('fos_user_security_login') }}">
+              <span class="glyphicon glyphicon-log-in"></span>
+              {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
     </div><!--/navbar -->
   </div><!--/.container-fluid -->
 </nav>

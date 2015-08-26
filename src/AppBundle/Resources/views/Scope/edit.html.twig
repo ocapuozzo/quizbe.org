@@ -4,7 +4,7 @@
   <div class="panel panel-info">
     <div class="panel-heading">
         <h3 class="panel-title" style="text-align: center">
-          Classroom edit
+          Scope edit
         </h3>
       </div>
       <div class="panel-body">
@@ -12,7 +12,7 @@
         {{ form_errors(edit_form) }}
         <div>
           
-            {{ form_label(edit_form.name, 'form.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+            {{ form_label(edit_form.name, 'form.scope'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
             {{ form_errors(edit_form.name) }}
             <div class="col-sm-4">
                 {{ form_widget(edit_form.name, 
@@ -25,7 +25,7 @@
       <div> 
           <div class="form-group col-sm-2 control-label">
             <button>
-              <a href="{{ path('classroom_index') }}">
+              <a href="{{ path('scope_index') }}">
                 Back to the list
               </a>
             </button>
