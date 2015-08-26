@@ -23,7 +23,8 @@
         "symfony/Asset": "^2.7",
         "friendsofsymfony/user-bundle": "~2.0@dev",
          "fyneworks/star-rating": "4.11.0",
-        "kartik-v/bootstrap-star-rating": "@dev"
+        "kartik-v/bootstrap-star-rating": "@dev",
+        "friendsofsymfony/comment-bundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

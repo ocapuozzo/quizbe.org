@@ -36,3 +36,6 @@ security:
         - { path: ^/classroom, role: ROLE_USER } 
         - { path: ^/response, role: ROLE_ADMIN } 
         - { path: ^/admin/, role: ROLE_ADMIN }
+
+    acl:
+        connection: default
