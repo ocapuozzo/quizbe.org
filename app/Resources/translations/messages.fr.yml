@@ -22,7 +22,8 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Titre:"
      classroom: "Classe:"
-     qrating : "<= Merci de déposer une évaluation"      
+     qrating : "<= Merci de déposer une évaluation"
+     avgrating: Moyenne des avis
   classroom: "Classe:"
 
   scope:

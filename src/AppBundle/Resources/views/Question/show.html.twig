@@ -97,7 +97,8 @@
       </div>
       <div class="row">      
         {% if isDesigner or isCoDesigner %}          
-          <input id='idRating' data-size="xs" data-clear-button='' value="{{rating}}"/> 
+          <input id='idRating' data-size="xs" 
+                 data-default-caption="{{'form.question.avgrating' | trans }}" data-star-captions="{}" data-clear-button='' value="{{rating}}"/> 
         {% else %}
            <input id='idRating' data-default-caption="{{'form.question.qrating' | trans }}" data-star-captions="{}"  data-show-caption='true' data-size="sm" value="{{rating}}" />
         {%endif%}
