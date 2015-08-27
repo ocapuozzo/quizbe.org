@@ -57,7 +57,7 @@ class Question {
   /**
    * @var string
    *
-   * @ORM\Column(name="codesigners", type="string", length=255)
+   * @ORM\Column(name="codesigners", type="string", length=255, nullable=true)
    */
   private $codesigners;
 

@@ -26,7 +26,7 @@
             <a href="{{ path('scope_index') }}">
               {{ 'menu.managescopes'|trans }}
            </a></li>           
-          {% if is_granted('ROLE_MANAGER') %}
+          {% if app.user and is_granted('ROLE_MANAGER') %}
           <li {% if menuItemActive == "manageclassrooms" %} class="active" {% endif %} >
             <a href="{{ path('classroom_index') }}">
               {{ 'menu.manageclassrooms'|trans }}
@@ -35,7 +35,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">  
         <li>
-          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+          {% if app.user and is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {# { 'layout.login'|trans({},'FOSUserBundle') }#}           
             <a href="{{ path('fos_user_security_logout') }}">
               {{app.user.username}}&nbsp; 

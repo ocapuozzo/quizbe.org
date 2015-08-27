@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Classroom
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\ClassroomRepository")
+ * @UniqueEntity(fields="name", message="Class already exists")
  */
 class Classroom
 {

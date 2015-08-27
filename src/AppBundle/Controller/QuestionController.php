@@ -11,10 +11,11 @@ use AppBundle\Entity\Question;
 use AppBundle\Form\QuestionType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * Question controller.
  *
- * @Route("/question")
+ * @Route("/quiz/{_locale}/question")
  */
 class QuestionController extends Controller
 {
