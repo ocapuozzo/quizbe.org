@@ -16,11 +16,13 @@ class ResponseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
           $valuesList = array();
+          
           for ($i = AppConstants::MIN_VALUE_PROPOSITION;
                $i<= AppConstants::MAX_VALUE_PROPOSITION;
-               $i += AppConstants::STEP_VALUE_PROPOSITION)
+               $i = $i + AppConstants::STEP_VALUE_PROPOSITION)
           {
-            $valuesList[$i]=$i;
+                       
+            $valuesList[sprintf("%.1f", $i)]=$i;
           }
           
         $builder

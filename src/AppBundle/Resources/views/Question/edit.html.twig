@@ -1,115 +1,128 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-  
-    {# {{ form(form) }}  #}
 
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title" style="text-align: center">
-          Create a question
-        </h3>
+  {# {{ form(form) }}  #}
+
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title" style="text-align: center">
+        Create a question
+      </h3>
+    </div>
+    <div class="panel-body">
+      {{ form_start(form) }}
+      {{ form_errors(form) }}
+
+      <div class="form-group">
+        {{ form_label(form.name, 'form.question.name'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+        {{ form_errors(form.name) }}
+        <div class="col-sm-3">
+          {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
+        </div>
+        {{ form_label(form.codesigners, 'form.question.codesigners'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+        {{ form_errors(form.codesigners) }}
+        <div class="col-sm-3">
+          {{ form_widget(form.codesigners, {'attr': {'class': 'form-control', 'placeholder':'co-author(s) and Co'}}) }}
+        </div>
+        {{ form_label(form.scope, 'form.question.scope' | trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+        {{ form_errors(form.scope) }}
+        <div class="col-sm-3">
+          {{ form_widget(form.scope, {'attr': {'class': 'form-control'}}) }}
+        </div>
       </div>
-      <div class="panel-body">
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
 
-          <div class="form-group">
-            {{ form_label(form.name, 'form.question.name'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
-            {{ form_errors(form.name) }}
-            <div class="col-sm-3">
-              {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
-            </div>
-            {{ form_label(form.codesigners, 'form.question.codesigners'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
-            {{ form_errors(form.codesigners) }}
-            <div class="col-sm-3">
-              {{ form_widget(form.codesigners, {'attr': {'class': 'form-control', 'placeholder':'co-author(s) and Co'}}) }}
-            </div>
-            {{ form_label(form.scope, 'form.question.scope' | trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
-            {{ form_errors(form.scope) }}
-            <div class="col-sm-3">
-              {{ form_widget(form.scope, {'attr': {'class': 'form-control'}}) }}
-            </div>
-          </div>
-           
-          <div class="form-group">
-            {{ form_label(form.classroom, 'form.question.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
-            {{ form_errors(form.classroom) }}
-            <div class="col-sm-10">
-              {{ form_widget(form.classroom, {'attr': {'class': 'form-control'}}) }}
-            </div>
-          </div>
-            
-          <div class="form-group">
-            {{ form_label(form.sentence, 'question'|trans ~ ':', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
-            {{ form_errors(form.sentence) }}
-            <div class="col-sm-10">
-              {{ form_widget(form.sentence, {'attr': {'class': 'form-control'}}) }}
-            </div>
-          </div>
-          {#                  
-               <div class="form-group responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
-                <label class="col-sm-2 control-label required">Responses1</label>
-                  {% for resp in form.responses %}
-                      {{ form_label(resp, 'Response', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
-                      {{ form_errors(resp) }}
-                    <div class="col-sm-10">
-                      {{ form_widget(resp, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                  {% endfor %}
-             </div>
-          #}
-          <div class="form-group">
-            {#  itérer sur les responses #}
-            {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
-            {{ form_label(form.responses, 'response'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
-            <div class="col-sm-10">
-              <ul class="responses" 
-                  data-prototype="{#{ form_widget(form.responses.vars.prototype)|e }#}
-                  {% filter escape %}
-             {{ include('AppBundle:Response:prototype.html.twig', { 'form': form.responses.vars.prototype }) }}
-                  {% endfilter %}">
-              
-                {% for resp in form.responses %}
-                  <li>                          
-             {{ include('AppBundle:Response:prototype.html.twig', { 'form': resp }) }}             
-                    {# { form_row(resp) } #}
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>   
-          </div>
-          
-          {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
-          {{ form_row(form.submit) }}
-          {{ form_row(form._token) }}
+      <div class="form-group">
+        {{ form_label(form.classroom, 'form.question.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+        {{ form_errors(form.classroom) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.classroom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
 
-        </form>
+      <div class="form-group">
+        {{ form_label(form.sentence, 'question'|trans ~ ':', {'label_attr': {'class': 'col-sm-2 control-label' }})}}
+        {{ form_errors(form.sentence) }}
+        <div class="col-sm-10">
+          {{ form_widget(form.sentence) }}
+        </div>
+      </div>
+      {#                  
+           <div class="form-group responses" data-prototype="{{ form_widget(form.responses.vars.prototype)|e }}">
+            <label class="col-sm-2 control-label required">Responses1</label>
+              {% for resp in form.responses %}
+                  {{ form_label(resp, 'Response', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+                  {{ form_errors(resp) }}
+                <div class="col-sm-10">
+                  {{ form_widget(resp, {'attr': {'class': 'form-control'}}) }}
+                </div>
+              {% endfor %}
+         </div>
+      #}
+      <div class="form-group">
+        {#  itérer sur les responses #}
+        {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
+        {{ form_label(form.responses, 'response'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
+        <div class="col-sm-10">
+          <ul class="responses" 
+              data-prototype="{#{ form_widget(form.responses.vars.prototype)|e }#}
+              {% filter escape %}
+                {{ include('AppBundle:Response:prototype.html.twig', { 'form': form.responses.vars.prototype }) }}
+              {% endfilter %}">
 
-        <ul class="_record_actions">
-          <li>
+            {% for resp in form.responses %}
+              <li>                          
+                {{ include('AppBundle:Response:prototype.html.twig', { 'form': resp }) }}             
+                {# { form_row(resp) } #}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>   
+      </div>
+
+      {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
+      {{ form_row(form.submit) }}
+      {{ form_row(form._token) }}
+
+      </form>
+      <hr/>
+      <div> 
+        <div class="form-group col-sm-2 control-label">
+          {% if delete_form is defined %}
+            {{ form(delete_form) }} 
+          {% endif %}
+        </div>   
+        <div class="form-group col-sm-2 control-label">
+          <button>
             <a href="{{ path('question') }}">
               Back to the list
             </a>
-          </li>          
-        </ul>
-      </div> <!-- panel body-->
-    </div> <!-- panel info-->
-   
+          </button>
+        </div>
+      </div>
+
+
+    </div> <!-- panel body-->
+  </div> <!-- panel info-->
+
 
 
 {% endblock body %}
 
 {% block javascripts %}
   {{ parent() }}
-
+  
+  {# { tinymce_init() } #}
+  
+  {{ tinymce_init({'mode' : "textareas", 'theme': {'simple': {'menubar': false}}}) }}
+  
   {# après avoir inclus jquery... #} 
 
   <script>
     // Récupère le div qui contient la collection de tags
     var collectionHolder = $('ul.responses');
 
- // ajoute un lien « add a response »
+    // ajoute un lien « add a response »
     var $addTagLink = $('<a href="#" class="add_reponse_link">Add a proposition</a>');
     var $newLink = $('<li></li>').append($addTagLink);
 
@@ -132,6 +145,7 @@
         addResponseForm(collectionHolder, $newLink);
       });
       
+
     });
 
     function addResponseForm(collectionHolder, $newLink) {

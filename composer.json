@@ -22,9 +22,10 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "symfony/Asset": "^2.7",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-         "fyneworks/star-rating": "4.11.0",
+        "fyneworks/star-rating": "4.11.0",
         "kartik-v/bootstrap-star-rating": "@dev",
-        "friendsofsymfony/comment-bundle": "^2.0"
+        "friendsofsymfony/comment-bundle": "^2.0",
+        "stfalcon/tinymce-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -33,7 +33,10 @@ class QuestionType extends AbstractType {
 //           ->add('avgRating', 'hidden')
         ->add('codesigners')
         ->add('scope', 'entity', array('class' => 'AppBundle:Scope', 'property' => 'name'))
-        ->add('sentence', 'textarea')
+        ->add('sentence', 'textarea',  array(
+            'attr' => array(
+            'class' => 'tinymce' )
+        ))
         ->add('responses', 'collection', array(
             'type' => new ResponseType(),
             'allow_add' => true,

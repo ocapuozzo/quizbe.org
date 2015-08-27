@@ -10,8 +10,8 @@ how.expected: '{0} nothing|{1} 1 expected|]1,Inf] %count% expected'
 bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Check
-show.feedback: See feedbacks
-classroom: "Your classroom :"
+show.feedback: Feedbacks
+classroom: "Classroom :"
 classrooms: "Your classrooms :"
 
 isteacher: Teacher ?
