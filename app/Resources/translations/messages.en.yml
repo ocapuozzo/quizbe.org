@@ -23,6 +23,7 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Title:"
      classroom: "Classroom:"
+     qrating : "<= Put your rating please"     
   classroom: "Classroom:"
 
   scope:

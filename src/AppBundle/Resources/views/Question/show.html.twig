@@ -95,18 +95,18 @@
        
         </div>        
       </div>
-      <div>      
+      <div class="row">      
         {% if isDesigner or isCoDesigner %}          
-           <input id='idRating' data-size="xs" data-clear-button='' value="{{rating}}"/> 
-        {% else %}  
-           <input id='idRating' data-size="sm" value="{{rating}}"/>
+          <input id='idRating' data-size="xs" data-clear-button='' value="{{rating}}"/> 
+        {% else %}
+           <input id='idRating' data-default-caption="{{'form.question.qrating' | trans }}" data-star-captions="{}"  data-show-caption='true' data-size="sm" value="{{rating}}" />
         {%endif%}
-        
       </div>
-       
+     
+      
       {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': entity.id} %}
          
-    </div>  
+      
 {% endblock %}
 
 {% block javascripts %}

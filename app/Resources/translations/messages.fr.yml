@@ -22,6 +22,7 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Titre:"
      classroom: "Classe:"
+     qrating : "<= Merci de déposer une évaluation"      
   classroom: "Classe:"
 
   scope:
