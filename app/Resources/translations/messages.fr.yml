@@ -22,8 +22,10 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Titre:"
      classroom: "Classe:"
-     qrating : "<= Merci de déposer une évaluation"
+     qcreaterating : "<= Merci de déposer une évaluation"
+     qupdaterating: "<= Modifier votre évaluation ?"
      avgrating: Moyenne des avis
+     
   classroom: "Classe:"
 
   scope:

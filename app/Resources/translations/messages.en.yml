@@ -23,8 +23,10 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Title:"
      classroom: "Classroom:"
-     qrating : "<= Put your rating please"
+     qcreaterating: "<= Put your rating please"
+     qupdaterating: "<= Upadate your rating ?"
      avgrating: Average rating
+     
   classroom: "Classroom:"
 
   scope:

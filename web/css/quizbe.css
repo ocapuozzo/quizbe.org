@@ -1,7 +1,50 @@
+/* ============ AppBundle  */
+/* Question show */
+ div.sentence  {
+   background-color: #b2dba1;
+   padding-left: 4px; 
+ }
+
+ div.sentence pre {
+   background-color: inherit;
+   border: none
+ }
+ 
+ 
+ 
+/* ============ FOSCommentBundle  */
+
 /* tree view effect */
   .fos_comment_comment_show  { 
     margin-left: 20px; 
   }
-
-  pre {background-color: #b2dba1}
- 
+  
+  /* Réduire un peu les H3  FOSCommentBundle */
+  
+  /* <h3>Ajouter un commentaire</h3> */
+  div.fos_comment_comment_form_holder h3 {
+    font-size: medium;
+  }
+  
+  /* <h3> n commentaires </h3> 
+     ayant même parent que le précédent h3  
+  https://developer.mozilla.org/fr/docs/Web/CSS/S%C3%A9lecteurs_de_voisins_g%C3%A9n%C3%A9raux  
+  */
+  div.fos_comment_comment_form_holder ~ h3
+  {
+    font-size: medium;
+  }
+  
+  /* make a button like a link 
+  http://stackoverflow.com/questions/1367409/how-to-make-button-look-like-a-link
+  */
+  button.fos_comment_comment_reply_show_form {
+     background:none!important;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     /*border is optional*/
+     border-bottom:1px solid #444; 
+     cursor: pointer;
+} 
+  
