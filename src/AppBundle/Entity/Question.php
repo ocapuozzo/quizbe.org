@@ -97,7 +97,15 @@ class Question {
    * @ORM\Column(name="avg_rating", type="decimal", scale=2)
    */
   private $avgRating;
- 
+
+  
+    /**
+   * @var \DateTime
+   *
+   * @ORM\Column(name="datepub", type="datetime", nullable=true)
+   */
+  private $datepub;
+
   
   public function __construct() {
     $this->datecrea = new \DateTime();
@@ -463,5 +471,28 @@ class Question {
     public function getClassroom()
     {
         return $this->classroom;
+    }
+
+    /**
+     * Set datepub
+     *
+     * @param \DateTime $datepub
+     * @return Question
+     */
+    public function setDatepub($datepub)
+    {
+        $this->datepub = $datepub;
+
+        return $this;
+    }
+
+    /**
+     * Get datepub
+     *
+     * @return \DateTime 
+     */
+    public function getDatepub()
+    {
+        return $this->datepub;
     }
 }

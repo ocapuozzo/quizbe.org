@@ -30,7 +30,8 @@ form:
      qcreaterating: "<= Put your rating please"
      qupdaterating: "<= Upadate your rating ?"
      avgrating: Average rating
-     
+     formatdate: 'Y-m-d'
+     datepub: Date of publication
   classroom: "Classroom:"
 
   scope:

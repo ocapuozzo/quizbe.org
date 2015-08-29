@@ -29,6 +29,8 @@ form:
      qcreaterating : "<= Merci de déposer une évaluation"
      qupdaterating: "<= Modifier votre évaluation ?"
      avgrating: Moyenne des avis
+     datepub: Date de publication
+     formatdate: 'd/m/Y'
      
   classroom: "Classe:"
 

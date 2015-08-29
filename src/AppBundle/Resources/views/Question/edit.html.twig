@@ -7,8 +7,13 @@
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title" style="text-align: center">
+        {% if entity.id %}
+        Edit a question
+        {% else %}
         Create a question
+        {% endif %}  
       </h3>
+      
     </div>
     <div class="panel-body">
       {{ form_start(form) }}
@@ -79,9 +84,17 @@
           </ul>
         </div>   
       </div>
-
+ <div class="row">
+    <div class="col-md-6">{{ form_row(form.submit) }}</div>
+    <div class="col-md-6">
+        {% if entity.datepub %}
+       <span class="pull-right">{{'form.question.datepub'| trans}} : {{entity.datepub|date('form.question.formatdate'|trans)}}</span>          
+        {% else %}
+         <span class="pull-right">{{ form_widget(form.doPublish, {'attr': {'checked': 'checked'}})}}</span>          
+        {% endif %}
+    </div>
+  </div>
       {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
-      {{ form_row(form.submit) }}
       {{ form_row(form._token) }}
 
       </form>
@@ -93,14 +106,13 @@
           {% endif %}
         </div>   
         <div class="form-group col-sm-2 control-label">
-          <button>
+          <div style="margin-top: 5px;">
             <a href="{{ path('question') }}">
               Back to the list
             </a>
-          </button>
+          </div>
         </div>
       </div>
-
 
     </div> <!-- panel body-->
   </div> <!-- panel info-->

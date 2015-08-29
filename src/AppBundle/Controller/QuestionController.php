@@ -220,7 +220,7 @@ class QuestionController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
-
+                        
         return array(
             'entity' => $entity,
             'form'   => $editForm->createView(),
@@ -293,6 +293,12 @@ class QuestionController extends Controller
                     $em->remove($resp);
                 }
             }
+             
+            // set date publication is doPublish is there and is checked
+            if ($editForm->get('doPublish')->getData()) {
+              $question->setDatepub(new \DateTime());
+            } 
+            
             $em->persist($question);
             $em->flush();
 
