@@ -3,7 +3,7 @@
 {% block stylesheets %}
   {{ parent() }}  
   <link rel="stylesheet"
-        href="{{ asset('assets/vendor/kartik-v/bootstrap-star-rating/css/star-rating.min.css') }}">
+        href="{{ asset('css/star-rating.min.css') }}">
 
 {% endblock %}
  
@@ -76,7 +76,8 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script type="text/javascript" src="{{asset('assets/vendor/kartik-v/bootstrap-star-rating/js/star-rating.min.js')}}"></script>
+  
+  <script type="text/javascript" src="{{asset('js/star-rating.min.js')}}"></script>
   <script>
     $(function(){
       // bind change event to select
