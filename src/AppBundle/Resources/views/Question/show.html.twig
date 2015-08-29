@@ -103,6 +103,7 @@
         </div>        
       </div>
       <div class="row">      
+        <div class="col-sm-6">          
         {% if isDesigner or isCoDesigner %}          
           <input id='idRating' data-size="xs" 
                  data-default-caption="{{'form.question.avgrating' | trans }}" 
@@ -119,7 +120,32 @@
                   data-size="sm" value="{{rating}}" />
         {%endif%}
       </div>
-     
+      <div class="col-sm-6" style="margin-top: 1em">
+        <spam class="pull-right" style="font-size: medium">
+          
+          {% if first != false %}
+            <a href="{{ path('question_show', { 'id': first }) }}">|&lt;</a>&nbsp;
+          {% else %}
+            |&lt;
+          {% endif %}
+          {% if prev != false %}
+            <a href="{{ path('question_show', { 'id': prev }) }}">&lt;</a>&nbsp;
+          {% else %}
+            &lt;
+          {% endif %}
+          {% if next != false %}
+            <a href="{{ path('question_show', { 'id': next }) }}">&gt;</a>&nbsp;
+          {% else %}
+            &gt;
+          {% endif %}
+          {% if last != false %}
+            <a href="{{ path('question_show', { 'id': last }) }}">&gt;|</a>&nbsp;
+          {% else %}
+            &gt|;
+          {% endif %}
+         </spam>
+      </div>
+      </div>
       
       {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': entity.id} %}
          

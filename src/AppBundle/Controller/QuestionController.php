@@ -28,7 +28,7 @@ class QuestionController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction($id = null)
+    public function indexAction(Request $request, $id = null)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -50,7 +50,10 @@ class QuestionController extends Controller
           $entities = 
             $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
        
-       return array(
+        $request->getSession()->set('ids', $this->getIdsAsArray($entities));
+       
+        
+        return array(
             'entities' => $entities,
             'user' => $this->getUser(),
             'classroom' => $classroom,
@@ -167,7 +170,7 @@ class QuestionController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:Question')->find($id);
@@ -191,16 +194,58 @@ class QuestionController extends Controller
         }
                 
         $deleteForm = $this->createDeleteForm($id);
-
+        
+        $linksNav = $this->getLinksNav($request, $id);
+        
         return array(
             'isDesigner'  => $isDesigner,
             'isCoDesigner'=> $isCoDesigner, 
             'entity'      => $entity,
             'rating'      => $rating,
-            'delete_form' => $deleteForm->createView(),
+            'first' => $linksNav[0],
+            'prev' => $linksNav[1],
+            'next' => $linksNav[2],
+            'last' => $linksNav[3],
+           // 'delete_form' => $deleteForm->createView(),
         );
     }
 
+    
+    private function getIdsAsArray($entities) {
+      $res = array();
+      foreach ($entities as $entity)
+        $res[]=$entity->getId();
+      return $res;
+    }
+    
+    /**
+     * Get links for navigate
+     * 
+     * @param Request $request
+     */
+    private function getLinksNav($request, $curId) {
+      $aIds = $request->getSession()->get("ids");
+
+      $iCur = array_search($curId, $aIds);
+      $prev = false;
+      $next = false;
+      $last = false;
+      $first = false;
+      
+      if ($iCur)
+        $prev = $aIds[$iCur - 1];
+      if ($iCur < count($aIds)-1)
+        $next = $aIds[$iCur + 1];
+      if ($prev)
+        $first = $aIds[0];
+      if ($iCur < count($aIds)-1)
+        $last = $aIds[count($aIds)-1];
+      
+      return array($first, $prev, $next, $last);
+    }
+
+    
+    
     /**
      * Displays a form to edit an existing Question entity.
      *
