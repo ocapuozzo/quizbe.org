@@ -29,7 +29,7 @@ class User extends BaseUser
     /**
      * @var boolean
      *
-     * @ORM\Column(name="isteacher", type="boolean", options={"default":false})
+     * @ORM\Column(name="isteacher", type="boolean", options={"default":false}, nullable=true )
      * 
      */
     private $isteacher;

@@ -16,6 +16,10 @@ classrooms: "Vos classes :"
 isteacher: Professeur ?
 yourChoice: Votre sélection
 
+footer:
+  msg1: Vous pouvez retrouver le développement du projet ici
+  contact1: "<a href='mailto:admin@quizbe.org?subject=Feedback'>-- Contact</a>"
+
 form:
   question:
      scope: "Thème:"

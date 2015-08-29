@@ -63,7 +63,7 @@
           </thead>
           <tbody>
             {% for resp in entity.responses %}
-              <tr>
+              <tr class="response">
                 <td> <input id='{{'c' ~ resp.id | e("css")}}' class="userChoice" 
                             type="checkbox" onClick='onUserChoice()' /> 
                   <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
@@ -114,7 +114,8 @@
                   data-default-caption="{{'form.question.qupdaterating' | trans }}" 
                   data-star-captions="{}"  
                   data-clear-caption="{{'form.question.qcreaterating' | trans }}" 
-                  data-show-caption='true' 
+                  data-show-caption='true'
+                  data-step= '.5'
                   data-size="sm" value="{{rating}}" />
         {%endif%}
       </div>
@@ -184,6 +185,7 @@
       hideResultCheckChoice();
     }
 
+ {% if not isDesigner and not isCoDesigner %} 
     function doChangeRating(value) {
       $.ajax({
         type: "POST",
@@ -207,20 +209,23 @@
         }
       });
     }
- 
-    jQuery(document).ready(function () {
+   {% endif %}
+  
+  jQuery(document).ready(function () {
       hideShowValues();
       hideResultCheckChoice();
     {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
+    {# init rating #}
     {% if isDesigner or isCoDesigner %} 
         $("#idRating").rating({'size': 'xs', 'showCaption': true,
            'readonly': true, 
            'disable': true,
            'defaultCaption':"{rating} {{'avgrating'| trans}}",
            'step': .5              
-         });
-    {% else %}
+         });  
+    {% else %}  
         $("#idRating").rating({'size': 'sm', 'showCaption': false });
+      
         $('#idRating').on('rating.change', function (event, value, caption) {
           doChangeRating(value);
           //console.log(caption);
