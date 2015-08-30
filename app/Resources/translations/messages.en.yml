@@ -51,8 +51,11 @@ theader:
   hname: Classroom 
   hscope: Scope 
 
-rating:
-  userquestion: One rating by question !
+dorating:
+  userquestion: "One rating by question !"
+  create: Rating created
+  update: Rating updated
+  delete: Rating deleted 
 
 iquestion:
     hname: Name

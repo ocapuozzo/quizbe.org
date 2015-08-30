@@ -141,7 +141,7 @@
           {% if last != false %}
             <a href="{{ path('question_show', { 'id': last }) }}">&gt;|</a>&nbsp;
           {% else %}
-            &gt|;
+            &gt;|
           {% endif %}
          </spam>
       </div>
@@ -219,17 +219,18 @@
         data: "value=" + value,
         dataType: 'Json',
         error: function (msg) {
-          alert("Error : " + msg);
+          // session perdue ?
+          window.location.href = "{{ path('question_show', { 'id': entity.id })}}"
         },
         success: function (data) {
-          console.log(data);
+          // console.log(data);
           if (data.ok == 1)
-            $(".panel-footer").notify("Appréciation enregistrée", {position: "buttom center"});
+            $(".panel-footer").notify("{{'dorating.create'|trans}}", {position: "buttom center"});
           else if (data.ok == 2)
-            $(".panel-footer").notify("Appréciation mis à jour", {position: "buttom center"});
+            $(".panel-footer").notify("{{'dorating.update'|trans}}", {position: "buttom center"});
           else if (data.ok == 3)
-            $(".panel-footer").notify("Suppression de l'appréciation", {position: "buttom center"});
-          else
+            $(".panel-footer").notify("{{'dorating.delete'|trans}}", {position: "buttom center"});
+          else 
             ; // nothing to do
           // $(".panel-footer").notify("Opération impossible", { position:"top center"});
         }

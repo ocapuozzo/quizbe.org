@@ -50,9 +50,12 @@ theader:
   hname: Classe
   hscope: Thème
  
-rating:
+dorating:
   userquestion: Une seule apréciation par question !
- 
+  create: Appréciation créée
+  update: Appréciation mise à jour
+  delete: Appréciation supprimée
+  
 iquestion:  
     hname: Nom
     hdesigner_s: Designer(s) 
