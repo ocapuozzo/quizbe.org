@@ -217,6 +217,7 @@ class QuestionController extends Controller {
     $next = false;
     $last = false;
     $first = false;
+    // case no array ids in session (direct acces or session lost)
     if ($aIds) {
       $iCur = array_search($curId, $aIds);
       if ($iCur)
