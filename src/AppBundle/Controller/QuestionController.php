@@ -177,12 +177,13 @@ class QuestionController extends Controller {
     }
 
     if ($isDesigner || $isCoDesigner) {
-      $rating = $entity->getAvgRating(); // $this->getAvgRating($entity);
+      $rating = $entity->getAvgRatings();
+      // or $rating = $this->getAvgRatings($entity); ?? performance ??
     } else {
       $rating = $this->getRating($entity, $user);
     }
 
-    $deleteForm = $this->createDeleteForm($id);
+    // $deleteForm = $this->createDeleteForm($id);
 
     $linksNav = $this->getLinksNav($request, $id);
 
@@ -288,7 +289,7 @@ class QuestionController extends Controller {
 
     $question = $em->getRepository('AppBundle:Question')->find($id);
 
-    $savAvgRating = $question->getAvgRating();
+    // $savAvgRating = $question->getAvgRatings();
     $savAuthor = $question->getDesigner();
 
     if (!$question) {
@@ -309,7 +310,7 @@ class QuestionController extends Controller {
     $editForm->handleRequest($request);
 
     // prevent hack...
-    $question->setAvgRating($savAvgRating);
+    // $question->setAvgRating($savAvgRating);
     $question->setDesigner($savAuthor);
 
     if ($editForm->isValid()) {
@@ -452,20 +453,19 @@ class QuestionController extends Controller {
   }
 
   /*
-   * Get avg value rating for this question
+   * Get avg value rating for one question
    * @param Question $question
    * @return float avg rating
-
-    private function getAvgRating($question) {
+   */
+  private function getAvgRatings($question) {
     $em = $this->getDoctrine()->getManager();
     $avgRating = $em->getRepository('AppBundle:Rating')
-    ->getAvgRating($question);
+        ->getAvgRating($question);
     if ($avgRating) {
-    return $avgRating;
+      return floatval($avgRating);
     } else {
-    return 0.0;
+      return 0.0;
     }
-    }
-   * 
-   */
+  }
+
 }

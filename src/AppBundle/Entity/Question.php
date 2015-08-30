@@ -91,14 +91,6 @@ class Question {
   protected $ratings;
 
   
-  /**
-   * @var float
-   *
-   * @ORM\Column(name="avg_rating", type="decimal", scale=2)
-   */
-  private $avgRating;
-
-  
     /**
    * @var \DateTime
    *
@@ -110,7 +102,6 @@ class Question {
   public function __construct() {
     $this->datecrea = new \DateTime();
     $this->responses = new ArrayCollection();
-    $this->avgRating = 0.0;
   }
 
   /**
@@ -319,29 +310,6 @@ class Question {
         return $this->codesigners;
     }
 
-    /**
-     * Set avgRating
-     *
-     * @param float $avgRating
-     * @return Question
-     */
-    public function setAvgRating($avgRating)
-    {
-        $this->avgRating = $avgRating;
-
-        return $this;
-    }
-
-    /**
-     * Get avgRating
-     *
-     * @return string 
-     */
-    public function getAvgRating()
-    {
-        return $this->avgRating;
-    }
-    
     /**
      * Is user designer of this question ?
      * 
