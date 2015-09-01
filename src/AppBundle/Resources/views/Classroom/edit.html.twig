@@ -1,36 +1,157 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
+
+  {# {{ form(form) }}  #}
+
   <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title" style="text-align: center">
-          Classroom edit
-        </h3>
-      </div>
-      <div class="panel-body">
-        {{ form_start(edit_form) }}
-        {{ form_errors(edit_form) }}
-        <div>
-          
-            {{ form_label(edit_form.name, 'form.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
-            {{ form_errors(edit_form.name) }}
-            <div class="col-sm-4">
-                {{ form_widget(edit_form.name, 
-                 {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
-            </div>
-          </div>
-        </div>  
-          {{ form_end(edit_form) }}
-      <hr />
-      <div> 
-          <div class="form-group col-sm-2 control-label">
-            <button>
-              <a href="{{ path('classroom_index') }}">
-                Back to the list
-              </a>
-            </button>
-          </div>   
-      </div>
+      <h3 class="panel-title" style="text-align: center">
+        {% if entity.id %}
+        Edit a classroom
+        {% else %}
+        Create a classroom
+        {% endif %}  
+      </h3>
+      
     </div>
-  </div> 
-{% endblock %}
+    <div class="panel-body">
+      {{ form_start(form) }}
+      {{ form_errors(form) }}
+
+      <div class="form-group">
+        {{ form_label(form.name, 'form.classroom'|trans, {'label_attr': {'class': 'col-sm-1 control-label'}})}}
+        {{ form_errors(form.name) }}
+        <div class="col-sm-3">
+          {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder':'short name'}}) }}
+        </div>
+        <div class="col-sm-6"> </div>
+      </div>
+
+     <div class="form-group">
+       <div class="col-sm-2">
+        {#  itérer sur les scopes #}
+        {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
+        {{ form_label(form.scopes, 'scopes'|trans, {'label_attr': {'class': 'control-label'}})}}
+       </div> 
+       <div class="col-sm-10"></div>
+     </div>        
+        <div class="col-sm-10">
+          <ul class="items_prototype" 
+              data-prototype="{#{ form_widget(form.scopes.vars.prototype)|e }#}
+              {% filter escape %}
+                {{ include('AppBundle:Classroom:scope-prototype.html.twig', { 'form': form.scopes.vars.prototype }) }}
+              {% endfilter %}">
+     
+            {% for scope in form.scopes %} 
+              <li>                          
+                {{ include('AppBundle:Classroom:scope-prototype.html.twig', { 'form': scope }) }}                
+              </li>
+            {% else %}
+               
+            {% endfor %}
+          </ul>
+        </div>   
+      
+ <div class="form-group">
+    <div class="col-md-6">{{ form_row(form.submit) }}</div>
+    <div class="col-md-6"></div>
+  </div>
+   
+ 
+    {#{ form_rest(form) }#}             
+    {{ form_row(form._token) }}
+    {# { form_end(form) }   <= display label Scopes .... ???  #}
+    </form>
+      <hr/>
+      <div class="row"> 
+        <div class="form-group col-sm-2 control-label">
+          {% if delete_form is defined %}
+            {{ form(delete_form) }} 
+          {% endif %}
+        </div>   
+        <div class="form-group col-sm-2 control-label">
+          <div style="margin-top: 5px;">
+            <a href="{{ path('classroom') }}">
+              Back to the list
+            </a>
+          </div>
+        </div>
+      </div>
+    </div> <!-- panel body-->
+  </div> <!-- panel info-->
+
+
+
+{% endblock body %}
+
+{% block javascripts %}
+  {{ parent() }}
+  
+  {# { tinymce_init() } #}
+  
+  {{ tinymce_init({'mode' : "textareas", 'theme': {'simple': {'menubar': false}}}) }}
+  
+  {# après avoir inclus jquery... #} 
+
+  <script>
+    // Récupère le div qui contient la collection de tags
+    var collectionHolder = $('ul.items_prototype');
+
+    // ajoute un lien « add a response »
+    var $addTagLink = $('<a href="#" class="add_scope_link"> {{'form.addscope'|trans}}</a>');
+    var $newLink = $('<li></li>').append($addTagLink);
+
+    jQuery(document).ready(function () {
+
+      // ajoute un lien de suppression à tous les éléments li de
+      // formulaires de tag existants
+      collectionHolder.find('li').each(function () {
+        addTagFormDeleteLink($(this));
+      });
+
+      // ajoute l'ancre « ajouter une reponse» et li à la balise ul
+      collectionHolder.append($newLink);
+
+      $addTagLink.on('click', function (e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // ajoute un nouveau formulaire Response 
+        addScopeForm(collectionHolder, $newLink);
+      });
+      
+
+    });
+
+    function addScopeForm(collectionHolder, $newLink) {
+      // Récupère l'élément ayant l'attribut data-prototype comme expliqué plus tôt
+      var prototype = collectionHolder.attr('data-prototype');
+
+      // Remplace '__name__' dans le HTML du prototype par un nombre basé sur
+      // la longueur de la collection courante
+      var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+
+      // Affiche le formulaire dans la page dans un div, avant le lien "ajouter un tag"
+      var $newFormLi = $('<li></li>').append(newForm);
+      $newLink.before($newFormLi);
+      // ajoute un lien de suppression au nouveau formulaire
+      addTagFormDeleteLink($newFormLi);
+    }
+
+    function addTagFormDeleteLink($tagFormLi) {
+      var $removeFormA = $('<a href="#">{{'form.deletescope'|trans}}</a>');
+      $tagFormLi.append($removeFormA);
+
+      $removeFormA.on('click', function (e) {
+        // empêche le lien de créer un « # » dans l'URL
+        e.preventDefault();
+
+        // supprime l'élément li pour le formulaire de tag
+        $tagFormLi.remove();
+      });
+    }
+
+  </script>
+
+{% endblock javascripts %}

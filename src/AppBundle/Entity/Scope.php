@@ -3,14 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Scope
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields="name", message="Scope already exists")
  */
 class Scope
 {
@@ -30,7 +29,13 @@ class Scope
      */
     private $name;
 
-
+    /** 
+     * @var Classroom ("owner" can edit)
+     * @ORM\ManyToOne(targetEntity="Classroom", inversedBy="scopes")           
+     * @ORM\JoinColumn(name="id_classroom", referencedColumnName="id")
+     */
+    private $classroom;
+    
     /**
      * Get id
      *
@@ -62,5 +67,28 @@ class Scope
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set classroom
+     *
+     * @param \AppBundle\Entity\Classroom $classroom
+     * @return Scope
+     */
+    public function setClassroom(\AppBundle\Entity\Classroom $classroom = null)
+    {
+        $this->classroom = $classroom;
+
+        return $this;
+    }
+
+    /**
+     * Get classroom
+     *
+     * @return \AppBundle\Entity\Classroom 
+     */
+    public function getClassroom()
+    {
+        return $this->classroom;
     }
 }

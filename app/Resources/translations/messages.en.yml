@@ -1,9 +1,13 @@
 not-yet-implemented: Not yet implemented
 question: Question
 response: Answer
+responses: Answers
 submit: Submit
 rating: Rating
 scope: Scope
+scopes: Scopes
+classroom: Classroom
+classrooms: Classrooms
 avgrating: Average rating
 show.value: Voir les valeurs
 value: Value
@@ -12,11 +16,16 @@ bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Check
 show.feedback: Feedbacks
-classroom: "Classroom :"
-classrooms: "Your classrooms :"
-
 isteacher: Teacher ?
 yourChoice: Your choice
+
+delete: Delete
+update: Update
+edit: Edit 
+  
+error:
+  msg1: Sorry, the request could not be honored
+  noscope: You must add at least one scope
 
 footer:
   msg1: You can find the project development here
@@ -27,13 +36,19 @@ form:
      scope: "Theme:"
      codesigners : "Co-Designer(s):"
      name: "Title:"
-     classroom: "Classroom:"
      qcreaterating: "<= Put your rating please"
      qupdaterating: "<= Upadate your rating ?"
      avgrating: Average rating
      formatdate: 'Y-m-d'
      datepub: Date of publication
+     title.create: Create a question
+     title.edit: Edit a question
   classroom: "Classroom:"
+  deletescope: Delete this scope 
+  addscope : Add a scope
+  deleteproposition: Delete this proposition
+  addproposition: Add a proposition
+  proposition: Proposition
 
   scope:
     name: Name

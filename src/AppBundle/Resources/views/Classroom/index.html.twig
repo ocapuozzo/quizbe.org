@@ -18,7 +18,9 @@
             <td>{{ entity.name }}</td>
             <td>               
               <a href="{{ path('classroom_edit', { 'id': entity.id }) }}">edit</a>
+              {% if entity.user.id == user.id %}
                / <a href="{{ path('classroom_delete', { 'id': entity.id }) }}">delete</a>
+              {% endif %} 
             </td>
           </tr>
         {% endfor %}

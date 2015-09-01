@@ -33,20 +33,26 @@ class QuestionController extends Controller {
     $classroom = null;
     $classrooms = $this->getUser()->getClassrooms();
 
+    if (!$id) {
+      $id = $request->getSession()->get('idClassroom');
+    }
+    
     if ($id) {
       $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
-    } else {
-      $entities = $em->getRepository('AppBundle:Question')->findAll();
     }
+
     if (!$classroom || !$classrooms->contains($classroom)) {
       $classroom = $classrooms->isEmpty() ? null : $classrooms->get(0);
     }
-    $entities = null;
-    if ($classroom)
-      $entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
+
+    if (!$classroom) {
+      throw $this->createNotFoundException('Unable to find classroom.');
+    }
+
+    $entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
 
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
-
+    $request->getSession()->set('idClassroom', $classroom->getId());
 
     return array(
         'entities' => $entities,
@@ -75,14 +81,9 @@ class QuestionController extends Controller {
       } else {
         $res = $this->doDeleteRating($this->getUser(), $question);
       }
-      // Risque de prendre du temps... 
+
       $em = $this->getDoctrine()->getManager();
-      /*
-        $avgRating = floatval($this->getAvgRating($question));
 
-        $question->setAvgRating($avgRating);
-
-       */
       $em->persist($question);
       $em->flush();
     } catch (Exception $ex) {
@@ -99,8 +100,15 @@ class QuestionController extends Controller {
    * @Template("AppBundle:Question:edit.html.twig")
    */
   public function createAction(Request $request) {
+    $classroom = $this->getClassroomFromSession($request);
+    if (!$classroom) {
+      throw $this->createNotFoundException('Unable to find classroom.');      
+    }
+    
     $entity = new Question();
-    $form = $this->createCreateForm($entity);
+    $entity->setClassroom($classroom);
+
+    $form = $this->createCreateForm($entity, $classroom);
     $form->handleRequest($request);
     $entity->setDesigner($this->getUser());
     if ($form->isValid()) {
@@ -117,6 +125,16 @@ class QuestionController extends Controller {
     );
   }
 
+  private function getClassroomFromSession($request) {
+    $idClassroom = $request->getSession()->get('idClassroom');
+    $classroom = null;   
+    if ($idClassroom) {
+      $em = $this->getDoctrine()->getManager();
+      $classroom = $em->getRepository('AppBundle:Classroom')->find($idClassroom);
+    }
+    return $classroom;
+  }
+
   /**
    * Creates a form to create a Question entity.
    *
@@ -124,8 +142,8 @@ class QuestionController extends Controller {
    *
    * @return \Symfony\Component\Form\Form The form
    */
-  private function createCreateForm(Question $entity) {
-    $form = $this->createForm(new QuestionType($this->getUser()), $entity, array(
+  private function createCreateForm(Question $entity, $classroom) {
+    $form = $this->createForm(new QuestionType($classroom), $entity, array(
         'action' => $this->generateUrl('question_create'),
         'method' => 'POST',
     ));
@@ -142,10 +160,15 @@ class QuestionController extends Controller {
    * @Method("GET")
    * @Template("AppBundle:Question:edit.html.twig")
    */
-  public function newAction() {
+  public function newAction(Request $request) {
     $entity = new Question();
+    $classroom = $this->getClassroomFromSession($request);
+    if (!$classroom) {
+      throw $this->createNotFoundException('Unable to find classroom.');      
+    }
+    $entity->setClassroom($classroom);
     $entity->setDesigner($this->getUser()->getUsername());
-    $form = $this->createCreateForm($entity);
+    $form = $this->createCreateForm($entity, $classroom);
 
     return array(
         'entity' => $entity,
@@ -267,7 +290,7 @@ class QuestionController extends Controller {
    * @return \Symfony\Component\Form\Form The form
    */
   private function createEditForm(Question $entity) {
-    $form = $this->createForm(new QuestionType($this->getUser()), $entity, array(
+    $form = $this->createForm(new QuestionType($entity->getClassroom()), $entity, array(
         'action' => $this->generateUrl('question_update', array('id' => $entity->getId())),
         'method' => 'PUT',
     ));
@@ -385,9 +408,9 @@ class QuestionController extends Controller {
   /**
    *  Create or update a rating by one user for one question
    * 
-   * @param type $user
-   * @param type $question
-   * @param type $value
+   * @param User $user
+   * @param Question $question
+   * @param float $value
    * @return int 0=no opération, 1=create rating, 2=update rating
    */
   private function doRating($user, $question, $value) {
@@ -457,6 +480,7 @@ class QuestionController extends Controller {
    * @param Question $question
    * @return float avg rating
    */
+
   private function getAvgRatings($question) {
     $em = $this->getDoctrine()->getManager();
     $avgRating = $em->getRepository('AppBundle:Rating')

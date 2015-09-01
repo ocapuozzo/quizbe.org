@@ -46,6 +46,10 @@ div.sentence  {
   /* make a button like a link 
   http://stackoverflow.com/questions/1367409/how-to-make-button-look-like-a-link
   */
+  div.fos_comment_submit input,
+  button.fos_comment_thread_commentable_action,
+  button.fos_comment_comment_remove,
+  button.fos_comment_comment_edit_show_form,
   button.fos_comment_comment_reply_show_form {
      background:none!important;
      border:none; 
@@ -56,3 +60,7 @@ div.sentence  {
      cursor: pointer;
 } 
   
+
+ul.items_prototype li {
+   list-style-type: none;
+}

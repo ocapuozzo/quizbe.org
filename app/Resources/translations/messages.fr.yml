@@ -1,9 +1,13 @@
 not-yet-implemented: Pas encore implémenté
 question: Question
 response: Réponse
+responses: Réponses
 submit: Soumettre
 rating: Appréciation
 scope: Thème
+scopes: Thèmes
+classroom: Classe
+classrooms: Classes
 avgrating: Moyenne des appréciations
 show.value: Voir les valeurs
 value: Valeur
@@ -12,10 +16,12 @@ bad.user.submit.choice: Oups !
 good.user.submit.choice: OK !
 user.check: Tester
 show.feedback: Feedbacks
-classroom: "Classe :"
-classrooms: "Vos classes :"
 isteacher: Professeur ?
 yourChoice: Votre sélection
+
+error:
+  msg1: Désolé, la requête n'a pas pu être honorée
+  noscope: Vous devez ajouter au moins un thème
 
 footer:
   msg1: Vous pouvez retrouver le développement du projet ici
@@ -26,14 +32,19 @@ form:
      scope: "Thème:"
      codesigners : "Co-Designer(s):"
      name: "Titre:"
-     classroom: "Classe:"
      qcreaterating : "<= Merci de déposer une évaluation"
      qupdaterating: "<= Modifier votre évaluation ?"
      avgrating: Moyenne des avis
-     datepub: Date de publication
      formatdate: 'd/m/Y'
-     
+     datepub: Date de publication
+     title.create: Créer une question
+     title.edit: Modifier une question
   classroom: "Classe:"
+  deletescope: Supprimer le thème 
+  addscope : Ajouter un thème
+  deleteproposition: Supprimer la proposition
+  addproposition: Ajouter une proposition
+  proposition: Proposition
 
   scope:
     name: Thème 

@@ -8,10 +8,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class QuestionType extends AbstractType {
 
-  private $user;
+  private $classroom;
 
-  public function __construct($user) {
-    $this->user = $user;
+  public function __construct($classroom) {
+    $this->classroom = $classroom;
   }
 
   /**
@@ -19,20 +19,27 @@ class QuestionType extends AbstractType {
    * @param array $options
    */
   public function buildForm(FormBuilderInterface $builder, array $options) {
+    $scopes = $this->classroom->getScopes();
     
     $builder
         // ->add('datecrea') // valorisation automatique
         ->add('name')
+        
         ->add('classroom', 'entity', array(
             'class' => 'AppBundle:Classroom',
             'property' => 'name',
-            'choices' => $this->user->getClassrooms(),
+            'data' => $this->classroom,
+            'choices' => array($this->classroom),//$this->user->getClassrooms(),
         ))
 
 //           ->add('designer', 'hidden')    * unexposed *
 //           ->add('avgRating', 'hidden')
         ->add('codesigners')
-        ->add('scope', 'entity', array('class' => 'AppBundle:Scope', 'property' => 'name'))
+        ->add('scope', 'entity', array(
+            'class' => 'AppBundle:Scope', 
+            'property' => 'name',
+            'choices' => $scopes   //array($this->classroom->getScopes())
+            ))
         ->add('sentence', 'textarea',  array(
             'attr' => array(
             'class' => 'tinymce' )

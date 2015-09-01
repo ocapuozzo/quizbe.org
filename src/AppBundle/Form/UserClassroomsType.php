@@ -35,7 +35,7 @@ class UserClassroomsType extends AbstractType {
    * @return string
    */
   public function getName() {
-    return 'appbundle_classroom';
+    return 'appbundle_user_classroom';
   }
 
 }

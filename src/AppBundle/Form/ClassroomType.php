@@ -16,7 +16,13 @@ class ClassroomType extends AbstractType
     {
         $builder
             ->add('name')
-         //   ->add('user') injected on creation by controller
+            ->add('scopes', 'collection', array(
+            'type' => new ScopeType(),
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false,
+                
+         ))
         ;
     }
     

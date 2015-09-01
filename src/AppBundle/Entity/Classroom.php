@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Classroom
  *
@@ -39,6 +40,13 @@ class Classroom
     protected $user;    
  
 
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Scope", cascade={"persist", "remove"}, mappedBy="classroom")
+     */
+    protected $scopes;    
+   
+    
     /**
      * Get id
      *
@@ -94,4 +102,64 @@ class Classroom
     {
         return $this->user;
     }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->scopes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add scope
+     *
+     * @param \AppBundle\Entity\Scope $scope
+     * @return Classroom
+     */
+    public function addScope(\AppBundle\Entity\Scope $scope)
+    {
+        $this->scopes[] = $scope;
+        $scope->setClassroom($this);
+        return $this;
+    }
+
+    /**
+     * Remove scope
+     *
+     * @param \AppBundle\Entity\Scope $scope
+     */
+    public function removeScope(\AppBundle\Entity\Scope $scope)
+    {
+        $this->scopes->removeElement($scope);
+    }
+
+    /**
+     * Get scopes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getScopes()
+    {
+        return $this->scopes;
+    }
+    
+    /**
+     * http://symfony.com/fr/doc/current/reference/constraints/Callback.html
+     * 
+     * @Assert\Callback(message = "error.noscope")
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+       
+       if (!$this->getScopes()->count()) {
+        $context->addViolationAt(
+            'scopes',
+            'error.noscope',  // TODO : ??? translators domain don't work ???
+            array('messages'),
+            null
+        );
+    }
+    }
+    
 }

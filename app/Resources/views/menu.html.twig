@@ -22,10 +22,7 @@
             <a href="{{ path('my_classrooms') }}">
               {{ 'menu.classroom'|trans }}
            </a></li>
-          <li {% if menuItemActive == "managescopes" %} class="active" {% endif %} >
-            <a href="{{ path('scope_index') }}">
-              {{ 'menu.managescopes'|trans }}
-           </a></li>           
+
           {% if app.user and is_granted('ROLE_MANAGER') %}
           <li {% if menuItemActive == "manageclassrooms" %} class="active" {% endif %} >
             <a href="{{ path('classroom_index') }}">

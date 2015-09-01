@@ -8,9 +8,9 @@
     <div class="panel-heading">
       <h3 class="panel-title" style="text-align: center">
         {% if entity.id %}
-        Edit a question
+        {{'form.question.title.edit' | trans}}
         {% else %}
-        Create a question
+        {{'form.question.title.create' | trans}}
         {% endif %}  
       </h3>
       
@@ -38,7 +38,7 @@
       </div>
 
       <div class="form-group">
-        {{ form_label(form.classroom, 'form.question.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+        {{ form_label(form.classroom, 'form.classroom'|trans, {'label_attr': {'class': 'col-sm-2 control-label'}})}}
         {{ form_errors(form.classroom) }}
         <div class="col-sm-10">
           {{ form_widget(form.classroom, {'attr': {'class': 'form-control'}}) }}
@@ -65,11 +65,16 @@
          </div>
       #}
       <div class="form-group">
+        <div class="col-sm-2">
         {#  itérer sur les responses #}
         {# http://symfony.com/fr/doc/current/cookbook/form/form_collections.html #} 
-        {{ form_label(form.responses, 'response'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
+        {{ form_label(form.responses, 'responses'|trans ~ ':', {'label_attr': {'class': 'control-label'}})}}
+        </div>
+         <div class="col-sm-10"></div>
+     </div>
+        <div class="form-group">
         <div class="col-sm-10">
-          <ul class="responses" 
+          <ul class="items_prototype" 
               data-prototype="{#{ form_widget(form.responses.vars.prototype)|e }#}
               {% filter escape %}
                 {{ include('AppBundle:Response:prototype.html.twig', { 'form': form.responses.vars.prototype }) }}
@@ -88,13 +93,13 @@
     <div class="col-md-6">{{ form_row(form.submit) }}</div>
     <div class="col-md-6">
         {% if entity.datepub %}
-       <span class="pull-right">{{'form.question.datepub'| trans}} : {{entity.datepub|date('form.question.formatdate'|trans)}}</span>          
+       <span class="pull-right">{{'form.question.datepub'| trans}} : {{entity.datepub|date('form.question.formatdate'|trans)}}</span>
         {% else %}
          <span class="pull-right">{{ form_widget(form.doPublish, {'attr': {'checked': 'checked'}})}}</span>          
         {% endif %}
     </div>
   </div>
-      {#{ form_rest(form) } see 2 times label "Responses" ?!? #}      
+      {#{ form_rest(form) }#}      
       {{ form_row(form._token) }}
 
       </form>
@@ -132,10 +137,10 @@
 
   <script>
     // Récupère le div qui contient la collection de tags
-    var collectionHolder = $('ul.responses');
+    var collectionHolder = $('ul.items_prototype');
 
     // ajoute un lien « add a response »
-    var $addTagLink = $('<a href="#" class="add_reponse_link">Add a proposition</a>');
+    var $addTagLink = $('<a href="#" class="add_reponse_link">{{'form.addproposition'|trans}}</a>');
     var $newLink = $('<li></li>').append($addTagLink);
 
     jQuery(document).ready(function () {
@@ -176,7 +181,7 @@
     }
 
     function addTagFormDeleteLink($tagFormLi) {
-      var $removeFormA = $('<a href="#">Delete this proposition</a>');
+      var $removeFormA = $('<a href="#">{{'form.deleteproposition'|trans}}</a>');
       $tagFormLi.append($removeFormA);
 
       $removeFormA.on('click', function (e) {
