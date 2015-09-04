@@ -34,7 +34,7 @@ class Question {
   /**
    * @var string
    *
-   * @ORM\Column(name="sentence", type="string", length=255)
+   * @ORM\Column(name="sentence", type="text")
    */
   private $sentence;
 
@@ -263,7 +263,7 @@ class Question {
   /**
    * Get sum values of expected choices
    * @return float
-   */
+   */  
   public function getExpectedChoices() {
     $res = 0.0;
     
@@ -275,6 +275,21 @@ class Question {
     return $res;
   }
  
+  
+  /**
+   * Get number of good choices
+   * @return int
+   */  
+  public function getNbExpectedChoices() {
+    $res = 0;
+    
+    foreach ($this->getResponses() as $response) {
+      if ($response->getValue() > 0) {
+        $res++;
+      }
+    }
+    return $res;
+  }
 
     /**
      * Set codesigners

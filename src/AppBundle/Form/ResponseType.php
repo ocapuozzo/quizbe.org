@@ -11,7 +11,7 @@ class ResponseType extends AbstractType
 {
   public static $VALUES = 
       array("-2"=>-2, "-1.5"=>"-1.5", "-1"=>"-1"
-      ,"0"=>"0", "0.5"=>".5", "1"=>"1", "1.5"=>"1.5", "2" => "2");
+      ,"0.5"=>".5", "1"=>"1", "1.5"=>"1.5", "2" => "2");
   
     /**
      * @param FormBuilderInterface $builder

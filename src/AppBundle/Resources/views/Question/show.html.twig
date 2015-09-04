@@ -9,7 +9,6 @@
 
 {% block body %}
 
-
     {# {{ form(form) }}  #}
 
     <div class="panel panel-info">
@@ -46,7 +45,7 @@
             <tr>
               <th>{{ 'yourChoice' | trans}}
                 {# show : how many choices are expected #} 
-                {% set expectedChoices = entity.expectedChoices %}                
+                {% set expectedChoices = entity.nbExpectedChoices %}                
                 {# a little help for user who knows how many responses are expected #}
                 {# but not in all cases (it would be too easy) #}
                 {%  if (expectedChoices > 0 and expectedChoices < entity.responses | length) %} 
