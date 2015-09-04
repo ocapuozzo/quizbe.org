@@ -9,26 +9,23 @@ use AppBundle\AppConstants;
 
 class ResponseType extends AbstractType
 {
+  public static $VALUES = 
+      array("-2"=>-2, "-1.5"=>"-1.5", "-1"=>"-1"
+      ,"0"=>"0", "0.5"=>".5", "1"=>"1", "1.5"=>"1.5", "2" => "2");
+  
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-          $valuesList = array();
-          
-          for ($i = AppConstants::MIN_VALUE_PROPOSITION;
-               $i<= AppConstants::MAX_VALUE_PROPOSITION;
-               $i = $i + AppConstants::STEP_VALUE_PROPOSITION)
-          {                      
-            $valuesList[sprintf("%.1f", $i)]=$i;
-          }
           
         $builder
             ->add('proposition')
             ->add('feedback')
             ->add('value', 'choice', array(
-                'choices' => $valuesList))
+                'choices' => self::$VALUES,
+                ))
         ;
     }
     
