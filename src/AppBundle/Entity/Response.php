@@ -24,14 +24,14 @@ class Response
     /**
      * @var string
      *
-     * @ORM\Column(name="proposition", type="string", length=255)
+     * @ORM\Column(name="proposition", type="text")
      */
     private $proposition;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="feedback", type="string", length=255)
+     * @ORM\Column(name="feedback", type="text")
      */
     private $feedback;
 
