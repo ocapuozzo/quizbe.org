@@ -1,3 +1,4 @@
+create.profile: Create profile
 not-yet-implemented: Not yet implemented
 question: Question
 response: Answer
@@ -52,8 +53,7 @@ form:
 
   scope:
     name: Name
-  
-  
+   
 menu:
   items: Items
   export: Export

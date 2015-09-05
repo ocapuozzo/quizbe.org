@@ -7,7 +7,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title" style="text-align: center">
-          Création de mon profil
+          {{'create.profile' | trans({},'messages')}}
         </h3>
       </div>
 
@@ -16,8 +16,8 @@
         <div class="panel-body" >
           <div class ="row" style="padding-bottom: 3px">
             <div class="form-group">
-              {{ form_label(form.email, 'form.email' | trans, {'label_attr': {'class': 'col-sm-3 control-label'}} ) }}
-  {# TODO : dégager le col-sm-2 qui est généré par défault.... #}
+                <label class="col-sm-3 control-label required" for="fos_user_registration_form_email">{{'form.email' | trans}}</label>
+              {#{ form_label(form.email, 'form.email' | trans, {'label_attr': {'class': 'col-sm-3 control-label'}} ) }#}
               {{ form_errors(form.email) }}
               <div class="col-sm-9">
                 {{ form_widget(form.email , {'attr': {'class': 'form-control'}})}}
@@ -26,7 +26,7 @@
           </div>
           <div class ="row" style="padding-bottom: 3px">
             <div class="form-group">
-              {{ form_label(form.username, 'form.username' | trans, {'label_attr': {'class': 'col-sm-3 control-label'}} ) }}
+              <label class="col-sm-3 control-label required" for="fos_user_registration_form_username">{{'form.username' | trans}}</label>
               {{ form_errors(form.username) }}
               <div class="col-sm-9">
                 {{ form_widget(form.username , {'attr': {'class': 'form-control'}})}}
@@ -35,7 +35,7 @@
           </div>
           <div class ="row" style="padding-bottom: 3px">
             <div class="form-group">
-              {{ form_label(form.plainPassword.first, 'form.password' | trans , {'label_attr': {'class': 'col-sm-3 control-label'}})}}
+              <label class="col-sm-3 control-label required" for="fos_user_registration_form_plainPassword_first">{{'form.password' | trans}}</label>
               <div class="col-sm-9">
                 {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}          
               </div>        
@@ -43,7 +43,8 @@
           </div>
           <div class ="row" style="padding-bottom: 3px">
             <div class="form-group">
-              {{ form_label(form.plainPassword.second, 'form.password_confirmation' | trans , {'label_attr': {'class': 'col-sm-3 control-label'}})}}
+              {#{ form_label(form.plainPassword.second, 'form.password_confirmation' | trans , {'label_attr': {'class': 'col-sm-3 control-label'}})}#}
+              <label class="col-sm-3 control-label required" for="fos_user_registration_form_plainPassword_second">{{'form.password_confirmation' | trans}}</label>
               <div class="col-sm-9">
                 {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}          
               </div>        
@@ -52,7 +53,7 @@
           <div class ="row" style="padding-bottom: 3px">
             <div class="form-group"> 
               {% set label %}{{ 'classroom'|trans({}, 'messages') }}{% endset %}
-              {{ form_label(form.classrooms, label, {'label_attr': {'class': 'col-sm-3 control-label'}})}}
+              <label class="col-sm-3 control-label required" for="fos_user_registration_form_classrooms">{{label}}</label>
               <div class="col-sm-9">
                 {{ form_widget(form.classrooms, {'attr': {'class': 'form-control'}}) }}          
               </div>        
@@ -83,7 +84,6 @@
             </div>
           </div>  
         </div>
-
       </form>
     </div>
   </div>
