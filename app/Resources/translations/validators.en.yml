@@ -1,1 +1,3 @@
-noscope: You must add at least one scope
+error:
+ noscope: You must add at least one theme
+ noclassroom: Vous must select at least one classroom 

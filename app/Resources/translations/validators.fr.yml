@@ -1,1 +1,3 @@
-noscope: Vous devez ajouter au moins un thème
+error:
+ noscope: Vous devez ajouter au moins un thème
+ noclassroom: Vous devez être attaché au minimum à une classe

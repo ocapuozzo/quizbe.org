@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * User
@@ -107,4 +109,21 @@ class User extends BaseUser
     {
         return $this->classrooms;
     }
+    
+        /**
+     * http://symfony.com/doc/current/reference/constraints/Callback.html
+     * 
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {       
+       if (!$this->getClassrooms()->count()) {
+          $context->buildViolation('error.noclassroom')
+            ->atPath('classrooms')
+            ->addViolation()
+        ;        
+       }
+    }
+
+    
 }

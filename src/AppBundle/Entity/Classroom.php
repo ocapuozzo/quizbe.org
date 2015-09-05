@@ -4,8 +4,9 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 /**
  * Classroom
  *
@@ -145,21 +146,18 @@ class Classroom
     }
     
     /**
-     * http://symfony.com/fr/doc/current/reference/constraints/Callback.html
+     * http://symfony.com/doc/current/reference/constraints/Callback.html
      * 
-     * @Assert\Callback(message = "error.noscope")
+     * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context)
-    {
-       
+    {       
        if (!$this->getScopes()->count()) {
-        $context->addViolationAt(
-            'scopes',
-            'error.noscope',  // TODO : ??? translators domain don't work ???
-            array('messages'),
-            null
-        );
-    }
+          $context->buildViolation('error.noscope')
+            ->atPath('scopes')
+            ->addViolation()
+        ;        
+       }
     }
     
 }
