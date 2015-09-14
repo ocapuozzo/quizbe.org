@@ -18,10 +18,12 @@ class ResponseType extends AbstractType
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-          
+    {          
         $builder
-            ->add('proposition')
+            ->add('proposition', 'textarea',  array(
+            'attr' => array(
+            'class' => 'tinymce' )
+             ))  // Rem : redefine in views/Response/prototype.html.twig
             ->add('feedback')
             ->add('value', 'choice', array(
                 'choices' => self::$VALUES,

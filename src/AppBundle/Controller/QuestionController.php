@@ -46,7 +46,8 @@ class QuestionController extends Controller {
     }
 
     if (!$classroom) {
-      throw $this->createNotFoundException('Unable to find classroom.');
+      return $this->errorToAccessRessource($request, 'Unable to find classroom.');
+      // throw $this->createNotFoundException('Unable to find classroom.');
     }
 
     $entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
@@ -102,7 +103,8 @@ class QuestionController extends Controller {
   public function createAction(Request $request) {
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
-      throw $this->createNotFoundException('Unable to find classroom.');      
+      return $this->errorToAccessRessource($request, 'Unable to find classroom.');
+      // throw $this->createNotFoundException('Unable to find classroom.');      
     }
     
     $entity = new Question();
@@ -164,7 +166,8 @@ class QuestionController extends Controller {
     $entity = new Question();
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
-      throw $this->createNotFoundException('Unable to find classroom.');      
+      return $this->errorToAccessRessource($request, 'Unable to find classroom.');
+      //throw $this->createNotFoundException('Unable to find classroom.');      
     }
     $entity->setClassroom($classroom);
     $entity->setDesigner($this->getUser()->getUsername());
@@ -263,13 +266,14 @@ class QuestionController extends Controller {
    * @Method("GET")
    * @Template("AppBundle:Question:edit.html.twig")
    */
-  public function editAction($id) {
+  public function editAction(Request $request, $id) {
     $em = $this->getDoctrine()->getManager();
 
     $entity = $em->getRepository('AppBundle:Question')->find($id);
 
     if (!$entity) {
-      throw $this->createNotFoundException('Unable to find Question entity.');
+      return $this->errorToAccessRessource($request, 'Unable to find question.');
+      // throw $this->createNotFoundException('Unable to find Question entity.');
     }
 
     $editForm = $this->createEditForm($entity);
@@ -316,7 +320,8 @@ class QuestionController extends Controller {
     $savAuthor = $question->getDesigner();
 
     if (!$question) {
-      throw $this->createNotFoundException('Unable to find Question entity.');
+      return $this->errorToAccessRessource($request, 'Unable to find question.');
+      // throw $this->createNotFoundException('Unable to find Question entity.');
     }
 
     // http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
@@ -379,7 +384,8 @@ class QuestionController extends Controller {
       $entity = $em->getRepository('AppBundle:Question')->find($id);
 
       if (!$entity) {
-        throw $this->createNotFoundException('Unable to find Question entity.');
+        return $this->errorToAccessRessource($request, 'Unable to find question.');
+        // throw $this->createNotFoundException('Unable to find Question entity.');
       }
 
       $em->remove($entity);
@@ -492,4 +498,10 @@ class QuestionController extends Controller {
     }
   }
 
+  private function errorToAccessRessource($request, $msg){
+    $session = $request->getSession();
+    $session->getFlashBag()->add('warning', $msg);
+    return $this->redirect($this->generateUrl('question'));
+  }
+  
 }

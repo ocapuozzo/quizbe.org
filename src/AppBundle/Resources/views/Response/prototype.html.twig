@@ -4,7 +4,7 @@
     {{ form_label(form.proposition, 'proposition'|trans ~ ':', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
     {{ form_errors(form.proposition) }}
     <div class="col-sm-6">
-      {{ form_widget(form.proposition, {'attr': {'class': 'form-control'}}) }}
+      {{ form_widget(form.proposition, {'attr': {'class': 'tinymce'}}) }}
     </div>
     {{ form_label(form.value, 'value'|trans ~ ':', {'label_attr': {'class': 'col-sm-2 control-label'}})}}
     {{ form_errors(form.value) }}

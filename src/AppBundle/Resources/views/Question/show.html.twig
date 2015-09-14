@@ -68,7 +68,7 @@
                   <label id='{{'f' ~ resp.id | e("css")}}' class="feedBack" 
                          style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
                 </td>
-                <td>{{ resp.proposition }}</td>
+                <td>{{ resp.proposition | raw }}</td>
                 <td>
                   <span id='{{'v' ~ resp.id | e("css")}}' class="itemValue">{{ resp.value }}</span>&nbsp;
 
