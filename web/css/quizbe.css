@@ -64,3 +64,14 @@ div.sentence  {
 ul.items_prototype li {
    list-style-type: none;
 }
+
+
+/* redefine from bootstrap (Question) */
+code {
+    padding: 2px 4px;
+    font-size: 90%;
+    color: #000000;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+}
+
