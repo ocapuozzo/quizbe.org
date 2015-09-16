@@ -22,12 +22,6 @@
       <div class="panel panel-info">
         <div class="panel-heading">
           <div id="login-panel-title" class="panel-title">Se connecter</div>
-          <div id="forgot-pw" 
-               style="float:right; font-size: 80%; position: relative; top:-10px;">
-            <a href="{{ path('fos_user_resetting_request') }}">
-              <span class="glyphicon glyphicon-question-sign"> </span> 
-              Forgot password ?</a>
-          </div>
         </div>     
         <div style="padding-top:20px" class="panel-body">
           <div style="display:none" id="login-alert" 
@@ -67,7 +61,14 @@
             <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
           </form>
         </div>
+                
       </div>
+              <div id="forgot-pw" 
+               style="float:right; font-size: 80%; position: relative; top:-10px;">
+            <a href="{{ path('fos_user_resetting_request') }}">
+              Forgot password <span class="glyphicon glyphicon-question-sign"> </span> 
+              </a>
+          </div>
     </div>
   </div>
 {% endblock fos_user_content %}
