@@ -13,11 +13,8 @@ namespace AppBundle;
  * @author kpu
  */
 class AppConstants {
-   const MIN_VALUE_PROPOSITION = -2.0;
-   const MAX_VALUE_PROPOSITION = 2.0;
-   const STEP_VALUE_PROPOSITION = .5;
-   
-   const VERSION = '0.1.1';
+
+   const VERSION = '0.1.2';
    const VERSION_ID = '000102';
    const MAJOR_VERSION = '0';
    const MINOR_VERSION = '1';
