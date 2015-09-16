@@ -1,0 +1,33 @@
+{% if questions|length > 0 %}
+  <h3> {{questions[0].classroom.name}} ~ {{"now"|date('d/m/Y')}} </h3>
+{% endif %}
+
+<h3> </h3>  
+{% for q in questions %} 
+    <div class="panel panel-info">
+      <div class="panel-heading">
+            <div class="sentence">              
+              {{q.sentence|raw}}              
+            </div>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th> </th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for resp in q.responses %}
+              <tr class="response">
+                <td> <pre>[ ]</pre> </td>
+                <td> {{ resp.proposition | raw }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr/>  
+ {% endfor %}

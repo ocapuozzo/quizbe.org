@@ -478,4 +478,20 @@ class Question {
     {
         return $this->datepub;
     }
+    
+    /**
+     * Get text Representation
+     *
+     * @return text Representation
+     */
+    public function toText()
+    {
+       $title = $this->name .'(' . $this->designer . ' ' . $this->codesigners .')';
+       $txtQuestion = $this->sentence;
+       $txtResponses = "\n";
+       foreach ($this->getResponses() as $r) {
+          $txtResponses .= '[ ] ' . $r->getProposition() . "\n";  
+       }
+       return $title . "\n" . $txtQuestion . "\n" . $txtResponses . "\n" ;
+    }
 }

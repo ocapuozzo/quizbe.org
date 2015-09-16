@@ -11,6 +11,7 @@ use AppBundle\Entity\Question;
 use AppBundle\Form\QuestionType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Question controller.
@@ -93,6 +94,32 @@ class QuestionController extends Controller {
     return new JsonResponse(array('ok' => $res));
   }
 
+  
+  
+  /**
+   * Export list of question in text format
+   * @return Text
+   * @Route("/export", name="question_simple_export")
+   * @Method("GET")
+   * @Template()
+   * 
+   */
+  public function exportAction(Request $request) {
+    $aIds = $request->getSession()->get("ids");
+    $em = $this->getDoctrine()->getManager();
+    
+    $questions = array();
+    foreach ($aIds as $id) {
+      $question = $em->getRepository('AppBundle:Question')->find($id);
+      if ($question){
+        $questions[] = $question; 
+      }
+    }
+    //$response = new Response($res);     
+    //$response->headers->set('Content-Type', 'text/plain');
+    return array('questions'=> $questions);
+  }
+  
   /**
    * Creates a new Question entity.
    *
@@ -226,10 +253,16 @@ class QuestionController extends Controller {
     );
   }
 
+  /**
+   * Get array of entity id
+   * @param Entity $entities
+   * @return array 
+   */
   private function getIdsAsArray($entities) {
     $res = array();
-    foreach ($entities as $entity)
+    foreach ($entities as $entity) {
       $res[] = $entity->getId();
+    }
     return $res;
   }
 
@@ -247,14 +280,18 @@ class QuestionController extends Controller {
     // case no array ids in session (direct acces or session lost)
     if ($aIds) {
       $iCur = array_search($curId, $aIds);
-      if ($iCur)
+      if ($iCur) {
         $prev = $aIds[$iCur - 1];
-      if ($iCur < count($aIds) - 1)
+      }
+      if ($iCur < count($aIds) - 1) {
         $next = $aIds[$iCur + 1];
-      if ($prev)
+      }
+      if ($prev) {
         $first = $aIds[0];
-      if ($iCur < count($aIds) - 1)
+      }
+      if ($iCur < count($aIds) - 1) {
         $last = $aIds[count($aIds) - 1];
+      }
     }
     return array($first, $prev, $next, $last);
   }
