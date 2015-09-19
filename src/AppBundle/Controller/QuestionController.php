@@ -435,6 +435,11 @@ class QuestionController extends Controller {
         // throw $this->createNotFoundException('Unable to find Question entity.');
       }
 
+      $user = $this->getUser();
+      if ( !$entity->user == $user && !$this->isGranted('ROLE_ADMIN')) { 
+        return $this->errorToAccessRessource($request, 'Acces denied');
+      }
+      
       $em->remove($entity);
       $em->flush();
     }
