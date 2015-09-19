@@ -312,7 +312,12 @@ class QuestionController extends Controller {
       return $this->errorToAccessRessource($request, 'Unable to find question.');
       // throw $this->createNotFoundException('Unable to find Question entity.');
     }
-
+    
+    $user = $this->getUser();
+    if ( !$entity->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) { 
+      return $this->errorToAccessRessource($request, 'Acces denied');
+    }
+    
     $editForm = $this->createEditForm($entity);
     $deleteForm = $this->createDeleteForm($id);
 
@@ -361,6 +366,11 @@ class QuestionController extends Controller {
       // throw $this->createNotFoundException('Unable to find Question entity.');
     }
 
+    $user = $this->getUser();
+    if ( !$question->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) { 
+      return $this->errorToAccessRessource($request, 'Acces denied');
+    }
+    
     // http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
     $originalResponses = new ArrayCollection();
 

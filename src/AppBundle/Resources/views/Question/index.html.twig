@@ -47,7 +47,7 @@
             <td>{% if entity.datecrea %}{{ entity.datecrea|date('d/m/Y H:i') }}{% endif %}</td>
             <td>
               <a href="{{ path('question_show', { 'id': entity.id }) }}">show</a>
-              {% if entity.canUpdate(user) %}
+              {% if entity.canUpdate(user) or is_granted('ROLE_ADMIN') %}
                 / <a href="{{ path('question_edit', { 'id': entity.id }) }}">edit</a>
               {% endif %}  
             </td>                
