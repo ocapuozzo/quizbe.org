@@ -95,7 +95,11 @@
         {% if entity.datepub %}
        <span class="pull-right">{{'form.question.datepub'| trans}} : {{entity.datepub|date('form.question.formatdate'|trans)}}</span>
         {% else %}
-         <span class="pull-right">{{ form_widget(form.doPublish, {'attr': {'checked': 'checked'}})}}</span>          
+          {% if entity.id %}
+             <span class="pull-right">{{ form_widget(form.doPublish)}}</span>          
+          {% else %} {# default doPub is checked #}
+            <span class="pull-right">{{ form_widget(form.doPublish, {'attr': {'checked': 'checked'}})}}</span>          
+        {% endif %}
         {% endif %}
     </div>
   </div>

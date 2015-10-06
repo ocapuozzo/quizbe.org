@@ -11,5 +11,12 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class QuestionRepository extends EntityRepository {
-
+  //http://guidella.free.fr/General/symfony2DoctrineQueryLanguage.html
+  public function lesQuestions($classroom, $user) {
+    $em=  $this->getEntityManager();
+    $query =  $em->createQuery('SELECT q FROM AppBundle:Question q WHERE q.classroom = :c AND (q.datepub is not null OR q.designer = :u)');
+    $query->setParameter('c', $classroom);
+    $query->setParameter('u', $user);
+    return $query->getResult();
+  }
 }

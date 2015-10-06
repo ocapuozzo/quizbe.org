@@ -51,8 +51,10 @@ class QuestionController extends Controller {
       // throw $this->createNotFoundException('Unable to find classroom.');
     }
 
-    $entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
-
+    $user = $this->getUser();
+    //$entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
+    $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername());
+    
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
 
@@ -130,13 +132,11 @@ class QuestionController extends Controller {
   public function createAction(Request $request) {
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
-      return $this->errorToAccessRessource($request, 'Unable to find classroom.');
-      // throw $this->createNotFoundException('Unable to find classroom.');      
+      return $this->errorToAccessRessource($request, 
+          'Unable to find classroom.');
     }
-    
     $entity = new Question();
     $entity->setClassroom($classroom);
-
     $form = $this->createCreateForm($entity, $classroom);
     $form->handleRequest($request);
     $entity->setDesigner($this->getUser());
@@ -144,8 +144,8 @@ class QuestionController extends Controller {
       $em = $this->getDoctrine()->getManager();
       $em->persist($entity);
       $em->flush();
-
-      return $this->redirect($this->generateUrl('question', array()));
+      return $this->redirect(
+          $this->generateUrl('question', array()));
     }
 
     return array(
@@ -197,7 +197,7 @@ class QuestionController extends Controller {
       //throw $this->createNotFoundException('Unable to find classroom.');      
     }
     $entity->setClassroom($classroom);
-    $entity->setDesigner($this->getUser()->getUsername());
+    $entity->setDesigner($this->getUser());
     $form = $this->createCreateForm($entity, $classroom);
 
     return array(
