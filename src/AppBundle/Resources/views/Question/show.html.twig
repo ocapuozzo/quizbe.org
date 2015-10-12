@@ -55,7 +55,7 @@
                 <span id='watchFeedBack' class="feedBack" style='display: none'></span></th>
               </th>
               <th>Proposition</th>
-              <th> <a href="#" onclick="hideShowValues()"> {{'value'|trans}} </a>
+              <th> <a onclick="hideShowValues();"> {{'value'|trans}} </a>
                 {# 'watchValue' = temoin de visibilité de la colonne (c'est une astuce, voir hideShowValues() ) #}                
                 <span id='watchValue' class="itemValue"></span></th>
             </tr>
@@ -81,23 +81,23 @@
       </div>
       <div class="panel-footer clearfix">
         <div class="pull-right">
-          <a href="#" class="btn btn-success" onclick="checkUserChoice()"> === {{ 'user.check' | trans }} === </a>
+          <a class="btn btn-success" onclick="checkUserChoice();"> === {{ 'user.check' | trans }} === </a>
           {% if isDesigner or isCoDesigner %}
            <a href="{{ path('question_edit', { 'id': entity.id }) }}" class="btn btn-link" >edit</a>
           {% endif %} 
         </div>
         <div class="pull-left">
-          <a id='idGoodChoice' href="#" style="display:none"
-             class="btn btn-success glyphicon glyphicon-thumbs-up" onclick="showFeedBack()"> {{'good.user.submit.choice' | trans }} </a>
-          <a id='idBadChoice' href="#" style="display:none"
-             class="btn btn-danger glyphicon glyphicon-thumbs-down" onclick="showFeedBack()"> {{'bad.user.submit.choice' | trans }} </a>
+          <a id='idGoodChoice'  style="display:none"
+             class="btn btn-success glyphicon glyphicon-thumbs-up" onclick="showFeedBack();"> {{'good.user.submit.choice' | trans }} </a>
+          <a id='idBadChoice' style="display:none"
+             class="btn btn-danger glyphicon glyphicon-thumbs-down" onclick="showFeedBack();"> {{'bad.user.submit.choice' | trans }} </a>
           {#
              <span id='idFeedBack'>
               <label> <input type="checkbox" onChange="showFeedBack()"  /> {{'show.feedback' | trans }}</label> 
              </span>
           #}
-             <a id='idFeedBack' href="#" style="display:none"
-          class=" btn glyphicon glyphicon-question-sign" onclick="showFeedBack()"> {{'show.feedback' | trans }} </a>
+             <a id='idFeedBack' style="display:none"
+          class=" btn glyphicon glyphicon-question-sign" onclick="showFeedBack();"> {{'show.feedback' | trans }} </a>
          
         </div>        
       </div>
