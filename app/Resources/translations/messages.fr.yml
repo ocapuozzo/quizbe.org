@@ -20,6 +20,9 @@ show.feedback: Feedbacks
 isteacher: Professeur ?
 yourChoice: Votre sélection
 
+
+comment.new.notification: "Un nouveau commentaire a été posté pour la question :"
+   
 error:
   msg1: Désolé, la requête n'a pas pu être honorée
   noscope: Vous devez ajouter au moins un thème

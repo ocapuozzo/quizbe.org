@@ -237,6 +237,27 @@
     }
    {% endif %}
   
+    function doNewComment(){
+        $.ajax({
+        type: "GET",
+        url: "{{ path('comment_new', {'id': entity.id})}}",        
+        dataType: 'Json',
+        error: function (msg) {
+          // session perdue ?
+          window.location.href = "{{ path('question_show', { 'id': entity.id })}}"
+        },
+        success: function (data) {
+          console.log(data);
+          // nothing to do          
+        }
+      });
+    }
+  
+  $(document)
+      .on('fos_comment_new_comment', function (event, data) {
+        doNewComment();
+    });
+  
   jQuery(document).ready(function () {
       hideShowValues();
       hideResultCheckChoice();

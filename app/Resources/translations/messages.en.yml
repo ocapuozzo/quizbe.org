@@ -23,6 +23,9 @@ yourChoice: Your choice
 delete: Delete
 update: Update
 edit: Edit 
+
+  
+comment.new.notification: "A new comment has been posted for this question : "
   
 error:
   msg1: Sorry, the request could not be honored
