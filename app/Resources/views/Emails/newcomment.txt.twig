@@ -1,3 +1,6 @@
-{{ 'comment.new.notification' | trans }} "{{name}}" 
+{{ 'comment.new.notification1' | trans({'%name%':question.designer}, "messages") }} 
 
-=> <a href="{{app.request.getSchemeAndHttpHost() ~ path('question_show', { 'id': question.id })}}"> see online</a>
+{{ 'comment.new.notification2' | trans }} "{{question.name}}" 
+
+=> <a href="{{app.request.getSchemeAndHttpHost() ~ path('question_show', { 'id': question.id })}}"> 
+  {{ 'comment.new.seeonline' | trans }}</a>

@@ -26,19 +26,20 @@ class DefaultController extends Controller
      * @Route("/index/{_locale}",  name="homepage")
      */
     public function indexAction(Request $request)
-    {             
+    {                   
       return $this->render('default/index.html.twig', array());
     }
-    
     
     /**
      * @return Json 
      * @Route("/comment/new/{id}",  name="comment_new")
      * @Method("GET")
+     * 
+     * @todo security ! 
      */
-    public function commentAction(Request $request, Question $question)
-    {  
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')
+    public function commentAction(Question $question)
+    {        
+       $user = $this->getDoctrine()->getRepository('AppBundle:User')
             ->findOneByUsername($question->getDesigner());
         
         if (!$user) {
@@ -53,7 +54,7 @@ class DefaultController extends Controller
             $this->renderView(
                 // app/Resources/views/Emails/newcomment.txt.twig
                 'Emails/newcomment.txt.twig',
-                array('name' => $question->getName(), 'question' => $question)
+                array('question' => $question)
             ),
             'text/html'
         );

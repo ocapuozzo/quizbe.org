@@ -24,9 +24,10 @@ delete: Delete
 update: Update
 edit: Edit 
 
-  
-comment.new.notification: "A new comment has been posted for this question : "
-  
+comment.new.notification1: 'Hi %name% ! <br>'
+comment.new.notification2: 'A new comment has been posted for this question : '
+comment.new.seeonline: See online
+
 error:
   msg1: Sorry, the request could not be honored
   noscope: You must add at least one scope

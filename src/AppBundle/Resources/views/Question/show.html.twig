@@ -237,7 +237,7 @@
     }
    {% endif %}
   
-    function doNewComment(){
+    function doNewComment(){      
         $.ajax({
         type: "GET",
         url: "{{ path('comment_new', {'id': entity.id})}}",        
