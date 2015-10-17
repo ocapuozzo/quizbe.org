@@ -23,6 +23,7 @@ yourChoice: Votre sélection
 comment.new.notification1: 'Bonjour %name% ! <br>'  
 comment.new.notification2: 'Un nouveau commentaire a été posté pour la question :'
 comment.new.seeonline: Voir en ligne
+comment.msg.footer: L'équipe de QuizBe.org 
 
 error:
   msg1: Désolé, la requête n'a pas pu être honorée

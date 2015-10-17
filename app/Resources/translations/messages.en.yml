@@ -27,6 +27,7 @@ edit: Edit
 comment.new.notification1: 'Hi %name% ! <br>'
 comment.new.notification2: 'A new comment has been posted for this question : '
 comment.new.seeonline: See online
+comment.msg.footer: The QuizBe.org team 
 
 error:
   msg1: Sorry, the request could not be honored
