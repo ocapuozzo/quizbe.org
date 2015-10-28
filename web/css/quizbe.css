@@ -1,4 +1,13 @@
 /* ============ AppBundle  */
+
+/* Question index */
+  
+.private  {
+  border-style: dashed;
+  border-bottom-width: medium;  
+  /* background-color: #008000; */
+}
+
 /* Question show */
   
 div.sentence  {
@@ -17,6 +26,7 @@ div.sentence  {
    background-color: inherit;
    border: none
  }
+
  
  
  

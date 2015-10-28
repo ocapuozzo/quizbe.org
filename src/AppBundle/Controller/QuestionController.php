@@ -141,6 +141,11 @@ class QuestionController extends Controller {
     $form->handleRequest($request);
     $entity->setDesigner($this->getUser());
     if ($form->isValid()) {
+      // set date publication is doPublish is there and is checked
+      if ($form->get('doPublish')->getData()) {
+        $entity->setDatepub(new \DateTime());
+      }
+
       $em = $this->getDoctrine()->getManager();
       $em->persist($entity);
       $em->flush();
