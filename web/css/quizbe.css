@@ -4,9 +4,17 @@
   
 .private  {
   border-style: dashed;
-  border-bottom-width: medium;  
+  border-left-width: thin;  
+  border-top-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
   /* background-color: #008000; */
+  
 }
+.private::before {
+  content: "(*) ";
+}
+
 
 /* Question show */
   

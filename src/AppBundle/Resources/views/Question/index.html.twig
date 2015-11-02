@@ -41,9 +41,10 @@
       </thead>
       <tbody>
         {% for entity in entities %}
-          {% set cssClassName = entity.datepub ? 'public' : 'private' %}          
-          <tr class="{{cssClassName}}">
-            <td>{{ entity.name }}</td>
+          {% set cssClassName = entity.datepub ? 'public' : 'private' %}
+          {% set attTitle = entity.datepub ? '' : 'private' %}
+          <tr>
+            <td title="{{attTitle}}" class="{{cssClassName}}">{{ entity.name }}</td>
             <td>{{ entity.authors }}</td>
             <td>{% if entity.datecrea %}{{ entity.datecrea|date('d/m/Y H:i') }}{% endif %}</td>
             <td>
