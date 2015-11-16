@@ -15,11 +15,11 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage_")     
      */
-    public function homeAction(Request $request)
+    public function homeAction()
     { 
-      $locale = $request->getLocale();
-      return $this->redirectToRoute("homepage", array("_locale" => $locale));
-      //return $this->render('default/index.html.twig', array());
+      //$locale = $request->getLocale();
+      //return $this->redirectToRoute("homepage", array("_locale" => $locale));
+      return $this->render('default/index.html.twig', array());
     }
     
     /**
@@ -30,36 +30,4 @@ class DefaultController extends Controller
       return $this->render('default/index.html.twig', array());
     }
     
-    /**
-     * @return Json 
-     * @Route("/comment/new/{id}",  name="comment_new")
-     * @Method("GET")
-     * 
-     * @todo security ! 
-     */
-    public function commentAction(Question $question)
-    {        
-       $user = $this->getDoctrine()->getRepository('AppBundle:User')
-            ->findOneByUsername($question->getDesigner());
-        
-        if (!$user) {
-          return new JsonResponse(array('ok' => 0));
-        }
-        
-        $message = \Swift_Message::newInstance()
-        ->setSubject('QuizBe.org : New comment notification')
-        ->setFrom('admin@quizbe.org')
-        ->setTo($user->getEmail())
-        ->setBody(
-            $this->renderView(
-                // app/Resources/views/Emails/newcomment.txt.twig
-                'Emails/newcomment.txt.twig',
-                array('question' => $question)
-            ),
-            'text/html'
-        );
-        $this->get('mailer')->send($message);
-        
-        return new JsonResponse(array('ok' => 1));
-    }
 }

@@ -97,6 +97,38 @@ class QuestionController extends Controller {
   }
 
   
+    /**
+     * @return Json 
+     * @Route("/comment/new/{id}",  name="comment_new")
+     * @Method("GET")
+     * 
+     */
+    public function commentAction(Question $question)
+    {        
+       $user = $this->getDoctrine()->getRepository('AppBundle:User')
+            ->findOneByUsername($question->getDesigner());
+        
+        if (!$user) {
+          return new JsonResponse(array('ok' => 0));
+        }
+        
+        $message = \Swift_Message::newInstance()
+        ->setSubject('QuizBe.org : New comment notification')
+        ->setFrom('admin@quizbe.org')
+        ->setTo($user->getEmail())
+        ->setBody(
+            $this->renderView(
+                // app/Resources/views/Emails/newcomment.txt.twig
+                'Emails/newcomment.txt.twig',
+                array('question' => $question)
+            ),
+            'text/html'
+        );
+        $this->get('mailer')->send($message);
+        
+        return new JsonResponse(array('ok' => 1));
+    }
+    
   
   /**
    * Export list of question in text format
@@ -441,7 +473,7 @@ class QuestionController extends Controller {
       }
 
       $user = $this->getUser();
-      if ( !$entity->user == $user && !$this->isGranted('ROLE_ADMIN')) { 
+      if ( !$entity->getDesigner() == $user->getUsername() && !$this->isGranted('ROLE_ADMIN')) { 
         return $this->errorToAccessRessource($request, 'Acces denied');
       }
       
