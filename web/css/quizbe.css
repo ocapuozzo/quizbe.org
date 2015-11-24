@@ -35,8 +35,13 @@ div.sentence  {
    border: none
  }
 
+ .itemValue {
+   display: none;    
+ } 
  
- 
+ .feedBack {
+   display: none; 
+ }
  
 /* ============ FOSCommentBundle  */
 

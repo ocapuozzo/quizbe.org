@@ -186,7 +186,7 @@
     }
 
     function hideShowValues() {
-      if ($('#watchValue').is(":visible") == true) {
+      if ($('#watchValue').is(":visible") === true) {
         $('.itemValue').hide();
       } else {
         $('.itemValue').show();
@@ -194,7 +194,7 @@
     }
 
     function showFeedBack() {
-      if ($('#watchFeedBack').is(":visible") == true) {
+      if ($('#watchFeedBack').is(":visible") === true) {
         $('.feedBack').hide();
       } else {
         $('.feedBack').show();
@@ -259,7 +259,7 @@
     });
   
   jQuery(document).ready(function () {
-      hideShowValues();
+     // hideShowValues();
       hideResultCheckChoice();
     {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
     {# init rating #}
