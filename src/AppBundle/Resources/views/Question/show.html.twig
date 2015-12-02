@@ -69,9 +69,9 @@
                          style='font-style: italic; display: none'> -- {{ resp.feedback | raw}} </label> 
                 </td>
                 <td>{{ resp.proposition | raw }}</td>
-                <td>
+                <td><label>
                   <span id='{{'v' ~ resp.id | e("css")}}' class="itemValue"  style='display: none'>{{ resp.value }}</span>&nbsp;
-
+                  </label>
                 </td>
               </tr>
             {% endfor %}
@@ -260,7 +260,7 @@
   
   jQuery(document).ready(function () {
      // hideShowValues();
-      hideResultCheckChoice();
+     // hideResultCheckChoice();
     {# https://github.com/kartik-v/bootstrap-star-rating and http://plugins.krajee.com/star-rating #}
     {# init rating #}
     {% if isDesigner or isCoDesigner %} 
