@@ -123,6 +123,13 @@ class User extends BaseUser
             ->addViolation()
         ;        
        }
+       
+       if (!$this->getIsteacher() && $this->getClassrooms()->count()>1) {
+           $context->buildViolation('error.multipleclassrooms')
+            ->atPath('classrooms')
+            ->addViolation()
+        ;
+       }
     }
 
     
