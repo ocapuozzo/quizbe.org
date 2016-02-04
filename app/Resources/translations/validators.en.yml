@@ -1,3 +1,4 @@
 error:
  noscope: You must add at least one theme
  noclassroom: Vous must select at least one classroom 
+ multipleclassrooms: You can only select one classroom

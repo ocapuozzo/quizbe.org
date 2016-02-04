@@ -82,8 +82,9 @@ class UserClassroomController extends Controller
 
         if ($form->isValid()) {
             $em->flush();
-
-            return $this->redirect($this->generateUrl('my_classrooms'));
+            
+            $this->get('session')->getFlashBag()->add('update', 'Classe modifiée');
+            return $this->redirect($this->generateUrl('question'));
         }
 
         $classrooms = $user->getClassrooms();        

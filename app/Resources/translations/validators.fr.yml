@@ -1,3 +1,4 @@
 error:
  noscope: Vous devez ajouter au moins un thème
  noclassroom: Vous devez être attaché au minimum à une classe
+ multipleclassrooms: Vous ne pouvez selectionner qu'une seule classe
