@@ -47,7 +47,7 @@ class QuestionController extends Controller {
     }
 
     if (!$classroom) {
-      return $this->errorToAccessRessource($request, 'Unable to find classroom.');
+      return $this->errorToFindClassroom($request, 'You need to select one classroom.');
       // throw $this->createNotFoundException('Unable to find classroom.');
     }
 
@@ -591,6 +591,12 @@ class QuestionController extends Controller {
     $session = $request->getSession();
     $session->getFlashBag()->add('warning', $msg);
     return $this->redirect($this->generateUrl('question'));
+  }
+  
+  private function errorToFindClassroom($request, $msg){
+    $session = $request->getSession();
+    $session->getFlashBag()->add('warning', $msg);
+    return $this->redirect($this->generateUrl('my_classrooms'));
   }
   
 }
