@@ -55,7 +55,7 @@ class QuestionController extends Controller {
     /*
      * Les lignes suivantes vont tester si un idScope est récupéré dans le session
      * Si il n'y a pas d'idScope dans la session, alors l'application affichera toutes les questions
-     * Sinon, elle affichera uniquement les questions du thèmee selectionné
+     * Sinon, elle affichera uniquement les questions du thème selectionné
      */
     $currentScope = $request->getSession()->get('idScope');
     $user = $this->getUser();
