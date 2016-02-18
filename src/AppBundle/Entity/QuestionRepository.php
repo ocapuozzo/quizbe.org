@@ -19,4 +19,20 @@ class QuestionRepository extends EntityRepository {
     $query->setParameter('u', $user);
     return $query->getResult();
   }
+  
+  /**
+   * 
+   * @param Classroom $classroom
+   * @param User $user
+   * @param int $scope
+   * @return array of instances of Question
+   */
+  public function questionsParTheme($classroom, $user, $scope) {
+    $em=  $this->getEntityManager();
+    $query =  $em->createQuery('SELECT q FROM AppBundle:Question q WHERE q.classroom = :c AND (q.datepub is not null OR q.designer = :u) AND q.scope = :s');
+    $query->setParameter('c', $classroom);
+    $query->setParameter('u', $user);
+    $query->setParameter('s', $scope);
+    return $query->getResult();
+  }
 }
