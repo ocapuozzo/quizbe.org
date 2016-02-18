@@ -9,11 +9,11 @@
 
 {% block body -%}
   <div class="row">
-    <div class="col-md-6">{{'question' | trans}} </div>
-    <div class="col-md-6 text-right">
+    {#<div class="col-md-6">{{'question' | trans}} </div>#}
+    <div class="col-md-6">
       <label for="changeClassroom">{{'classroom'|trans}}</label>
       <select id="changeClassroom">
-        {# <option value="" selected>Select a classroom</option> #}
+        <option value="" selected disabled>-- Choisissez une classe</option>
         {% for classr in classrooms %}
           {% if classr.id == classroom.id %}
             <option selected value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
@@ -24,7 +24,24 @@
         {{'classroom' | trans}} {{classroom.name}}
       </select>
     </div>
+      
+    <div class="col-md-6 text-right">
+      <label for="filterByScope">{{'scope'|trans}}</label>
+      <select id="filterByScope">
+        <option value="" selected disabled>-- Filtrer par thème</option>
+        {% for scope in classroom.scopes %}
+          {% if currentScope == scope.id %}
+            <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
+          {% else %}
+            <option value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
+          {% endif %}
+        {% endfor %}
+        {{'classroom' | trans}} {{classroom.name}}
+      </select>
+    </div>
   </div>
+      
+
 
   <div class="table-responsive">
     <table class="table table-striped table-condensed">
@@ -84,6 +101,17 @@
     $(function () {
       // bind change event to select
       $('#changeClassroom').on('change', function () {
+        var url = $(this).val(); // get selected value
+        if (url) { // require a URL
+          window.location = url; // redirect
+        }
+        return false;
+      });
+    });
+    
+    $(function () {
+      // bind change event to select
+      $('#filterByScope').on('change', function () {
         var url = $(this).val(); // get selected value
         if (url) { // require a URL
           window.location = url; // redirect

@@ -12,6 +12,7 @@ use AppBundle\Form\QuestionType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Question controller.
@@ -24,7 +25,7 @@ class QuestionController extends Controller {
    * Lists all Question entities.
    *
    * @Route("/", name="question")
-   * @Route("/class/{id}", name="question_classroom")
+   * @Route("/class/{id}/", name="question_classroom")
    * @Method("GET")
    * @Template()
    */
@@ -33,7 +34,7 @@ class QuestionController extends Controller {
 
     $classroom = null;
     $classrooms = $this->getUser()->getClassrooms();
-
+    
     if (!$id) {
       $id = $request->getSession()->get('idClassroom');
     }
@@ -41,19 +42,30 @@ class QuestionController extends Controller {
     if ($id) {
       $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
     }
-
+    
     if (!$classroom || !$classrooms->contains($classroom)) {
       $classroom = $classrooms->isEmpty() ? null : $classrooms->get(0);
     }
-
+  
     if (!$classroom) {
       return $this->errorToFindClassroom($request, 'You need to select one classroom.');
       // throw $this->createNotFoundException('Unable to find classroom.');
     }
-
+    
+    /*
+     * Les lignes suivantes vont tester si un idScope est récupéré dans le session
+     * Si il n'y a pas d'idScope dans la session, alors l'application affichera toutes les questions
+     * Sinon, elle affichera uniquement les questions du thème selectionné
+     */
+    $currentScope = $request->getSession()->get('idScope');
     $user = $this->getUser();
-    //$entities = $em->getRepository('AppBundle:Question')->findByClassroom($classroom);
-    $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername());
+    
+    if (!$currentScope) {
+        $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername()); 
+    }
+    else {
+        $entities = $em->getRepository('AppBundle:Question')->questionsParTheme($classroom, $user->getUsername(), $currentScope);
+    }
     
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
@@ -62,10 +74,23 @@ class QuestionController extends Controller {
         'entities' => $entities,
         'user' => $this->getUser(),
         'classroom' => $classroom,
-        'classrooms' => $classrooms
+        'classrooms' => $classrooms,
+        'currentScope' => $currentScope
     );
   }
 
+ /**
+  * @Route("/classscope/{idScope}/", name="question_scope")
+  * @Template("AppBundle:Question:index.html.twig")
+  */
+  public function changeScopeAction(Request $request, $idScope = null) {
+      
+    $request->getSession()->set('idScope', $idScope);  
+    return $this->indexAction($request, null);
+    
+  }
+  
+  
   /**
    * Rating a question by current user
    * @return Json 
@@ -165,7 +190,7 @@ class QuestionController extends Controller {
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
       return $this->errorToAccessRessource($request, 
-          'Unable to find classroom.');
+          'Unable to find ');
     }
     $entity = new Question();
     $entity->setClassroom($classroom);
