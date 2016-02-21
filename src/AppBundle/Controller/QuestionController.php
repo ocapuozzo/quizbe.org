@@ -67,6 +67,8 @@ class QuestionController extends Controller {
         $entities = $em->getRepository('AppBundle:Question')->questionsParTheme($classroom, $user->getUsername(), $currentScope);
     }
     
+    
+    
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
 
