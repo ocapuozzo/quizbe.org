@@ -19,6 +19,7 @@ user.check: Tester
 show.feedback: Feedbacks
 isteacher: Professeur ?
 yourChoice: Votre sélection
+allScopes : Tous les thèmes
 
 comment.new.notification1: 'Bonjour %name% ! <br>'  
 comment.new.notification2: 'Un nouveau commentaire a été posté pour la question :'

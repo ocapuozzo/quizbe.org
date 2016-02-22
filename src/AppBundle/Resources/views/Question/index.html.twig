@@ -32,7 +32,7 @@
     <div class="col-md-6 text-right">
       <label for="filterByScope">{{'scope'|trans}}</label>
       <select id="filterByScope">
-        <option value="" selected disabled>-- Filtrer par thème</option>
+        <option selected value="{{ path('question_scope', { 'idScope': 0 }) }}">{{'allScopes'|trans}} </option>
         {% for scope in classroom.scopes %}
           {% if currentScope == scope.id %}
               <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>

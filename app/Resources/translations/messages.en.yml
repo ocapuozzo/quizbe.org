@@ -19,6 +19,7 @@ user.check: Check
 show.feedback: Feedbacks
 isteacher: Teacher ?
 yourChoice: Your choice
+allScopes: All Scopes
 
 delete: Delete
 update: Update
