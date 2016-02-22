@@ -25,9 +25,7 @@
           {{'classroom' | trans}} {{classroom.name}}
         </select>
         {% else %}
-            {% for classr in classrooms %}
-              <option selected disabled value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
-            {% endfor %}
+              <span style="font-size: 1.5em"> {{classroom.name}} </span>
       {% endif %}
     </div>
       
@@ -37,7 +35,7 @@
         <option value="" selected disabled>-- Filtrer par thème</option>
         {% for scope in classroom.scopes %}
           {% if currentScope == scope.id %}
-            <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
+              <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
           {% else %}
             <option value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
           {% endif %}
