@@ -11,20 +11,22 @@
   <div class="row">
     {#<div class="col-md-6">{{'question' | trans}} </div>#}
     <div class="col-md-6">
-      {% if user.isTeacher() %}
-      <label for="changeClassroom">{{'classroom'|trans}}</label>
-      <select id="changeClassroom">
-        <option value="" selected disabled>-- Choisissez une classe</option>
-        {% for classr in classrooms %}
-            {% if classr.id == classroom.id %}
-              <option selected value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
-            {% else %}  
-              <option value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
-            {% endif %}
-        {% endfor %}
-        {{'classroom' | trans}} {{classroom.name}}
-      </select>
-      {% endif %}
+      {% if classrooms|length > 1 %}
+        <label for="changeClassroom">{{'classroom'|trans}}</label>
+        <select id="changeClassroom">
+          <option value="" selected disabled>-- Choisissez une classe</option>
+          {% for classr in classrooms %}
+              {% if classr.id == classroom.id %}
+                <option selected value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
+              {% else %}  
+                <option value="{{ path('question_classroom', { 'id': classr.id }) }}">{{classr.name}} </option>
+              {% endif %}
+          {% endfor %}
+          {{'classroom' | trans}} {{classroom.name}}
+        </select>
+        {% else %}
+              <span style="font-size: 1.5em"> {{classroom.name}} </span>
+        {% endif %}
     </div>
       
     <div class="col-md-6 text-right">
@@ -33,7 +35,7 @@
         <option value="" selected disabled>-- Filtrer par thème</option>
         {% for scope in classroom.scopes %}
           {% if currentScope == scope.id %}
-            <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
+              <option selected value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
           {% else %}
             <option value="{{ path('question_scope', { 'idScope': scope.id }) }}">{{scope.name}} </option>
           {% endif %}
