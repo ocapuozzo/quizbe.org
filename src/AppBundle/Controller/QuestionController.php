@@ -38,6 +38,9 @@ class QuestionController extends Controller {
     if (!$id) {
       $id = $request->getSession()->get('idClassroom');
     }
+    else{
+        $request->getSession()->remove('idScope');
+    }
     
     if ($id) {
       $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
@@ -60,16 +63,16 @@ class QuestionController extends Controller {
     $currentScope = $request->getSession()->get('idScope');
     $user = $this->getUser();
     
-    if (!$currentScope) {
+     if (!$currentScope) {
         $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername()); 
     }
     else {
         $entities = $em->getRepository('AppBundle:Question')->questionsParTheme($classroom, $user->getUsername(), $currentScope);
-    }
+    } 
     
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
-
+    
     return array(
         'entities' => $entities,
         'user' => $this->getUser(),
