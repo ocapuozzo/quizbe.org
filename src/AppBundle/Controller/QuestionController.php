@@ -39,7 +39,7 @@ class QuestionController extends Controller {
       $id = $request->getSession()->get('idClassroom');
     }
     else{
-        $this->get('session')->remove('idScope');
+        $request->getSession()->remove('idScope');
     }
     
     if ($id) {
