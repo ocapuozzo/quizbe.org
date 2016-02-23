@@ -84,6 +84,7 @@ class UserClassroomController extends Controller
             $em->flush();
             
             $this->get('session')->getFlashBag()->add('update', 'Classe modifiée');
+            $this->get('session')->remove('idScope');
             return $this->redirect($this->generateUrl('question'));
         }
 
