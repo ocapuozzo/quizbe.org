@@ -35,7 +35,10 @@ class QuestionController extends Controller {
     $classroom = null;
     $classrooms = $this->getUser()->getClassrooms();
     
-    if (!$id) {
+    if ($id) {
+      // classroom change => reset scope
+      $request->getSession()->remove('idScope');
+    } else {
       $id = $request->getSession()->get('idClassroom');
     }
     
