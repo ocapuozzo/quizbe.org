@@ -157,16 +157,17 @@ class QuestionController extends Controller {
         return new JsonResponse(array('ok' => 1));
     }
     
-  
-  /**
+   /**
    * Export list of question in text format
-   * @return Text
-   * @Route("/export", name="question_simple_export")
+   * @return text
+   * @Route("/rawexport", name="question_raw_export")
    * @Method("GET")
-   * @Template()
+   * @Template("AppBundle:Question:export.html.twig")
    * 
    */
-  public function exportAction(Request $request) {
+  public function exportRawAction(Request $request) {
+      
+    
     $aIds = $request->getSession()->get("ids");
     $em = $this->getDoctrine()->getManager();
     
@@ -177,9 +178,187 @@ class QuestionController extends Controller {
         $questions[] = $question; 
       }
     }
-    //$response = new Response($res);     
-    //$response->headers->set('Content-Type', 'text/plain');
-    return array('questions'=> $questions);
+    
+    return array(
+                'questions'=> $questions,
+        );
+    
+      }
+  /**
+   * Export list of question in xml format
+   * @return xml
+   * @Route("/moodleexport", name="question_moodle_export")
+   * @Method("GET")
+   * @Template("AppBundle:Question:export.xml.twig")
+   * 
+   */
+  public function exportMoodleAction(Request $request) {
+      
+    
+    $aIds = $request->getSession()->get("ids");
+    $em = $this->getDoctrine()->getManager();
+    
+    $questions = array();
+    foreach ($aIds as $id) {
+      $question = $em->getRepository('AppBundle:Question')->find($id);
+      if ($question){
+        $questions[] = $question;
+      }
+    }
+    
+    /*foreach($questions as $q){
+        $goodResValues = $q->getExpectedChoices();
+        $wrongResValues = $q->getAllValues() - $goodResValues;
+        foreach($q->getResponses() as $resp){
+            
+            if($resp->getValue()> 0){
+                $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
+                $resp->moodleValue = round($moodleGoodValue);
+            }
+            else{
+                $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
+                $resp->moodleValue = round($moodleWrongValue);
+            }
+        }
+    }*/
+    
+    foreach($questions as $q){
+        $sumGoodMoodleValue = 0;
+        $sumWrongMoodleValue = 0;
+        $goodResValues = $q->getExpectedChoices();
+        $wrongResValues = $q->getAllValues() - $goodResValues;
+        foreach($q->getResponses() as $resp){
+            
+            if($resp->getValue() > 0){
+                
+                $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
+                $resp->moodleValue = round($moodleGoodValue);
+                
+                if($resp->moodleValue == 100){
+                    $resp->moodleValue = 100;
+                }
+                else if($resp->moodleValue <= 99 && $resp->moodleValue >= 90){
+                    $resp->moodleValue = 90;
+                }
+                else if($resp->moodleValue <= 89 && $resp->moodleValue >= 80){
+                    $resp->moodleValue = 80;
+                }
+                else if($resp->moodleValue <= 79 && $resp->moodleValue >= 70){
+                    $resp->moodleValue = 70;
+                }
+                else if($resp->moodleValue <= 69 && $resp->moodleValue >= 60){
+                    $resp->moodleValue = 60;
+                }
+                else if($resp->moodleValue <= 59 && $resp->moodleValue >= 50){
+                    $resp->moodleValue = 50;
+                }
+                else if($resp->moodleValue <= 49 && $resp->moodleValue >= 40){
+                    $resp->moodleValue = 40;
+                }
+                else if($resp->moodleValue <= 39 && $resp->moodleValue >= 30){
+                    $resp->moodleValue = 30;
+                }
+                else if($resp->moodleValue <= 29 && $resp->moodleValue >= 20){
+                    $resp->moodleValue = 20;
+                }
+                else {
+                    $resp->moodleValue = 10;
+                }
+                
+                $sumGoodMoodleValue = $sumGoodMoodleValue + $resp->moodleValue; 
+            }
+            else{
+                $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
+                $resp->moodleValue = round($moodleWrongValue);
+                
+                if($resp->moodleValue == 100){
+                    $resp->moodleValue = 100;
+                }
+                else if($resp->moodleValue <= 99 && $resp->moodleValue >= 90){
+                    $resp->moodleValue = 90;
+                }
+                else if($resp->moodleValue <= 89 && $resp->moodleValue >= 80){
+                    $resp->moodleValue = 80;
+                }
+                else if($resp->moodleValue <= 79 && $resp->moodleValue >= 70){
+                    $resp->moodleValue = 70;
+                }
+                else if($resp->moodleValue <= 69 && $resp->moodleValue >= 60){
+                    $resp->moodleValue = 60;
+                }
+                else if($resp->moodleValue <= 59 && $resp->moodleValue >= 50){
+                    $resp->moodleValue = 50;
+                }
+                else if($resp->moodleValue <= 49 && $resp->moodleValue >= 40){
+                    $resp->moodleValue = 40;
+                }
+                else if($resp->moodleValue <= 39 && $resp->moodleValue >= 30){
+                    $resp->moodleValue = 30;
+                }
+                else if($resp->moodleValue <= 29 && $resp->moodleValue >= 20){
+                    $resp->moodleValue = 20;
+                }
+                else {
+                    $resp->moodleValue = 10;
+                }
+                
+                $sumWrongMoodleValue = $sumWrongMoodleValue + $resp->moodleValue; 
+            }
+        }
+        
+        /* Ce deuxième foreach des "Responses" permet vérifier si la somme des bonnes et des mauvaises "Values" est égale à 100
+         * Si la somme n'est pas égale à 100, alors elle est rectifiée par ce deuxième foreach.
+         * Cet algorithme permet d'ajouter ou de soustraire la différence de 100 et la somme des bonnes ou mauvaises "Values" à la première "Response Value"
+         * /!\ La limite de cet algo est 10 bonnes réponses ou 10 mauvaises réponses /!\
+         * /!\ On peut donc créer des questions avec un maximum de 20 réponses avec au moins 10 bonnes réponses et 10 mauvaises /!\
+         */
+        foreach($q->getResponses() as $resp){
+            
+            if($resp->getValue() > 0){              
+                if ($sumGoodMoodleValue < 100){
+                    $resp->moodleValue = $resp->moodleValue + (100 - $sumGoodMoodleValue);
+                    $sumGoodMoodleValue = 100;    
+                }
+                elseif ($sumGoodMoodleValue > 100) {
+                    $resp->moodleValue = $resp->moodleValue + -(100 - $sumGoodMoodleValue);
+                    $sumGoodMoodleValue = 100;
+                }
+                else {
+                    $resp->moodleValue;
+                }
+            }
+            else {
+                if ($sumWrongMoodleValue < 100){
+                    $resp->moodleValue = $resp->moodleValue + (100 - $sumWrongMoodleValue);
+                    $sumWrongMoodleValue = 100;
+                }
+                elseif ($sumWrongMoodleValue > 100) {
+                    $resp->moodleValue = $resp->moodleValue + -(100 - $sumWrongMoodleValue);
+                    $sumWrongMoodleValue = 100;
+                }
+                else {
+                    $resp->moodleValue;
+                }                
+            }       
+        }
+    }
+   
+
+    $response = new Response();
+    $response->headers->set('Content-Type', 'xml');
+    
+    $compteur = 0;
+    
+    return $this->render(
+            'AppBundle:Question:export.xml.twig',
+            array(
+                'questions'=> $questions,
+                'compteur'=> $compteur,
+                //'sumGoodMoodleValue'=> $sumGoodMoodleValue,
+                //'sumWrongMoodleValue'=> $sumWrongMoodleValue,
+            ),
+            $response
+        );
   }
   
   /**

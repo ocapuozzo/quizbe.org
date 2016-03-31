@@ -91,10 +91,11 @@
     </table>
   </div>
 
-  <a href="{{ path('question_new') }}">
+  <a href="{{ path('question_new') }}" class="btn btn-default btn-sm" role="button">
     {{'iquestion.link.add' | trans}}
-  </a> 
-  <span class="pull-right"><a href="{{path('question_simple_export')}}">Export</a></span>
+  </a>  
+  <span class="pull-right"><a href="{{path('question_moodle_export')}}" class="btn btn-default btn-sm" role="button">Export Moodle</a></span>
+  <span class="pull-right"><a href="{{path('question_raw_export')}}" class="btn btn-default btn-sm" role="button">Export RAW</a></span>   
 {% endblock %}
 
 {% block javascripts %}
