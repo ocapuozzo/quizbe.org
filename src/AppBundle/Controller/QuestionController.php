@@ -34,27 +34,27 @@ class QuestionController extends Controller {
 
     $classroom = null;
     $classrooms = $this->getUser()->getClassrooms();
-    
+
     if ($id) {
       // classroom change => reset scope
       $request->getSession()->remove('idScope');
     } else {
       $id = $request->getSession()->get('idClassroom');
     }
-    
+
     if ($id) {
       $classroom = $em->getRepository('AppBundle:Classroom')->find($id);
     }
-    
+
     if (!$classroom || !$classrooms->contains($classroom)) {
       $classroom = $classrooms->isEmpty() ? null : $classrooms->get(0);
     }
-  
+
     if (!$classroom) {
       return $this->errorToFindClassroom($request, 'You need to select one classroom.');
       // throw $this->createNotFoundException('Unable to find classroom.');
     }
-    
+
     /*
      * Les lignes suivantes vont tester si un idScope est récupéré dans le session
      * Si il n'y a pas d'idScope dans la session, alors l'application affichera toutes les questions
@@ -62,14 +62,14 @@ class QuestionController extends Controller {
      */
     $currentScope = $request->getSession()->get('idScope');
     $user = $this->getUser();
-    
+
     if (!$currentScope) {
-        $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername()); 
+        $entities = $em->getRepository('AppBundle:Question')->lesQuestions($classroom, $user->getUsername());
     }
     else {
         $entities = $em->getRepository('AppBundle:Question')->questionsParTheme($classroom, $user->getUsername(), $currentScope);
     }
-    
+
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
 
@@ -87,23 +87,23 @@ class QuestionController extends Controller {
   * @Template("AppBundle:Question:index.html.twig")
   */
   public function changeScopeAction(Request $request, $idScope = null) {
-      
-    $request->getSession()->set('idScope', $idScope);  
+
+    $request->getSession()->set('idScope', $idScope);
     return $this->indexAction($request, null);
-    
+
   }
-  
-  
+
+
   /**
    * Rating a question by current user
-   * @return Json 
+   * @return Json
    * @Route("/rating/{id}", name="question_rating")
    * @Method("POST")
-   * 
+   *
    */
   public function ratingAction(Request $request, Question $question) {
-    // the ParamConverter automatically queries for an object 
-    // whose $id property matches the {id} value. 
+    // the ParamConverter automatically queries for an object
+    // whose $id property matches the {id} value.
     // It will also show a 404 page if no Question can be found.
     $res = 0;
     $value = floatval($request->request->get('value'));
@@ -124,22 +124,22 @@ class QuestionController extends Controller {
     return new JsonResponse(array('ok' => $res));
   }
 
-  
+
     /**
-     * @return Json 
+     * @return Json
      * @Route("/comment/new/{id}",  name="comment_new")
      * @Method("GET")
-     * 
+     *
      */
     public function commentAction(Question $question)
-    {        
+    {
        $user = $this->getDoctrine()->getRepository('AppBundle:User')
             ->findOneByUsername($question->getDesigner());
-        
+
         if (!$user) {
           return new JsonResponse(array('ok' => 0));
         }
-        
+
         $message = \Swift_Message::newInstance()
         ->setSubject('QuizBe.org : New comment notification')
         ->setFrom('admin@quizbe.org')
@@ -153,35 +153,216 @@ class QuestionController extends Controller {
             'text/html'
         );
         $this->get('mailer')->send($message);
-        
+
         return new JsonResponse(array('ok' => 1));
     }
-    
-  
+
+
   /**
-   * Export list of question in text format
-   * @return Text
-   * @Route("/export", name="question_simple_export")
-   * @Method("GET")
-   * @Template()
-   * 
-   */
-  public function exportAction(Request $request) {
-    $aIds = $request->getSession()->get("ids");
-    $em = $this->getDoctrine()->getManager();
-    
-    $questions = array();
-    foreach ($aIds as $id) {
-      $question = $em->getRepository('AppBundle:Question')->find($id);
-      if ($question){
-        $questions[] = $question; 
-      }
+  * Export list of question in text format
+  * @return text
+  * @Route("/rawexport", name="question_raw_export")
+  * @Method("GET")
+  * @Template("AppBundle:Question:export.html.twig")
+  *
+  */
+  public function exportRawAction(Request $request) {
+
+
+  $aIds = $request->getSession()->get("ids");
+  $em = $this->getDoctrine()->getManager();
+
+  $questions = array();
+  foreach ($aIds as $id) {
+    $question = $em->getRepository('AppBundle:Question')->find($id);
+    if ($question){
+      $questions[] = $question;
     }
-    //$response = new Response($res);     
-    //$response->headers->set('Content-Type', 'text/plain');
-    return array('questions'=> $questions);
   }
-  
+
+  return array(
+              'questions'=> $questions,
+      );
+
+    }
+
+  /**
+  * Export list of question in xml format
+  * @return xml
+  * @Route("/moodleexport", name="question_moodle_export")
+  * @Method("GET")
+  * @Template("AppBundle:Question:export.xml.twig")
+  *
+  */
+  public function exportMoodleAction(Request $request) {
+
+
+  $aIds = $request->getSession()->get("ids");
+  $em = $this->getDoctrine()->getManager();
+
+  $questions = array();
+  foreach ($aIds as $id) {
+    $question = $em->getRepository('AppBundle:Question')->find($id);
+    if ($question){
+      $questions[] = $question;
+    }
+  }
+
+  /*foreach($questions as $q){
+      $goodResValues = $q->getExpectedChoices();
+      $wrongResValues = $q->getAllValues() - $goodResValues;
+      foreach($q->getResponses() as $resp){
+
+          if($resp->getValue()> 0){
+              $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
+              $resp->moodleValue = round($moodleGoodValue);
+          }
+          else{
+              $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
+              $resp->moodleValue = round($moodleWrongValue);
+          }
+      }
+  }*/
+
+  foreach($questions as $q){
+      $sumGoodMoodleValue = 0;
+      $sumWrongMoodleValue = 0;
+      $goodResValues = $q->getExpectedChoices();
+      $wrongResValues = $q->getAllValues() - $goodResValues;
+      foreach($q->getResponses() as $resp){
+
+          if($resp->getValue() > 0){
+
+              $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
+              $resp->moodleValue = round($moodleGoodValue);
+
+              if($resp->moodleValue == 100){
+                  $resp->moodleValue = 100;
+              }
+              else if($resp->moodleValue <= 99 && $resp->moodleValue >= 90){
+                  $resp->moodleValue = 90;
+              }
+              else if($resp->moodleValue <= 89 && $resp->moodleValue >= 80){
+                  $resp->moodleValue = 80;
+              }
+              else if($resp->moodleValue <= 79 && $resp->moodleValue >= 70){
+                  $resp->moodleValue = 70;
+              }
+              else if($resp->moodleValue <= 69 && $resp->moodleValue >= 60){
+                  $resp->moodleValue = 60;
+              }
+              else if($resp->moodleValue <= 59 && $resp->moodleValue >= 50){
+                  $resp->moodleValue = 50;
+              }
+              else if($resp->moodleValue <= 49 && $resp->moodleValue >= 40){
+                  $resp->moodleValue = 40;
+              }
+              else if($resp->moodleValue <= 39 && $resp->moodleValue >= 30){
+                  $resp->moodleValue = 30;
+              }
+              else if($resp->moodleValue <= 29 && $resp->moodleValue >= 20){
+                  $resp->moodleValue = 20;
+              }
+              else {
+                  $resp->moodleValue = 10;
+              }
+
+              $sumGoodMoodleValue = $sumGoodMoodleValue + $resp->moodleValue;
+          }
+          else{
+              $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
+              $resp->moodleValue = round($moodleWrongValue);
+
+              if($resp->moodleValue == 100){
+                  $resp->moodleValue = 100;
+              }
+              else if($resp->moodleValue <= 99 && $resp->moodleValue >= 90){
+                  $resp->moodleValue = 90;
+              }
+              else if($resp->moodleValue <= 89 && $resp->moodleValue >= 80){
+                  $resp->moodleValue = 80;
+              }
+              else if($resp->moodleValue <= 79 && $resp->moodleValue >= 70){
+                  $resp->moodleValue = 70;
+              }
+              else if($resp->moodleValue <= 69 && $resp->moodleValue >= 60){
+                  $resp->moodleValue = 60;
+              }
+              else if($resp->moodleValue <= 59 && $resp->moodleValue >= 50){
+                  $resp->moodleValue = 50;
+              }
+              else if($resp->moodleValue <= 49 && $resp->moodleValue >= 40){
+                  $resp->moodleValue = 40;
+              }
+              else if($resp->moodleValue <= 39 && $resp->moodleValue >= 30){
+                  $resp->moodleValue = 30;
+              }
+              else if($resp->moodleValue <= 29 && $resp->moodleValue >= 20){
+                  $resp->moodleValue = 20;
+              }
+              else {
+                  $resp->moodleValue = 10;
+              }
+
+              $sumWrongMoodleValue = $sumWrongMoodleValue + $resp->moodleValue;
+          }
+      }
+
+      /* Ce deuxième foreach des "Responses" permet vérifier si la somme des bonnes et des mauvaises "Values" est égale à 100
+       * Si la somme n'est pas égale à 100, alors elle est rectifiée par ce deuxième foreach.
+       * Cet algorithme permet d'ajouter ou de soustraire la différence de 100 et la somme des bonnes ou mauvaises "Values" à la première "Response Value"
+       * /!\ La limite de cet algo est 10 bonnes réponses ou 10 mauvaises réponses /!\
+       * /!\ On peut donc créer des questions avec un maximum de 20 réponses avec au moins 10 bonnes réponses et 10 mauvaises /!\
+       */
+      foreach($q->getResponses() as $resp){
+
+          if($resp->getValue() > 0){
+              if ($sumGoodMoodleValue < 100){
+                  $resp->moodleValue = $resp->moodleValue + (100 - $sumGoodMoodleValue);
+                  $sumGoodMoodleValue = 100;
+              }
+              elseif ($sumGoodMoodleValue > 100) {
+                  $resp->moodleValue = $resp->moodleValue + -(100 - $sumGoodMoodleValue);
+                  $sumGoodMoodleValue = 100;
+              }
+              else {
+                  $resp->moodleValue;
+              }
+          }
+          else {
+              if ($sumWrongMoodleValue < 100){
+                  $resp->moodleValue = $resp->moodleValue + (100 - $sumWrongMoodleValue);
+                  $sumWrongMoodleValue = 100;
+              }
+              elseif ($sumWrongMoodleValue > 100) {
+                  $resp->moodleValue = $resp->moodleValue + -(100 - $sumWrongMoodleValue);
+                  $sumWrongMoodleValue = 100;
+              }
+              else {
+                  $resp->moodleValue;
+              }
+          }
+      }
+  }
+
+
+  $response = new Response();
+  $response->headers->set('Content-Type', 'xml');
+
+  $compteur = 0;
+
+  return $this->render(
+          'AppBundle:Question:export.xml.twig',
+          array(
+              'questions'=> $questions,
+              'compteur'=> $compteur,
+              //'sumGoodMoodleValue'=> $sumGoodMoodleValue,
+              //'sumWrongMoodleValue'=> $sumWrongMoodleValue,
+          ),
+          $response
+      );
+  }
+
   /**
    * Creates a new Question entity.
    *
@@ -192,7 +373,7 @@ class QuestionController extends Controller {
   public function createAction(Request $request) {
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
-      return $this->errorToAccessRessource($request, 
+      return $this->errorToAccessRessource($request,
           'Unable to find ');
     }
     $entity = new Question();
@@ -221,7 +402,7 @@ class QuestionController extends Controller {
 
   private function getClassroomFromSession($request) {
     $idClassroom = $request->getSession()->get('idClassroom');
-    $classroom = null;   
+    $classroom = null;
     if ($idClassroom) {
       $em = $this->getDoctrine()->getManager();
       $classroom = $em->getRepository('AppBundle:Classroom')->find($idClassroom);
@@ -259,7 +440,7 @@ class QuestionController extends Controller {
     $classroom = $this->getClassroomFromSession($request);
     if (!$classroom) {
       return $this->errorToAccessRessource($request, 'Unable to find classroom.');
-      //throw $this->createNotFoundException('Unable to find classroom.');      
+      //throw $this->createNotFoundException('Unable to find classroom.');
     }
     $entity->setClassroom($classroom);
     $entity->setDesigner($this->getUser());
@@ -289,7 +470,7 @@ class QuestionController extends Controller {
 
     $isDesigner = $entity->isDesigner($user);
     $isCoDesigner = false;
-    // search if current user is a codesigner        
+    // search if current user is a codesigner
     if (!$isDesigner) {
       $isCoDesigner = $entity->isCoDesigner($user);
     }
@@ -321,7 +502,7 @@ class QuestionController extends Controller {
   /**
    * Get array of entity id
    * @param Entity $entities
-   * @return array 
+   * @return array
    */
   private function getIdsAsArray($entities) {
     $res = array();
@@ -333,7 +514,7 @@ class QuestionController extends Controller {
 
   /**
    * Get links for navigate
-   * 
+   *
    * @param Request $request
    */
   private function getLinksNav($request, $curId) {
@@ -377,12 +558,12 @@ class QuestionController extends Controller {
       return $this->errorToAccessRessource($request, 'Unable to find question.');
       // throw $this->createNotFoundException('Unable to find Question entity.');
     }
-    
+
     $user = $this->getUser();
-    if ( !$entity->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) { 
+    if ( !$entity->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) {
       return $this->errorToAccessRessource($request, 'Acces denied');
     }
-    
+
     $editForm = $this->createEditForm($entity);
     $deleteForm = $this->createDeleteForm($id);
 
@@ -432,10 +613,10 @@ class QuestionController extends Controller {
     }
 
     $user = $this->getUser();
-    if ( !$question->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) { 
+    if ( !$question->isCanUpdate($user) && !$this->isGranted('ROLE_ADMIN')) {
       return $this->errorToAccessRessource($request, 'Acces denied');
     }
-    
+
     // http://symfony.com/fr/doc/current/cookbook/form/form_collections.html
     $originalResponses = new ArrayCollection();
 
@@ -501,10 +682,10 @@ class QuestionController extends Controller {
       }
 
       $user = $this->getUser();
-      if ( !$entity->getDesigner() == $user->getUsername() && !$this->isGranted('ROLE_ADMIN')) { 
+      if ( !$entity->getDesigner() == $user->getUsername() && !$this->isGranted('ROLE_ADMIN')) {
         return $this->errorToAccessRessource($request, 'Acces denied');
       }
-      
+
       $em->remove($entity);
       $em->flush();
     }
@@ -530,7 +711,7 @@ class QuestionController extends Controller {
 
   /**
    *  Create or update a rating by one user for one question
-   * 
+   *
    * @param User $user
    * @param Question $question
    * @param float $value
@@ -562,7 +743,7 @@ class QuestionController extends Controller {
 
   /**
    *  Delete a rating by one user for one question
-   * 
+   *
    * @param type $user
    * @param type $question
    * @return int 1=delete rating, 0= nothing to delete
@@ -582,7 +763,7 @@ class QuestionController extends Controller {
 
   /**
    * Get rating by current user of this question
-   * 
+   *
    * @param type $question
    * @param type $user
    * @return int
@@ -620,11 +801,11 @@ class QuestionController extends Controller {
     $session->getFlashBag()->add('warning', $msg);
     return $this->redirect($this->generateUrl('question'));
   }
-  
+
   private function errorToFindClassroom($request, $msg){
     $session = $request->getSession();
     $session->getFlashBag()->add('warning', $msg);
     return $this->redirect($this->generateUrl('my_classrooms'));
   }
-  
+
 }
