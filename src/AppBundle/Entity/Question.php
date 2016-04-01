@@ -259,6 +259,20 @@ class Question {
   public function getScope() {
     return $this->scope;
   }
+  
+  /**
+   * Get sum values of all responses
+   * @return float
+   */
+  public function getAllValues() {
+      $res = 0.0;
+      
+      foreach ($this->getResponses() as $response) {
+          $res += $response->getValue();
+      }
+      return $res;    
+  }
+  
 
   /**
    * Get sum values of expected choices
@@ -290,6 +304,7 @@ class Question {
     }
     return $res;
   }
+  
 
     /**
      * Set codesigners

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+{% for q in questions %}
+    {% set compteur = compteur + 1 %}
+    
+    <!-- Question {{ compteur }} -->
+    <question type="multichoice">
+        <name> <text>{{ q.name }}</text> </name>
+        <questiontext format="html"><text> {{q.sentence|raw}} </text></questiontext>
+        <single>false</single>
+        {% for resp in q.responses %}
+            {% if resp.value > 0 %}
+                <answer fraction="{{ resp.moodleValue }}" format="html">
+                    <text> {{ resp.proposition | raw }} </text>
+                    {% if resp.feedback is defined %}
+                        <feedback format="html"><text> [{{ resp.feedback }}] </text></feedback>
+                    {% else %}
+                        <feedback format="html"><text> [No feedback] </text></feedback>
+                    {% endif %}
+                </answer>
+            {% else %}
+                <answer fraction="{{ -resp.moodleValue }}" format="html">
+                    <text> {{ resp.proposition | raw }} </text>
+                    {% if resp.feedback is defined %}
+                        <feedback format="html"><text> [{{ resp.feedback }}] </text></feedback>
+                    {% else %}
+                        <feedback format="html"><text> [No feedback] </text></feedback>
+                    {% endif %}
+                </answer>   
+            {% endif %}             
+        {% endfor %}
+    </question>
+ {% endfor %}
+</quiz>
+
