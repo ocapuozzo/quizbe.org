@@ -208,22 +208,6 @@ class QuestionController extends Controller {
     }
   }
 
-  /*foreach($questions as $q){
-      $goodResValues = $q->getExpectedChoices();
-      $wrongResValues = $q->getAllValues() - $goodResValues;
-      foreach($q->getResponses() as $resp){
-
-          if($resp->getValue()> 0){
-              $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
-              $resp->moodleValue = round($moodleGoodValue);
-          }
-          else{
-              $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
-              $resp->moodleValue = round($moodleWrongValue);
-          }
-      }
-  }*/
-
   foreach($questions as $q){
       $sumGoodMoodleValue = 0;
       $sumWrongMoodleValue = 0;
@@ -356,8 +340,6 @@ class QuestionController extends Controller {
           array(
               'questions'=> $questions,
               'compteur'=> $compteur,
-              //'sumGoodMoodleValue'=> $sumGoodMoodleValue,
-              //'sumWrongMoodleValue'=> $sumWrongMoodleValue,
           ),
           $response
       );
