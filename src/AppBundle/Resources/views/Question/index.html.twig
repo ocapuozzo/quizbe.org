@@ -47,7 +47,7 @@
       
 
 
-  <div class="table-responsive">
+  <div class="table-responsive ">
     <table class="table table-striped table-condensed">
       <thead>
         <tr>
@@ -84,7 +84,7 @@
 
             </td>
             <td> ({{entity.countRatings}}) </td>
-            <td> {{entity.scope.name}} </td>
+            <td> {{entity.scope.name}} </td>           
           </tr>
         {% endfor %}
       </tbody>
@@ -93,9 +93,9 @@
 
   <a href="{{ path('question_new') }}" class="btn btn-default btn-sm" role="button">
     {{'iquestion.link.add' | trans}}
-  </a>  
-  <span class="pull-right"><a href="{{path('question_moodle_export')}}" class="btn btn-default btn-sm" role="button">Export Moodle</a></span>
-  <span class="pull-right"><a href="{{path('question_raw_export')}}" class="btn btn-default btn-sm" role="button">Export RAW</a></span>   
+  </a>
+  <span class="pull-right"><a href="{{path('question_moodle_export')}}" class="btn btn-default btn-sm" role="button" download="exportMoodle{{classroom.name}}.xml">Export Moodle</a></span>
+  <span class="pull-right"><a href="{{path('question_raw_export')}}" class="btn btn-default btn-sm" role="button">Export RAW</a></span>
 {% endblock %}
 
 {% block javascripts %}
