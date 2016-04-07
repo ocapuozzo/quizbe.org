@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <quiz>
 {% for q in questions %}
     {% set compteur = compteur + 1 %}
@@ -6,12 +6,12 @@
     <!-- Question {{ compteur }} -->
     <question type="multichoice">
         <name> <text>{{ q.name }}</text> </name>
-        <questiontext format="html"><text> {{q.sentence|raw}} </text></questiontext>
+        <questiontext format="html"><text> {{ q.sentence }} </text></questiontext>
         <single>false</single>
         {% for resp in q.responses %}
             {% if resp.value > 0 %}
                 <answer fraction="{{ resp.moodleValue }}" format="html">
-                    <text> {{ resp.proposition | raw }} </text>
+                    <text> {{ resp.proposition }} </text>
                     {% if resp.feedback is defined %}
                         <feedback format="html"><text> [{{ resp.feedback }}] </text></feedback>
                     {% else %}
@@ -20,7 +20,7 @@
                 </answer>
             {% else %}
                 <answer fraction="{{ -resp.moodleValue }}" format="html">
-                    <text> {{ resp.proposition | raw }} </text>
+                    <text> {{ resp.proposition }} </text>
                     {% if resp.feedback is defined %}
                         <feedback format="html"><text> [{{ resp.feedback }}] </text></feedback>
                     {% else %}
