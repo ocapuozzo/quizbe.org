@@ -33,7 +33,6 @@
       <ul class="nav navbar-nav navbar-right">  
         <li>
           {% if app.user and is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {# { 'layout.login'|trans({},'FOSUserBundle') }#}           
             <a href="{{ path('fos_user_security_logout') }}">
               {{app.user.username}}&nbsp; 
               <span class="glyphicon glyphicon-log-out"></span>
@@ -45,8 +44,8 @@
               <span class="glyphicon glyphicon-log-in"></span>
               {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
             </a>
-          </li>
         {% endif %}
+        </li>
       </ul>
     </div><!--/navbar -->
   </div><!--/.container-fluid -->

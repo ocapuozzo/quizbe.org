@@ -6,6 +6,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class QuestionControllerTest extends WebTestCase
 {
+  public function testExport() {
+        // Create a new client to browse the application
+        $client = static::createClient();
+
+        // Create a new entry in the database
+        $crawler = $client->request('GET', '/login');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /question/");
+        //$crawler = $client->click($crawler->selectLink('Create a new entry')->link());
+
+    
+  }
     /*
     public function testCompleteScenario()
     {
