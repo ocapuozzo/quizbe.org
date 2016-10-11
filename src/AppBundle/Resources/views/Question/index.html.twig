@@ -47,7 +47,7 @@
       
 
 
-  <div class="table-responsive">
+  <div class="table-responsive ">
     <table class="table table-striped table-condensed">
       <thead>
         <tr>
@@ -58,10 +58,13 @@
           <th>{{'iquestion.hrating' | trans}}</th>
           <th>{{'iquestion.hcountrating' | trans}}</th>
           <th>{{'iquestion.hscope' | trans}}</th>
+          {# /!\ DOTO : Exporter uniquement les questions selectionnées /!\ #}
+          {# <th> Export </th> #}
         </tr>
       </thead>
       <tbody>
         {% for entity in entities %}
+          {% set compteurQuestions = compteurQuestions + 1 %}
           {% set cssClassName = entity.datepub ? 'public' : 'private' %}
           {% set attTitle = entity.datepub ? '' : 'private' %}
           <tr>
@@ -85,6 +88,8 @@
             </td>
             <td> ({{entity.countRatings}}) </td>
             <td> {{entity.scope.name}} </td>
+            {# /!\ DOTO : Exporter uniquement les questions selectionnées /!\ #}
+            {# <td><label><input type="checkbox" value="{{ entity.scope.id }}"></label></td> #} 
           </tr>
         {% endfor %}
       </tbody>
@@ -93,9 +98,13 @@
 
   <a href="{{ path('question_new') }}" class="btn btn-default btn-sm" role="button">
     {{'iquestion.link.add' | trans}}
-  </a>  
-  <span class="pull-right"><a href="{{path('question_moodle_export')}}" class="btn btn-default btn-sm" role="button">Export Moodle</a></span>
-  <span class="pull-right"><a href="{{path('question_raw_export')}}" class="btn btn-default btn-sm" role="button">Export RAW</a></span>   
+  </a>
+    {% if entities is not empty %}
+        
+        <span class="pull-right"><a href="{{path('question_moodle_export')}}" class="btn btn-default btn-sm" role="button" download="export-quizbe-{{classroom.name}}-{{compteurQuestions}}questions-{{"now"|date('Y/m/d')}}.xml">Export Moodle</a></span>
+        <span class="pull-right"><a href="{{path('question_raw_export')}}" class="btn btn-default btn-sm" role="button" download="export-quizbe-{{classroom.name}}-{{compteurQuestions}}questions-{{"now"|date('Y/m/d')}}.html">Export RAW</a></span>
+    
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

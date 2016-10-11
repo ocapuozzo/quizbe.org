@@ -60,7 +60,7 @@ class QuestionController extends Controller {
      * Si il n'y a pas d'idScope dans la session, alors l'application affichera toutes les questions
      * Sinon, elle affichera uniquement les questions du thème selectionné
      */
-    $currentScope = $request->getSession()->get('idScope');
+    $currentScope = $request->getSession()->get('idScope'); 
     $user = $this->getUser();
 
     if (!$currentScope) {
@@ -72,13 +72,17 @@ class QuestionController extends Controller {
 
     $request->getSession()->set('ids', $this->getIdsAsArray($entities));
     $request->getSession()->set('idClassroom', $classroom->getId());
+    
+    $compteurQuestions = 0;
 
     return array(
         'entities' => $entities,
         'user' => $this->getUser(),
         'classroom' => $classroom,
         'classrooms' => $classrooms,
-        'currentScope' => $currentScope
+        'currentScope' => $currentScope,
+        'compteurQuestions' => $compteurQuestions
+            
     );
   }
 
@@ -208,22 +212,6 @@ class QuestionController extends Controller {
     }
   }
 
-  /*foreach($questions as $q){
-      $goodResValues = $q->getExpectedChoices();
-      $wrongResValues = $q->getAllValues() - $goodResValues;
-      foreach($q->getResponses() as $resp){
-
-          if($resp->getValue()> 0){
-              $moodleGoodValue = $resp->getValue() / $goodResValues * 100;
-              $resp->moodleValue = round($moodleGoodValue);
-          }
-          else{
-              $moodleWrongValue = $resp->getValue() / $wrongResValues * 100;
-              $resp->moodleValue = round($moodleWrongValue);
-          }
-      }
-  }*/
-
   foreach($questions as $q){
       $sumGoodMoodleValue = 0;
       $sumWrongMoodleValue = 0;
@@ -308,42 +296,42 @@ class QuestionController extends Controller {
           }
       }
 
-      /* Ce deuxième foreach des "Responses" permet vérifier si la somme des bonnes et des mauvaises "Values" est égale à 100
+      /* Ce deuxième foreach des "Responses" de permet vérifier si la somme des bonnes et des mauvaises "Values" est égale à 100
        * Si la somme n'est pas égale à 100, alors elle est rectifiée par ce deuxième foreach.
        * Cet algorithme permet d'ajouter ou de soustraire la différence de 100 et la somme des bonnes ou mauvaises "Values" à la première "Response Value"
        * /!\ La limite de cet algo est 10 bonnes réponses ou 10 mauvaises réponses /!\
        * /!\ On peut donc créer des questions avec un maximum de 20 réponses avec au moins 10 bonnes réponses et 10 mauvaises /!\
        */
-      foreach($q->getResponses() as $resp){
+        foreach($q->getResponses() as $resp){
 
-          if($resp->getValue() > 0){
-              if ($sumGoodMoodleValue < 100){
+            if($resp->getValue() > 0){
+                if ($sumGoodMoodleValue < 100){
                   $resp->moodleValue = $resp->moodleValue + (100 - $sumGoodMoodleValue);
                   $sumGoodMoodleValue = 100;
-              }
-              elseif ($sumGoodMoodleValue > 100) {
+                }
+                elseif ($sumGoodMoodleValue > 100) {
                   $resp->moodleValue = $resp->moodleValue + -(100 - $sumGoodMoodleValue);
                   $sumGoodMoodleValue = 100;
-              }
-              else {
+                }
+                else {
                   $resp->moodleValue;
-              }
-          }
-          else {
-              if ($sumWrongMoodleValue < 100){
+                }
+            }
+            else {
+                if ($sumWrongMoodleValue < 100){
                   $resp->moodleValue = $resp->moodleValue + (100 - $sumWrongMoodleValue);
                   $sumWrongMoodleValue = 100;
-              }
-              elseif ($sumWrongMoodleValue > 100) {
+                }
+                elseif ($sumWrongMoodleValue > 100) {
                   $resp->moodleValue = $resp->moodleValue + -(100 - $sumWrongMoodleValue);
                   $sumWrongMoodleValue = 100;
-              }
-              else {
+                }
+                else {
                   $resp->moodleValue;
-              }
-          }
-      }
-  }
+                }
+            }
+        }
+    }
 
 
   $response = new Response();
@@ -356,8 +344,6 @@ class QuestionController extends Controller {
           array(
               'questions'=> $questions,
               'compteur'=> $compteur,
-              //'sumGoodMoodleValue'=> $sumGoodMoodleValue,
-              //'sumWrongMoodleValue'=> $sumWrongMoodleValue,
           ),
           $response
       );
