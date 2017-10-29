@@ -44,7 +44,7 @@ form:
      codesigners : "Co-Designer(s):"
      name: "Title:"
      qcreaterating: "<= Put your rating please"
-     qupdaterating: "<= Upadate your rating ?"
+     qupdaterating: "<= Update your rating ?"
      avgrating: Average rating
      formatdate: 'Y-m-d'
      datepub: Date of publication
