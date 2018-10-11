@@ -1,0 +1,12 @@
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: quizbe
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: ssl://mail.gandi.net
+    mailer_user: admin@quizbe.org
+    mailer_password: mdp_de_ce_mail_chez_gandi
+    mailer_port: 465
+    secret: d963811f9505e8abf9fcce4f28bd3e8cba50627q
