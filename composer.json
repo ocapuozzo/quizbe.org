@@ -1,6 +1,6 @@
 {
     "name": "kpu/quizbe.org",
-    "license": "proprietary",
+    "license": "libre",
     "type": "project",
     "autoload": {
         "psr-4": {
