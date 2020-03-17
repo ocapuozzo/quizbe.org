@@ -18,7 +18,10 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 }
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-Debug::enable();
+
+// Debug::enable();
+// https://stackoverflow.com/questions/28850809/disable-deprecated-warning-in-symfony-2-7
+Debug::enable(E_RECOVERABLE_ERROR & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED, false);
 
 require_once __DIR__.'/../app/AppKernel.php';
 

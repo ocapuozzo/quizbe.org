@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vendor/fyneworks/star-rating" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vendor/kartik-v/bootstrap-star-rating" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/web/assets/vendor/kartik-v/bootstrap-star-rating" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/web/bundles/starrating" vcs="Git" />
+  </component>
+</project>
