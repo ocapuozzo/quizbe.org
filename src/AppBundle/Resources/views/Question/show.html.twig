@@ -146,9 +146,9 @@
       </div>
       </div>
       
-      {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': entity.id} %}
-         
-      
+      {% include 'Thread/async.html.twig' with {'id': entity.id} %}
+      {#  include 'FOSCommentBundle:Thread:async.html.twig' with {'id': entity.id} #}
+
 {% endblock %}
 
 {% block javascripts %}
