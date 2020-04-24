@@ -26,7 +26,7 @@
         fos_comment_script.async = true;
         fos_comment_script.src = '{{ asset('foscommentupdate/js/comments.js') }}';
 
-        if (!fos_comment_script.src.startsWith("http:")) {
+        if (fos_comment_script.src.startsWith("http:")) {
           fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
         }
 
