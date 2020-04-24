@@ -65,7 +65,7 @@
             };
 
            // kpu update force https
-          if (url.startsWith("http") && !url.startsWith("https")) {
+          if (url.startsWith("http:")) {
             url  = "https" + url.substr(4);
           }
           // console.log("URL comment.js :" + url);
@@ -89,7 +89,7 @@
             };
 
           // kpu update force https
-          if (url.startsWith("http") && !url.startsWith("https")) {
+          if (url.startsWith("http:")) {
             url  = "https" + url.substr(4);
           }
 

@@ -26,8 +26,8 @@
         fos_comment_script.async = true;
         fos_comment_script.src = '{{ asset('foscommentupdate/js/comments.js') }}';
 
-        if (!fos_comment_script.src.startsWith("https")) {
-         // fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
+        if (!fos_comment_script.src.startsWith("http:")) {
+          fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
         }
 
         // console.log(" fos_comment_script : " + fos_comment_script.toString());
