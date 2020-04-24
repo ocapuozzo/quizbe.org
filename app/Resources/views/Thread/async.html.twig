@@ -24,11 +24,13 @@
     (function() {
         var fos_comment_script = document.createElement('script');
         fos_comment_script.async = true;
-        fos_comment_script.src = '{{ asset('bundles/foscomment/js/comments.js') }}';
+        fos_comment_script.src = '{{ asset('foscommentupdate/js/comments.js') }}';
+
         if (!fos_comment_script.src.startsWith("https")) {
-          fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
+         // fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
         }
-        // console.log(" fos_comment_script : " + fos_comment_script.src);
+
+        // console.log(" fos_comment_script : " + fos_comment_script.toString());
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(fos_comment_script);
     })();
 </script>
