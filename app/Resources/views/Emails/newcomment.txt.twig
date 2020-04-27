@@ -1,7 +1,11 @@
 <p>{{ 'comment.new.notification1' | trans({'%name%':question.designer}, "messages") }}</p>
 <p>
-{{ 'comment.new.notification2' | trans }} "{{question.name}}" 
-=> <a href="{{app.request.getSchemeAndHttpHost() ~ path('question_show', { 'id': question.id })}}"> 
+{{ 'comment.new.notification2' | trans }} "{{question.name}}"
+{% set baseapp = app.request.getSchemeAndHttpHost() %}
+{% if baseapp starts with 'http:' %}
+    {% set baseapp = "https" ~ url[4:] %}
+{% endif %}
+=> <a href="{{baseapp ~ path('question_show', { 'id': question.id })}}">
   {{ 'comment.new.seeonline' | trans }}</a>
 </p>
 <p><small>{{ 'comment.msg.footer' | trans }}</small></p>
