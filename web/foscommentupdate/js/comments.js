@@ -119,18 +119,14 @@
                 permalink: encodeURI(permalink || window.location.href)
             };
 
-          console.log("encodeURI(permalink || window.location.href) : " + encodeURI(permalink || window.location.href));
-          console.log("encodeURI(window.location.href) : " + encodeURI(window.location.href));
-          console.log("window.location.href : " + window.location.href);
-
             if (typeof window.fos_comment_thread_view !== 'undefined') {
                 event.params.view = window.fos_comment_thread_view;
             }
-          console.log("before thread_container.");
+
             FOS_COMMENT.thread_container.trigger(event);
-          console.log("after thread_container.");
+
           let url = FOS_COMMENT.base_url  + '/' + encodeURIComponent(event.identifier) + '/comments';
-          console.log("before call FOS_COMMENT.get url = " + url + " param:" + event.params) ;
+
           FOS_COMMENT.get(
                 url,
                 event.params,
@@ -447,7 +443,7 @@
                     threadIds.push(threadId);
                 }
             });
-console.log("FOS_COMMENT.base_url + '.json' :" + FOS_COMMENT.base_url + '.json')
+
             FOS_COMMENT.get(
                 FOS_COMMENT.base_url + '.json',
                 {ids: threadIds},
