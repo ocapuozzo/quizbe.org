@@ -602,7 +602,7 @@ class ThreadController extends BaseThreadController
         if (substr($v->getRoute(), 0, 5) == "http:") {
             $v->setRoute('https' . substr($v->getRoute(), 4));
         }
-        $logger->info("onCreateCommentSuccess :" + $v->getRoute());
+        $logger->info("onCreateCommentSuccess :" . $v->getRoute());
         return $v;
     }
 
