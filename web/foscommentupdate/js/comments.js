@@ -447,7 +447,7 @@
                     threadIds.push(threadId);
                 }
             });
-
+console.log("FOS_COMMENT.base_url + '.json' :" + FOS_COMMENT.base_url + '.json')
             FOS_COMMENT.get(
                 FOS_COMMENT.base_url + '.json',
                 {ids: threadIds},
