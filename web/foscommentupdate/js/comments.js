@@ -119,9 +119,9 @@
                 permalink: encodeURI(permalink || window.location.href)
             };
 
-          //console.log("encodeURI(permalink || window.location.href) : " + encodeURI(permalink || window.location.href));
-          //console.log("encodeURI(window.location.href) : " + encodeURI(window.location.href));
-          //console.log("window.location.href : " + window.location.href);
+          console.log("encodeURI(permalink || window.location.href) : " + encodeURI(permalink || window.location.href));
+          console.log("encodeURI(window.location.href) : " + encodeURI(window.location.href));
+          console.log("window.location.href : " + window.location.href);
 
             if (typeof window.fos_comment_thread_view !== 'undefined') {
                 event.params.view = window.fos_comment_thread_view;
@@ -463,6 +463,7 @@
                     $.each(commentCountElements, function(){
                         var threadId = $(this).data('fosCommentThreadId');
                         if(threadId) {
+                            console.log("threadData[threadId] :" + threadData[threadId]);
                             FOS_COMMENT.setCommentCount(this, threadData[threadId]);
                         }
                     });
