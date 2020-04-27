@@ -599,10 +599,7 @@ class ThreadController extends BaseThreadController
         $logger = $this->get('logger');
 
         $v = View::createRouteRedirect('fos_comment_get_thread_comment', array('id' => $id, 'commentId' => $form->getData()->getId()), Response::HTTP_CREATED);
-        if (substr($v->getRoute(), 0, 5) == "http:") {
-            $v->setRoute('https' . substr($v->getRoute(), 4));
-        }
-        $v->setRoute("https://quizbe.org/api/threads/40/comments/66");
+
         $logger->info("onCreateCommentSuccess :" . $v->getRoute());
         return $v;
     }
