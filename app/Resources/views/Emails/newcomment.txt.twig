@@ -3,7 +3,7 @@
 {{ 'comment.new.notification2' | trans }} "{{question.name}}"
 {% set baseapp = app.request.getSchemeAndHttpHost() %}
 {% if baseapp starts with 'http:' %}
-    {% set baseapp = "https" ~ url[4:] %}
+    {% set baseapp = "https" ~ baseapp[4:] %}
 {% endif %}
 => <a href="{{baseapp ~ path('question_show', { 'id': question.id })}}">
   {{ 'comment.new.seeonline' | trans }}</a>
