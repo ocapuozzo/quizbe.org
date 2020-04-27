@@ -7,6 +7,7 @@ fos_user:
     
 fos_comment_api:
     type: rest
-    resource: "@FOSCommentBundle/Resources/config/routing.yml"
+    # resource: "@FOSCommentBundle/Resources/config/routing.yml"
+    resource: "@CommentBundle/Resources/config/routing.yml"
     prefix: /api
     defaults: { _format: html }

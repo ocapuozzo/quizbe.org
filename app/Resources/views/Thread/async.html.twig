@@ -27,10 +27,19 @@
         fos_comment_script.src = '{{ asset('foscommentupdate/js/comments.js') }}';
 
         if (fos_comment_script.src.startsWith("http:")) {
-          fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
+         // fos_comment_script.src = 'https' + fos_comment_script.src.substr(4);
         }
 
         // console.log(" fos_comment_script : " + fos_comment_script.toString());
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(fos_comment_script);
     })();
+
+    function test() {
+      let form = document.getElementById("fos_comment_thread");
+      console.log("================= FORM ========= : " + form.innerText);
+    }
+    //test();
+    document.addEventListener("DOMContentLoaded", test);
+    document.addEventListener("fos_comment_new_comment", test);
+
 </script>

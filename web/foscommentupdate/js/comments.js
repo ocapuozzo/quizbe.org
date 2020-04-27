@@ -65,9 +65,13 @@
             };
 
            // kpu update force https
-          if (url.startsWith("http:")) {
+          // kpu update force https
+          /*if (url.startsWith("http:")) {
             url  = "https" + url.substr(4);
-          }
+          }*/
+          let reg = new RegExp("(http:)", "g");
+          url  = url.replace(reg, "https:");
+
           // console.log("URL comment.js :" + url);
             $.post(url, data, success).fail(wrappedErrorCallback).always(wrappedCompleteCallback);
         },
@@ -89,9 +93,11 @@
             };
 
           // kpu update force https
-          if (url.startsWith("http:")) {
+          /*if (url.startsWith("http:")) {
             url  = "https" + url.substr(4);
-          }
+          }*/
+          let reg = new RegExp("(http:)", "g");
+          url  = url.replace(reg, "https:");
 
           // console.log("URL comment.js :" + url);
             $.get(url, data, success).fail(wrappedErrorCallback);
@@ -107,9 +113,15 @@
             var event = jQuery.Event('fos_comment_before_load_thread');
 
             event.identifier = identifier;
+            let permalinknew = encodeURI(permalink || window.location.href);
+
             event.params = {
                 permalink: encodeURI(permalink || window.location.href)
             };
+
+          //console.log("encodeURI(permalink || window.location.href) : " + encodeURI(permalink || window.location.href));
+          //console.log("encodeURI(window.location.href) : " + encodeURI(window.location.href));
+          //console.log("window.location.href : " + window.location.href);
 
             if (typeof window.fos_comment_thread_view !== 'undefined') {
                 event.params.view = window.fos_comment_thread_view;
@@ -501,6 +513,8 @@
                     error(response.data.data, response.data.status);
                 }
             };
+          let reg = new RegExp("(http:)", "g");
+          url  = url.replace(reg, "https:");
             // todo: is there a better way to do this?
             FOS_COMMENT.xhr.request({
                     url: url,
@@ -517,7 +531,6 @@
             // make data serialization equals to that of jquery
             var params = jQuery.param(data);
             url += '' != params ? '?' + params : '';
-
             this.request('GET', url, undefined, success, error);
         };
 
@@ -533,11 +546,11 @@
 
     // set the appropriate base url
     FOS_COMMENT.base_url = window.fos_comment_thread_api_base_url;
-
-    // Load the comment if there is a thread id defined.
+     // Load the comment if there is a thread id defined.
     if(typeof window.fos_comment_thread_id != "undefined") {
         // get the thread comments and init listeners
         FOS_COMMENT.getThreadComments(window.fos_comment_thread_id);
+       // console.log("base_URL 2 : "+FOS_COMMENT.base_url);
     }
 
     if(typeof window.fos_comment_thread_comment_count_callback != "undefined") {
