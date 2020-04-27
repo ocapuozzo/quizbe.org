@@ -130,7 +130,7 @@
             FOS_COMMENT.thread_container.trigger(event);
           console.log("after thread_container.");
           let url = FOS_COMMENT.base_url  + '/' + encodeURIComponent(event.identifier) + '/comments';
-          console.log("before calla FOS_COMMENT.get url = " + url);
+          console.log("before call FOS_COMMENT.get url = " + url + " param:" + event.params) ;
           FOS_COMMENT.get(
                 url,
                 event.params,
