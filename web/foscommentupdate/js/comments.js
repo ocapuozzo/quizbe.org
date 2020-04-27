@@ -126,10 +126,13 @@
             if (typeof window.fos_comment_thread_view !== 'undefined') {
                 event.params.view = window.fos_comment_thread_view;
             }
-
+          console.log("before thread_container.");
             FOS_COMMENT.thread_container.trigger(event);
-            FOS_COMMENT.get(
-                FOS_COMMENT.base_url  + '/' + encodeURIComponent(event.identifier) + '/comments',
+          console.log("after thread_container.");
+          let url = FOS_COMMENT.base_url  + '/' + encodeURIComponent(event.identifier) + '/comments';
+          console.log("before calla FOS_COMMENT.get url = " + url);
+          FOS_COMMENT.get(
+                url,
                 event.params,
                 // success
                 function(data) {
