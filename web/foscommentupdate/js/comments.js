@@ -558,10 +558,12 @@ console.log("FOS_COMMENT.base_url + '.json' :" + FOS_COMMENT.base_url + '.json')
     }
 
     if(typeof window.fos_comment_thread_comment_count_callback != "undefined") {
+         console.log("FOS_COMMENT.setCommentCount");
         FOS_COMMENT.setCommentCount = window.fos_comment_thread_comment_count_callback;
     }
 
     if($('span.fos-comment-count').length > 0) {
+      console.log("FOS_COMMENT.loadCommentCounts();");
         FOS_COMMENT.loadCommentCounts();
     }
 
