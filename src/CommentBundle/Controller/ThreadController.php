@@ -591,7 +591,7 @@ class ThreadController extends BaseThreadController
      * @param string           $id     Id of the thread
      * @param CommentInterface $parent Optional comment parent
      *
-     * @return View
+     * return View
      */
     protected function onCreateCommentSuccess(FormInterface $form, $id, CommentInterface $parent = null)
     {
