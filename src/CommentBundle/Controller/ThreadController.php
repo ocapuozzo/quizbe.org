@@ -38,7 +38,7 @@ class ThreadController extends BaseThreadController
 
         $view = View::create()
             ->setData(array('form' => $form->createView()))
-            ->setTemplate('@FOSComment/Thread/new.html.twig');
+            ->setTemplate('Thread/new.html.twig');
 
         return $this->getViewHandler()->handle($view);
     }
@@ -141,7 +141,7 @@ class ThreadController extends BaseThreadController
 
         $view = View::create()
             ->setData(array('form' => $form, 'id' => $id, 'isCommentable' => $thread->isCommentable()))
-            ->setTemplate('@FOSComment/Thread/commentable.html.twig');
+            ->setTemplate('Thread/commentable.html.twig');
 
         return $this->getViewHandler()->handle($view);
     }
@@ -236,7 +236,7 @@ class ThreadController extends BaseThreadController
 
         $view = View::create()
             ->setData(array('comment' => $comment, 'thread' => $thread, 'parent' => $parent, 'depth' => $comment->getDepth()))
-            ->setTemplate('@FOSComment/Thread/comment.html.twig');
+            ->setTemplate('Thread/comment.html.twig');
 
         return $this->getViewHandler()->handle($view);
     }
@@ -266,7 +266,7 @@ class ThreadController extends BaseThreadController
 
         $view = View::create()
             ->setData(array('form' => $form, 'id' => $id, 'commentId' => $commentId))
-            ->setTemplate('@FOSComment/Thread/comment_remove.html.twig');
+            ->setTemplate('Thread/comment_remove.html.twig');
 
         return $this->getViewHandler()->handle($view);
     }
@@ -328,7 +328,7 @@ class ThreadController extends BaseThreadController
                 'form' => $form->createView(),
                 'comment' => $comment,
             ))
-            ->setTemplate('@FOSComment/Thread/comment_edit.html.twig');
+            ->setTemplate('Thread/comment_edit.html.twig');
 
         return $this->getViewHandler()->handle($view);
     }
@@ -397,7 +397,7 @@ class ThreadController extends BaseThreadController
                 $view = View::create()
                     ->setStatusCode(Response::HTTP_BAD_REQUEST)
                     ->setData(array('errors' => $errors))
-                    ->setTemplate('@FOSComment/Thread/errors.html.twig');
+                    ->setTemplate('Thread/errors.html.twig');
 
                 return $this->getViewHandler()->handle($view);
             }
@@ -435,12 +435,12 @@ class ThreadController extends BaseThreadController
                 'thread' => $thread,
                 'view' => $viewMode,
             ))
-            ->setTemplate('@FOSComment/Thread/comments.html.twig');
+            ->setTemplate('Thread/comments.html.twig');
 
         // Register a special handler for RSS. Only available on this route.
         if ('rss' === $request->getRequestFormat()) {
             $templatingHandler = function ($handler, $view, $request) {
-                $view->setTemplate('@FOSComment/Thread/thread_xml_feed.html.twig');
+                $view->setTemplate('Thread/thread_xml_feed.html.twig');
 
                 return new Response($handler->renderTemplate($view, 'rss'), Response::HTTP_OK, $view->getHeaders());
             };
@@ -619,7 +619,7 @@ class ThreadController extends BaseThreadController
                 'id' => $id,
                 'parent' => $parent,
             ))
-            ->setTemplate('@FOSComment/Thread/comment_new.html.twig');
+            ->setTemplate('Thread/comment_new.html.twig');
 
         return $view;
     }
@@ -650,7 +650,7 @@ class ThreadController extends BaseThreadController
             ->setData(array(
                 'form' => $form,
             ))
-            ->setTemplate('@FOSComment/Thread/new.html.twig');
+            ->setTemplate('Thread/new.html.twig');
 
         return $view;
     }
@@ -735,7 +735,7 @@ class ThreadController extends BaseThreadController
                 'form' => $form,
                 'comment' => $form->getData(),
             ))
-            ->setTemplate('@FOSComment/Thread/comment_edit.html.twig');
+            ->setTemplate('Thread/comment_edit.html.twig');
 
         return $view;
     }
@@ -768,7 +768,7 @@ class ThreadController extends BaseThreadController
                 'id' => $form->getData()->getId(),
                 'isCommentable' => $form->getData()->isCommentable(),
             ))
-            ->setTemplate('@FOSComment/Thread/commentable.html.twig');
+            ->setTemplate('Thread/commentable.html.twig');
 
         return $view;
     }
@@ -804,7 +804,7 @@ class ThreadController extends BaseThreadController
                 'commentId' => $form->getData()->getId(),
                 'value' => $form->getData()->getState(),
             ))
-            ->setTemplate('@FOSComment/Thread/comment_remove.html.twig');
+            ->setTemplate('Thread/comment_remove.html.twig');
 
         return $view;
     }
