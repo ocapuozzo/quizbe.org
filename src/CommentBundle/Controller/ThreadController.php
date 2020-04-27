@@ -595,7 +595,11 @@ class ThreadController extends BaseThreadController
      */
     protected function onCreateCommentSuccess(FormInterface $form, $id, CommentInterface $parent = null)
     {
-        return View::createRouteRedirect('fos_comment_get_thread_comment', array('id' => $id, 'commentId' => $form->getData()->getId()), Response::HTTP_CREATED);
+        $v = View::createRouteRedirect('fos_comment_get_thread_comment', array('id' => $id, 'commentId' => $form->getData()->getId()), Response::HTTP_CREATED);
+        if (substr($v->getRoute(), 0, 5) == "http:") {
+            $v->setRoute('https' . substr($v->getRoute(), 4));
+        }
+        return $v;
     }
 
     /**
