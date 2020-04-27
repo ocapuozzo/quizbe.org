@@ -596,15 +596,16 @@ class ThreadController extends BaseThreadController
     protected function onCreateCommentSuccess(FormInterface $form, $id, CommentInterface $parent = null)
     {
        // $logger = $this->get('logger');
-        $v = View::createRouteRedirect('fos_comment_get_thread_comment', array('id' => $id, 'commentId' => $form->getData()->getId()), Response::HTTP_CREATED);
-
+        $myroute= "/api/threads/" . $id . "/comments/" . $form->getData()->getId();
+        //$v = View::createRouteRedirect('fos_comment_get_thread_comment', array('id' => $id, 'commentId' => $form->getData()->getId()), Response::HTTP_CREATED);
+        $v = View::createRedirect($myroute);
         //$pathInfo = $request->getPathInfo();
         //$requestUri = $request->getRequestUri();
 
-        $myroute= "/api/threads/" . $id . "/comments/" . $form->getData()->getId();
+
         //$logger->info("onCreateCommentSuccess :" . $v->getRoute());
-        return $this->redirect($myroute);
-        // return $v;
+       // return $this->createRedirect($myroute);
+         return $v;
     }
 
     /**
