@@ -10,7 +10,7 @@
 #}
 
 {% set first = first|default(false) %}
-setCommentCount
+
 {% set url_parameters = {'id': id } %}
 {% if parent is not null %}
     {% set url_parameters = url_parameters|merge({'parentId': parent.id}) %}
