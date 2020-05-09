@@ -9,6 +9,9 @@
 
 #}
 {%  set url = url('fos_comment_patch_thread_commentable', {'id': id}) %}
+{% if trusted_proxies and url starts with 'http:' %}
+      {% set url = "https" ~ url[4:] %}
+{% endif %}
 
 <div class="fos_comment_commentable_form_holder">
     <form class="fos_comment_commentable_form" action="{{ url }}" data-fos-comment-thread-id="{{ id }}" method="POST">

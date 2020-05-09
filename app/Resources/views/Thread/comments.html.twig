@@ -7,12 +7,21 @@
  This source file is subject to the MIT license that is bundled
  with this source code in the file LICENSE.
 
+kpu : add trusted_proxies varaible in twig config to force https
+        {% if trusted_proxies and url starts with 'http:' %}
+            {% set url = "https" ~ url[4:] %}
+        {% endif %}
+
+dirty change in more files (new, commentable, commentremove...)
+
 #}
 
 {% set depth = depth|default(0) %}
 {% set view = view|default('tree') %}
-{%  set absurl =  app.request.getSchemeAndHttpHost() %}
-<h3>{{ absurl }}</h3>
+{#
+ {%  set absurl =  app.request.getSchemeAndHttpHost()  %}
+ get http when https....
+#}
 {% if depth == 0 %}
     {% if fos_comment_can_comment_thread(thread) %}
         {{ render(url('fos_comment_new_thread_comments', {"id": thread.id})) }}
@@ -21,8 +30,8 @@
     {% if fos_comment_can_edit_thread(thread) %}
     <div class="fos_comment_thread_commentable">
         {%  set url = url('fos_comment_edit_thread_commentable', {'id': thread.id, 'value': not thread.commentable}) %}
-        {%  set absurl =  app.request.getSchemeAndHttpHost() %}
-        {% if absurl starts with 'https:' and url starts with 'http:' %}
+
+        {% if trusted_proxies and url starts with 'http:' %}
             {% set url = "https" ~ url[4:] %}
         {% endif %}
 
