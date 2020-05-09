@@ -14,8 +14,8 @@ namespace AppBundle;
  */
 class AppConstants {
 
-   const VERSION = '0.1.2';
-   const VERSION_ID = '000102';
+   const VERSION = '0.1.3';
+   const VERSION_ID = '000103';
    const MAJOR_VERSION = '0';
    const MINOR_VERSION = '1';
    const RELEASE_VERSION = '1';

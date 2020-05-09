@@ -75,9 +75,6 @@
                 <div class="fos_comment_comment_reply">
                     {% block fos_comment_comment_reply %}
                         {%  set url = url('fos_comment_new_thread_comments', {"id": comment.thread.id}) %}
-                        {% if url starts with 'http:' %}
-                            {% set url = "https" ~ url[4:] %}
-                        {% endif %}
                         <button data-url="{{ url }}" data-name="{{ comment.authorName }}" data-parent-id="{{ comment.id }}" class="fos_comment_comment_reply_show_form">{% trans from 'FOSCommentBundle' %}fos_comment_comment_show_reply{% endtrans %}</button>
                     {% endblock fos_comment_comment_reply %}
                 </div>

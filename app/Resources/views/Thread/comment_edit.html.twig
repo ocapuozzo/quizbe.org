@@ -9,9 +9,6 @@
 
 #}
  {%  set url = url('fos_comment_put_thread_comments', {'id': comment.thread.id, 'commentId': comment.id})  %}
-    {% if url starts with 'http:' %}
-        {% set url = "https" ~ url[4:] %}
-    {% endif %}
 
 <div class="fos_comment_comment_form_holder">
     <form class="fos_comment_comment_edit_form" action="{{ url }}" method="POST">

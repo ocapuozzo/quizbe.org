@@ -9,9 +9,6 @@
 
 #}
 {%  set url = url('fos_comment_patch_thread_comment_state', {'id': id, 'commentId': commentId}) %}
-    {% if url starts with 'http:' %}
-        {% set url = "https" ~ url[4:] %}
-    {% endif %}
 
 <div class="fos_comment_delete_form_holder">
     <form class="fos_comment_delete_form" action="{{ url }}" data-fos-comment-thread-id="{{ id }}" method="POST">
