@@ -35,7 +35,7 @@ framework:
 twig:
     # to force https in vieux when reverse_proxy use for http (ovh)
     globals:
-      trusted_proxies: false
+      trusted_proxies: true
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:

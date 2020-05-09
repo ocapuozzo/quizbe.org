@@ -9,7 +9,7 @@
 
 #}
 {%  set url = url('fos_comment_patch_thread_commentable', {'id': id}) %}
-{% if trusted_proxies and url starts with 'http:' %}
+{% if trusted_proxies == 1 and url starts with 'http:' %}
       {% set url = "https" ~ url[4:] %}
 {% endif %}
 

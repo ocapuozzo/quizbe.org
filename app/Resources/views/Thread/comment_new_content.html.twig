@@ -18,6 +18,9 @@
 
 {% block fos_comment_comment_form_holder %}
     {%  set url = url('fos_comment_post_thread_comments', url_parameters) %}
+    {% if trusted_proxies and url starts with 'http:' %}
+        {% set url = "https" ~ url[4:] %}
+    {% endif %}
     <div class="fos_comment_comment_form_holder">
         {% block fos_comment_form_title %}
             {% if first %}

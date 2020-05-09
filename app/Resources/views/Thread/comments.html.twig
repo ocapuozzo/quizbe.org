@@ -22,6 +22,7 @@ dirty change in more files (new, commentable, commentremove...)
  {%  set absurl =  app.request.getSchemeAndHttpHost()  %}
  get http when https....
 #}
+
 {% if depth == 0 %}
     {% if fos_comment_can_comment_thread(thread) %}
         {{ render(url('fos_comment_new_thread_comments', {"id": thread.id})) }}
