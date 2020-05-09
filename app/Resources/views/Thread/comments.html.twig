@@ -11,7 +11,8 @@
 
 {% set depth = depth|default(0) %}
 {% set view = view|default('tree') %}
-
+{%  set absurl =  app.request.getSchemeAndHttpHost() %}
+<h3>{{ absurl }}</h3>
 {% if depth == 0 %}
     {% if fos_comment_can_comment_thread(thread) %}
         {{ render(url('fos_comment_new_thread_comments', {"id": thread.id})) }}
@@ -20,6 +21,10 @@
     {% if fos_comment_can_edit_thread(thread) %}
     <div class="fos_comment_thread_commentable">
         {%  set url = url('fos_comment_edit_thread_commentable', {'id': thread.id, 'value': not thread.commentable}) %}
+        {%  set absurl =  app.request.getSchemeAndHttpHost() %}
+        {% if absurl starts with 'https:' and url starts with 'http:' %}
+            {% set url = "https" ~ url[4:] %}
+        {% endif %}
 
         <button data-url="{{ url }}" class="fos_comment_thread_commentable_action">
             {{ (thread.commentable ? 'fos_comment_thread_close' : 'fos_comment_thread_open') | trans({}, 'FOSCommentBundle') }}
