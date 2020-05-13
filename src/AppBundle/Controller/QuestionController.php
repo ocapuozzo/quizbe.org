@@ -146,7 +146,7 @@ class QuestionController extends Controller {
 
         $message = \Swift_Message::newInstance()
         ->setSubject('QuizBe.org : New comment notification')
-        ->setFrom('admin@quizbe.org')
+        ->setFrom('ne_pas_repondre@quizbe.org')
         ->setTo($user->getEmail())
         ->setBody(
             $this->renderView(
