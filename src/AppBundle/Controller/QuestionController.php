@@ -157,7 +157,8 @@ class QuestionController extends Controller {
             'text/html'
         );
         $this->get('mailer')->send($message);
-
+        $logger = $this->get('logger');
+        $logger->info('Mail send ' . $message->toString());
         return new JsonResponse(array('ok' => 1));
     }
 
